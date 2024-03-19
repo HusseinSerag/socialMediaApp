@@ -3,7 +3,7 @@ export default function Button({ children, type, onClick }) {
     onClick?.(e);
   }
   const base =
-    "rounded-full  px-3 py-1 text-[1rem]  font-semibold  sm:px-6 sm:py-2";
+    "rounded-full  px-3 py-1 text-[1rem]  font-semibold  sm:px-6 sm:py-2 flex gap-2 items-center";
   const className = {
     primary: base + " bg-blue-700 text-white dark:blue:950",
     secondary: base + " bg-gray-100 text-gray-600",
