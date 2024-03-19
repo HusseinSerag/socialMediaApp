@@ -38,7 +38,7 @@ function ButtonContainer({ children }) {
 
 function FormFooter({ children }) {
   return (
-    <footer>
+    <footer className="text-center text-sm">
       <div>{children}</div>
     </footer>
   );

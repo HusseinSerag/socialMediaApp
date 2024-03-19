@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import { Link } from "react-router-dom";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { useState } from "react";
+import { usePasswordVisibility } from "../../hooks/usePasswordVisibility";
 
 export default function RegisterForm() {
   const {
@@ -16,9 +19,10 @@ export default function RegisterForm() {
     console.log(password, email);
   }
 
+  const [passwordHidden, togglePasswordVisibility] = usePasswordVisibility();
   return (
     <Form
-      title="Log Into Your Account"
+      title="Sign Up For New Account"
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
     >
@@ -54,17 +58,26 @@ export default function RegisterForm() {
         id="password"
         error={errors?.password?.message}
       >
-        <input
-          type="password"
-          className="input"
-          {...register("password", {
-            required: "This field is required",
-            minLength: {
-              value: 8,
-              message: "Password must be atleast 8 characters long!",
-            },
-          })}
-        />
+        <div
+          tabIndex="0"
+          className=" input flex items-center gap-1 [&>div>svg]:h-[1.2rem] [&>div>svg]:w-[1.2rem]"
+        >
+          <input
+            type={passwordHidden ? "password" : "text"}
+            className="dark:text-gray-300; flex-1 text-sm  focus:outline-none dark:bg-gray-700
+            "
+            {...register("password", {
+              required: "This field is required",
+              minLength: {
+                value: 8,
+                message: "Password must be atleast 8 characters long!",
+              },
+            })}
+          />
+          <div onClick={togglePasswordVisibility}>
+            {!passwordHidden ? <IoEyeOffOutline /> : <IoEyeOutline />}
+          </div>
+        </div>
       </Form.Row>
       <Form.Row
         label="Confirm Password"
