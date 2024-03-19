@@ -3,6 +3,7 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import { Link } from "react-router-dom";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import toast from "react-hot-toast";
 
 import { usePasswordVisibility } from "../../hooks/usePasswordVisibility";
 import { useRegister } from "./useRegister";
@@ -22,14 +23,17 @@ export default function RegisterForm() {
   const { isPending, signup } = useRegister();
   function onSubmit(data) {
     const { password, email, username } = data;
-    console.log(password, email);
+
     signup(
       { email, password, username },
       {
         onSuccess: () => {
+          toast.success("Account created successfully!");
           dispatch({ type: CREATE });
         },
-        onError: (err) => {},
+        onError: (err) => {
+          toast.error(err.message);
+        },
       },
     );
   }

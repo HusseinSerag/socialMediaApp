@@ -4,10 +4,27 @@
 
 @layer components {
   .input {
-    @apply rounded-lg border-[1px] border-gray-300 px-3 py-1 text-sm focus:outline-none focus:ring focus:ring-gray-500 focus:ring-offset-1 sm:text-base dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300;
+    @apply rounded-lg border-[1px] border-gray-300 px-3 py-1 text-sm autofill:bg-white focus:outline-none focus:ring focus:ring-gray-500 focus:ring-offset-1 sm:text-base dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:autofill:bg-gray-700;
   }
 }
-
+:root.dark {
+  --color: theme(colors.gray.300);
+  --bg-color: theme(colors.gray.700);
+}
+:root {
+  --color: theme(colors.gray.700);
+  --bg-color: theme(colors.white);
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  color: var(--color) !important;
+  -webkit-text-fill-color: var(--color) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-color) inset !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
 .loader {
   width: 30px;
   height: 30px;

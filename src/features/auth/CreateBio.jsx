@@ -5,20 +5,39 @@ import Form from "../../ui/Form";
 import { UPLOAD } from "../../utils/Constants";
 import { useUser } from "./useUser";
 import { PiSkipBackBold } from "react-icons/pi";
+import useBio from "./useBio";
+import toast from "react-hot-toast";
 
 export default function CreateBio() {
   const { state, dispatch } = useSignup();
   const { isLoading, user, error } = useUser();
-  console.log(user);
-  const { handleSubmit, register } = useForm();
-  if (isLoading) return;
-  if (error) return;
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
+  const { isPending, updateBio, error: BioError } = useBio();
+  if (isLoading || isPending) return;
+  if (error || BioError) return;
 
   function skip() {
     dispatch({ type: UPLOAD });
   }
   function onSubmit(data) {
-    console.log(data);
+    const { bio } = data;
+    updateBio(
+      { bio, id: user.id },
+      {
+        onSuccess: () => {
+          toast.success("Bio updated successfully!");
+          dispatch({ type: UPLOAD });
+        },
+        onError: (err) => {
+          toast.error(err.message);
+        },
+      },
+    );
   }
   return (
     <div className="flex min-h-[80vh] w-[90%] max-w-[600px] flex-col  gap-20">
@@ -41,11 +60,19 @@ export default function CreateBio() {
           title=""
           styled={false}
         >
-          <textarea
-            className="input w-full"
-            placeholder="I like photography!"
-          ></textarea>
-          <Button type="primary">Next</Button>
+          <Form.Row error={errors?.bio?.message} id="bio">
+            <textarea
+              id="bio"
+              {...register("bio", {
+                required: "This field is required",
+              })}
+              className="input w-full"
+              placeholder="I like photography!"
+            ></textarea>
+            <Form.ButtonContainer>
+              <Button type="primary">Next</Button>
+            </Form.ButtonContainer>
+          </Form.Row>
         </Form>
       </div>
     </div>

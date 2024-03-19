@@ -52,3 +52,17 @@ export async function getCurrentUser() {
   }
   return currentUser;
 }
+
+export async function setBio({ bio, id }) {
+  console.log(bio, id);
+  const { error, data } = await supabase
+    .from("users")
+    .update({ bio: bio })
+    .eq("id", id)
+    .select();
+  if (error) {
+    throwError(error.message, 400);
+  }
+
+  console.log(data);
+}
