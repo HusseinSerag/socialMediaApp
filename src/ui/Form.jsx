@@ -35,7 +35,15 @@ function Title() {
 function ButtonContainer({ children }) {
   return <div className="flex justify-end gap-2">{children}</div>;
 }
+
+function FormFooter({ children }) {
+  return (
+    <footer>
+      <div>{children}</div>
+    </footer>
+  );
+}
 Form.Row = FormRow;
 Form.Title = Title;
-
 Form.ButtonContainer = ButtonContainer;
+Form.Footer = FormFooter;

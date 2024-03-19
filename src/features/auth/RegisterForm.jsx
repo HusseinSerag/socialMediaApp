@@ -3,7 +3,7 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import { Link } from "react-router-dom";
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const {
     register,
     handleSubmit,
@@ -36,7 +36,19 @@ export default function LoginForm() {
           })}
         />
       </Form.Row>
-
+      <Form.Row
+        label="Username"
+        id="username"
+        error={errors?.username?.message}
+      >
+        <input
+          type="text"
+          className="input"
+          {...register("username", {
+            required: "This field is required",
+          })}
+        />
+      </Form.Row>
       <Form.Row
         label="Password"
         id="password"
@@ -79,14 +91,13 @@ export default function LoginForm() {
         >
           reset
         </Button>
-        <Button type="primary">Login</Button>
+        <Button type="primary">Sign up</Button>
       </Form.ButtonContainer>
-
       <Form.Footer>
-        Don&apos;t have an account?
-        <Link to="/register" className="font-semibold underline">
+        Already have an account?
+        <Link to="/login" className="font-semibold underline">
           {" "}
-          Sign up!
+          Login!
         </Link>
       </Form.Footer>
     </Form>
