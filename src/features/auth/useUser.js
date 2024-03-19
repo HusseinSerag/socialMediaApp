@@ -5,9 +5,10 @@ export function useUser() {
     isLoading,
     data: user,
     error,
+    refetch: refetchUser,
   } = useQuery({
     queryKey: ["user"],
     queryFn: getCurrentUser,
   });
-  return { isLoading, user, error };
+  return { isLoading, user, error, refetchUser };
 }

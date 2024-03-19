@@ -1,4 +1,9 @@
-export default function Button({ children, type, onClick }) {
+export default function Button({
+  children,
+  type,
+  onClick,
+  additionalClass = "",
+}) {
   function handleClick(e) {
     onClick?.(e);
   }
@@ -8,8 +13,12 @@ export default function Button({ children, type, onClick }) {
     primary: base + " bg-blue-700 text-white dark:blue:950",
     secondary: base + " bg-gray-100 text-gray-600",
   };
+
   return (
-    <button className={className[type]} onClick={handleClick}>
+    <button
+      className={`${className[type]} ${additionalClass}`}
+      onClick={handleClick}
+    >
       {children}
     </button>
   );

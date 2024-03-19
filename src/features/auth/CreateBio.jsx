@@ -7,10 +7,13 @@ import { useUser } from "./useUser";
 import { PiSkipBackBold } from "react-icons/pi";
 import useBio from "./useBio";
 import toast from "react-hot-toast";
+import FullPageSpinner from "../../ui/FullPageSpinner";
+
+import ErrorMessage from "../../ui/ErrorMessage";
 
 export default function CreateBio() {
-  const { state, dispatch } = useSignup();
-  const { isLoading, user, error } = useUser();
+  const { dispatch } = useSignup();
+  const { isLoading, user, error, refetchUser } = useUser();
 
   const {
     handleSubmit,
@@ -18,8 +21,8 @@ export default function CreateBio() {
     formState: { errors },
   } = useForm();
   const { isPending, updateBio, error: BioError } = useBio();
-  if (isLoading || isPending) return;
-  if (error || BioError) return;
+
+  if (isLoading || isPending) return <FullPageSpinner />;
 
   function skip() {
     dispatch({ type: UPLOAD });
@@ -38,6 +41,20 @@ export default function CreateBio() {
         },
       },
     );
+  }
+  if (error) {
+    return (
+      <ErrorMessage message={error?.message}>
+        <Button type="secondary" onClick={handleError}>
+          Try Again
+        </Button>
+      </ErrorMessage>
+    );
+  }
+  function handleError() {
+    if (error) {
+      refetchUser();
+    }
   }
   return (
     <div className="flex min-h-[80vh] w-[90%] max-w-[600px] flex-col  gap-20">
@@ -70,7 +87,7 @@ export default function CreateBio() {
               placeholder="I like photography!"
             ></textarea>
             <Form.ButtonContainer>
-              <Button type="primary">Next</Button>
+              <Button type="primary">{BioError ? "Retry" : "Next"}</Button>
             </Form.ButtonContainer>
           </Form.Row>
         </Form>
