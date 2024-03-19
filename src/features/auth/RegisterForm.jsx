@@ -3,8 +3,12 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import { Link } from "react-router-dom";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import { useState } from "react";
+
 import { usePasswordVisibility } from "../../hooks/usePasswordVisibility";
+import { useRegister } from "./useRegister";
+import { useSignup } from "../../contexts/SignUpStage";
+import { CREATE } from "../../utils/Constants";
+import SmallLoader from "../../ui/SmallLoader";
 
 export default function RegisterForm() {
   const {
@@ -14,9 +18,20 @@ export default function RegisterForm() {
     formState: { errors },
     reset,
   } = useForm();
+  const { dispatch } = useSignup();
+  const { isPending, signup } = useRegister();
   function onSubmit(data) {
-    const { password, email } = data;
+    const { password, email, username } = data;
     console.log(password, email);
+    signup(
+      { email, password, username },
+      {
+        onSuccess: () => {
+          dispatch({ type: CREATE });
+        },
+        onError: (err) => {},
+      },
+    );
   }
 
   const [passwordHidden, togglePasswordVisibility] = usePasswordVisibility();
@@ -96,6 +111,7 @@ export default function RegisterForm() {
       </Form.Row>
       <Form.ButtonContainer>
         <Button
+          disabled={isPending}
           type="secondary"
           onClick={(e) => {
             e.preventDefault();
@@ -104,7 +120,9 @@ export default function RegisterForm() {
         >
           reset
         </Button>
-        <Button type="primary">Sign up</Button>
+        <Button type="primary" disabled={isPending}>
+          {!isPending ? "Sign up" : <SmallLoader />}
+        </Button>
       </Form.ButtonContainer>
       <Form.Footer>
         Already have an account?

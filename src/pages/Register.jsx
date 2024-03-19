@@ -1,5 +1,10 @@
-import RegisterForm from "../features/auth/RegisterForm";
+import SignUpStage from "../contexts/SignUpStage";
+import SignUpStep from "../features/auth/SignUpStep";
 
 export default function Register() {
-  return <RegisterForm />;
+  return (
+    <SignUpStage>
+      <SignUpStep />
+    </SignUpStage>
+  );
 }
