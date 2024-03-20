@@ -25,7 +25,7 @@ export default function CreateBio() {
   });
   const { isPending, updateBio, error: BioError } = useBio();
 
-  if (isLoading || isPending) return <FullPageSpinner />;
+  if (isLoading || isPending || user === null) return <FullPageSpinner />;
 
   function skip() {
     dispatch({ type: UPLOAD });

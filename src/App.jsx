@@ -23,7 +23,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools />
+      <ReactQueryDevtools position="top" />
 
       <Toaster />
       <DarkMode />

@@ -1,4 +1,7 @@
-export default function NavItem({ children }) {
+export default function NavItem({ children, onClick }) {
+  function handleClick() {
+    onClick?.();
+  }
   return (
     <li
       className="
@@ -13,6 +16,7 @@ export default function NavItem({ children }) {
      [&>svg]:h-[24px]
      [&>svg]:w-[24px]
      "
+      onClick={handleClick}
     >
       {children}
     </li>

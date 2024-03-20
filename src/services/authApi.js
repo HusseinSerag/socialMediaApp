@@ -105,3 +105,10 @@ export async function login({ email, password }) {
   }
   return data;
 }
+
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    throwError(error.message, error.code);
+  }
+}

@@ -2,7 +2,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-
+import { useQueryClient } from "@tanstack/react-query";
 import Button from "../../ui/Button";
 import SmallLoader from "../../ui/SmallLoader";
 import Form from "../../ui/Form";
@@ -20,8 +20,10 @@ export default function LoginForm() {
     reset,
   } = useForm();
   const { login, isPending } = useLogin();
+
   const go = useNavigateTo();
   const [passwordHidden, togglePasswordVisibility] = usePasswordVisibility();
+
   function onSubmit(data) {
     const { password, email } = data;
     login(
