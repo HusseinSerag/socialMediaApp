@@ -4,12 +4,13 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import { UPLOAD } from "../../utils/Constants";
 import { useUser } from "./useUser";
-import { PiSkipBackBold } from "react-icons/pi";
+
 import useBio from "./useBio";
 import toast from "react-hot-toast";
 import FullPageSpinner from "../../ui/FullPageSpinner";
 
 import ErrorMessage from "../../ui/ErrorMessage";
+import { IoArrowBackOutline } from "react-icons/io5";
 
 export default function CreateBio() {
   const { dispatch } = useSignup();
@@ -19,7 +20,9 @@ export default function CreateBio() {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: user,
+  });
   const { isPending, updateBio, error: BioError } = useBio();
 
   if (isLoading || isPending) return <FullPageSpinner />;
@@ -65,7 +68,7 @@ export default function CreateBio() {
           </h1>
         </div>
         <Button onClick={skip} type="secondary">
-          <PiSkipBackBold />
+          <IoArrowBackOutline />
           Skip
         </Button>
       </div>

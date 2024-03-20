@@ -10,10 +10,12 @@
 :root.dark {
   --color: theme(colors.gray.300);
   --bg-color: theme(colors.gray.700);
+  --loader-color: theme(colors.white);
 }
 :root {
   --color: theme(colors.gray.700);
   --bg-color: theme(colors.white);
+  --loader-color: theme(colors.black);
 }
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -48,7 +50,7 @@ input:-webkit-autofill:active {
   position: absolute;
   inset: 0px;
   border-radius: 50%;
-  border: 5px solid #fff;
+  border: 5px solid var(--loader-color);
   animation: prixClipFix 2s linear infinite;
 }
 

@@ -1,4 +1,5 @@
-import { throwError } from "../utils/helpers";
+import { AVATAR_BUCKET_NAME, USER_TABLE_NAME } from "../utils/Constants";
+import { getAssetURL, throwError } from "../utils/helpers";
 import supabase from "./supabase";
 export async function register({ email, password, username }) {
   const { data: information, error: registerError } =
@@ -14,7 +15,7 @@ export async function register({ email, password, username }) {
   const { user, session } = information;
 
   const { data, error: createUserError } = await supabase
-    .from("users")
+    .from(USER_TABLE_NAME)
     .insert({
       auth_id: user.id,
       username,
@@ -42,7 +43,7 @@ export async function getCurrentUser() {
   const { user } = data;
 
   const { data: currentUser, error: currentUserError } = await supabase
-    .from("users")
+    .from(USER_TABLE_NAME)
     .select()
     .eq("auth_id", user?.id)
     .single();
@@ -54,9 +55,8 @@ export async function getCurrentUser() {
 }
 
 export async function setBio({ bio, id }) {
-  console.log(bio, id);
   const { error, data } = await supabase
-    .from("users")
+    .from(USER_TABLE_NAME)
     .update({ bio: bio })
     .eq("id", id)
     .select();
@@ -64,5 +64,33 @@ export async function setBio({ bio, id }) {
     throwError(error.message, 400);
   }
 
-  console.log(data);
+  return data;
+}
+
+export async function uploadPhoto({ file, id }) {
+  const fileName = `${Math.random()}${file.name.replace("/", "")}`;
+  const { data: filePath, error: uploadError } = await supabase.storage
+    .from(AVATAR_BUCKET_NAME)
+    .upload(fileName, file);
+
+  if (uploadError) {
+    throwError(uploadError.message, uploadError.code);
+  }
+  const { path } = filePath;
+  const absolutePath = getAssetURL(AVATAR_BUCKET_NAME, path);
+  await insertPhotoOfUser(absolutePath, id);
+}
+
+async function insertPhotoOfUser(url, id) {
+  const { error: tableError, data: path } = await supabase
+    .from(USER_TABLE_NAME)
+    .update({ profilePicture: url })
+    .eq("id", id)
+    .select();
+
+  if (tableError) {
+    throwError(tableError.message, tableError.code);
+  }
+
+  return path;
 }

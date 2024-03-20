@@ -3,6 +3,7 @@ export default function Button({
   type,
   onClick,
   additionalClass = "",
+  disabled = false,
 }) {
   function handleClick(e) {
     onClick?.(e);
@@ -18,6 +19,7 @@ export default function Button({
     <button
       className={`${className[type]} ${additionalClass}`}
       onClick={handleClick}
+      disabled={disabled}
     >
       {children}
     </button>
