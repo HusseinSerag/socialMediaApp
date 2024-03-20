@@ -94,3 +94,14 @@ async function insertPhotoOfUser(url, id) {
 
   return path;
 }
+
+export async function login({ email, password }) {
+  const { data, error: loginError } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (loginError) {
+    throwError(loginError.message, loginError.code);
+  }
+  return data;
+}

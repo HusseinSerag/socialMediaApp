@@ -1,9 +1,15 @@
-import { useForm } from "react-hook-form";
-import Button from "../../ui/Button";
-import Form from "../../ui/Form";
-import { Link } from "react-router-dom";
-import { usePasswordVisibility } from "../../hooks/usePasswordVisibility";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+
+import Button from "../../ui/Button";
+import SmallLoader from "../../ui/SmallLoader";
+import Form from "../../ui/Form";
+
+import { usePasswordVisibility } from "../../hooks/usePasswordVisibility";
+import { useLogin } from "./useLogin";
+import useNavigateTo from "../../hooks/useNavigateTo";
 
 export default function LoginForm() {
   const {
@@ -13,11 +19,24 @@ export default function LoginForm() {
     formState: { errors },
     reset,
   } = useForm();
+  const { login, isPending } = useLogin();
+  const go = useNavigateTo();
+  const [passwordHidden, togglePasswordVisibility] = usePasswordVisibility();
   function onSubmit(data) {
     const { password, email } = data;
-    console.log(password, email);
+    login(
+      { password, email },
+      {
+        onSuccess: (data) => {
+          go("/");
+          toast.success("Logged in successfully!");
+        },
+        onError: (err) => {
+          toast.error(err.message);
+        },
+      },
+    );
   }
-  const [passwordHidden, togglePasswordVisibility] = usePasswordVisibility();
   return (
     <Form
       title="Log Into Your Account"
@@ -82,6 +101,7 @@ export default function LoginForm() {
       </Form.Row>
       <Form.ButtonContainer>
         <Button
+          disabled={isPending}
           type="secondary"
           onClick={(e) => {
             e.preventDefault();
@@ -90,7 +110,9 @@ export default function LoginForm() {
         >
           reset
         </Button>
-        <Button type="primary">Login</Button>
+        <Button disabled={isPending} type="primary">
+          {isPending ? <SmallLoader /> : "Login"}
+        </Button>
       </Form.ButtonContainer>
 
       <Form.Footer>
