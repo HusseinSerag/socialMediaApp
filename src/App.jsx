@@ -11,6 +11,7 @@ const Login = lazy(() => import("./pages/Login"));
 import DarkMode from "./ui/DarkMode";
 import FullPageSpinner from "./ui/FullPageSpinner";
 import PageNotFound from "./ui/PageNotFound";
+import AppLayout from "./ui/AppLayout";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,7 +29,9 @@ function App() {
       <DarkMode />
       <Suspense fallback={<FullPageSpinner />}>
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<Homepage />} />
+          </Route>
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

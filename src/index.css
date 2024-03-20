@@ -81,3 +81,7 @@ input:-webkit-autofill:active {
 button {
   cursor: pointer;
 }
+a {
+  display: inline-block;
+  width: 100%;
+}
