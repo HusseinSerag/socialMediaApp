@@ -32,6 +32,7 @@ export default function RegisterForm() {
           dispatch({ type: CREATE });
         },
         onError: (err) => {
+          console.log(err);
           toast.error(err.message);
         },
       },

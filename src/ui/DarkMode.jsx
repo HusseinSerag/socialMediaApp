@@ -23,7 +23,7 @@ export default function DarkMode() {
   return (
     <div
       onClick={toggle}
-      className="absolute right-2 top-2 [&>svg]:h-[2rem] [&>svg]:w-[2rem]"
+      className="absolute right-2 top-2 z-50 [&>svg]:h-[2rem] [&>svg]:w-[2rem]"
     >
       {!isDarkMode ? <MdOutlineWbSunny /> : <FaRegMoon />}
     </div>

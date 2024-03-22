@@ -12,6 +12,8 @@ import DarkMode from "./ui/DarkMode";
 import FullPageSpinner from "./ui/FullPageSpinner";
 import PageNotFound from "./ui/PageNotFound";
 import AppLayout from "./ui/AppLayout";
+import Profile from "./pages/Profile";
+import FriendsSearch from "./pages/FriendsSearch";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +25,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools position="top" />
+      <ReactQueryDevtools />
 
       <Toaster />
       <DarkMode />
@@ -31,6 +33,8 @@ function App() {
         <Routes>
           <Route element={<AppLayout />}>
             <Route path="/" element={<Homepage />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/search" element={<FriendsSearch />} />
           </Route>
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<Login />} />

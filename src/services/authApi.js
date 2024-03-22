@@ -2,6 +2,18 @@ import { AVATAR_BUCKET_NAME, USER_TABLE_NAME } from "../utils/Constants";
 import { getAssetURL, throwError } from "../utils/helpers";
 import supabase from "./supabase";
 export async function register({ email, password, username }) {
+  const { data: exists, error: existError } = await supabase
+    .from(USER_TABLE_NAME)
+    .select()
+    .eq("username", username);
+
+  console.log(exists);
+  if (exists.length) {
+    throwError("Username already exists", 403);
+  }
+  if (existError) {
+    throwError(existError.message, existError.code);
+  }
   const { data: information, error: registerError } =
     await supabase.auth.signUp({
       email,
@@ -51,7 +63,7 @@ export async function getCurrentUser() {
   if (currentUserError) {
     throwError(currentUserError.message, 400);
   }
-  return currentUser;
+  return { ...currentUser, email: user.email };
 }
 
 export async function setBio({ bio, id }) {
