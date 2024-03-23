@@ -28,7 +28,7 @@ function App() {
       <ReactQueryDevtools />
 
       <Toaster />
-      <DarkMode />
+      {/* <DarkMode /> */}
       <Suspense fallback={<FullPageSpinner />}>
         <Routes>
           <Route element={<AppLayout />}>

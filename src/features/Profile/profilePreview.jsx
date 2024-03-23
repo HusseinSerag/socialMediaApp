@@ -30,7 +30,7 @@ export default function ProfilePreview() {
   const isUser = +id === LoggedInUser.id;
   const haveBio = user.bio?.length;
   return (
-    <div className=" relative flex flex-col items-center items-center justify-center gap-2 space-y-5  px-8 py-16  ">
+    <div className=" relative flex flex-col items-center  justify-center gap-2 space-y-5  px-8 py-16  ">
       {isUser && (
         <div className="absolute left-10 top-10">
           <Button type="primary">
