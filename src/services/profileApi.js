@@ -1,4 +1,4 @@
-import { USER_TABLE_NAME } from "../utils/Constants";
+import { FRIENDS_TABLE_NAME, USER_TABLE_NAME } from "../utils/Constants";
 import { throwError } from "../utils/helpers";
 import supabase from "./supabase";
 

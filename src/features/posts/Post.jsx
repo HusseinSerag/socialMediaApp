@@ -5,7 +5,7 @@ import { formatDistanceToNow } from "date-fns";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
-  console.log(post);
+
   return (
     <div className="space-y-1">
       <div className="flex items-center gap-4">

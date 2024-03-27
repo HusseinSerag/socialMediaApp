@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { MAX_CHAR_POST } from "../../utils/Constants";
-import { useUser } from "../auth/useUser";
+
 import useAddPost from "./useAddPost";
 import SmallLoader from "../../ui/SmallLoader";
 
 import toast from "react-hot-toast";
-export default function AddPost() {
-  const { user } = useUser();
-
+export default function AddPost({ user }) {
   const [text, setText] = useState("");
 
   const { addPost, isPending } = useAddPost();
