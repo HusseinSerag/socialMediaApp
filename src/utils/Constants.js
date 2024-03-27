@@ -5,6 +5,8 @@ const UPLOAD = 3;
 const AVATAR_BUCKET_NAME = "avatars";
 const USER_TABLE_NAME = "users";
 const POSTS_TABLE_NAME = "posts";
+const FRIENDS_TABLE_NAME = "friends";
+
 const MAX_CHAR_POST = 80;
 export {
   START,
@@ -14,4 +16,5 @@ export {
   USER_TABLE_NAME,
   MAX_CHAR_POST,
   POSTS_TABLE_NAME,
+  FRIENDS_TABLE_NAME,
 };
