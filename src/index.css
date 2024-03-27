@@ -2,21 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .input {
-    @apply rounded-lg border-[1px] border-gray-300 px-3 py-1 text-sm autofill:bg-white focus:outline-none focus:ring focus:ring-gray-500 focus:ring-offset-1 sm:text-base dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:autofill:bg-gray-700;
-  }
-}
-:root.dark {
-  --color: theme(colors.gray.300);
-  --bg-color: theme(colors.gray.700);
-  --loader-color: theme(colors.white);
-}
-:root {
-  --color: theme(colors.gray.700);
-  --bg-color: theme(colors.white);
-  --loader-color: theme(colors.black);
-}
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -83,4 +68,43 @@ button {
 }
 a {
   display: inline-block;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+* {
+  box-sizing: border-box;
+  line-height: normal;
+  font-family: inherit;
+  margin: unset;
+}
+a {
+  display: block;
+}
+ul {
+  margin: 0;
+  margin-inline: unset;
+  padding: 0;
+  list-style: none;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background: transparent;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #6b6b6b;
+  border-radius: 10px;
+}
+input {
+  background-color: transparent;
+  width: 100%;
+}
+input:focus {
+  outline: none;
 }

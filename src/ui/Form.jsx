@@ -6,15 +6,12 @@ export default function Form({
   title,
   handleSubmit,
   onSubmit,
-  styled = true,
+
   children,
 }) {
-  const className = styled
-    ? "border-lg w-[80%] max-w-[600px] rounded border-[1px] border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
-    : "w-[100%]";
   return (
     <FormContext.Provider value={{ title }}>
-      <div className={className}>
+      <div>
         <form className="space-y-3 p-4" onSubmit={handleSubmit(onSubmit)}>
           {children}
         </form>

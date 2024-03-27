@@ -17,7 +17,7 @@ export default function Navbar() {
   const { logout, isPending } = useLogout();
   const authenticated = Boolean(user?.id);
 
-  if (isLoading) return <FullPageSpinner />;
+  if (isLoading || isPending) return <FullPageSpinner />;
 
   function onClick() {
     logout();
@@ -42,7 +42,7 @@ export default function Navbar() {
 
             <Link
               className="ml-auto mt-0 w-auto sm:mt-auto sm:w-full"
-              to={`/profile/${user.id}`}
+              to={`you`}
             >
               <NavItem>
                 <Avatar
@@ -53,10 +53,12 @@ export default function Navbar() {
                 <div className={className}>{user.username}</div>
               </NavItem>
             </Link>
-            {/* <NavItem onClick={onClick}>
-              <IoLogOutOutline className="justify-self-center" />
-              <div className={className}> Logout</div>
-            </NavItem> */}
+            {
+              <NavItem onClick={onClick}>
+                <IoLogOutOutline className="justify-self-center" />
+                <div className={className}> Logout</div>
+              </NavItem>
+            }
           </>
         )}
         {!authenticated && (

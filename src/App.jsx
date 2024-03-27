@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
-import AuthLayout from "./ui/AuthLayout";
 
 const Homepage = lazy(() => import("./pages/homepage"));
 const Register = lazy(() => import("./pages/Register"));
@@ -14,6 +13,7 @@ import PageNotFound from "./ui/PageNotFound";
 import AppLayout from "./ui/AppLayout";
 import Profile from "./pages/Profile";
 import FriendsSearch from "./pages/FriendsSearch";
+import UserPage from "./pages/UserPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,11 +35,12 @@ function App() {
             <Route path="/" element={<Homepage />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/search" element={<FriendsSearch />} />
+            <Route path="you" element={<UserPage />} />
           </Route>
-          <Route element={<AuthLayout />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Route>
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
