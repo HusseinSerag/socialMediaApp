@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+
 import Button from "../../ui/Button";
 import SmallLoader from "../../ui/SmallLoader";
 import Form from "../../ui/Form";
@@ -44,151 +44,9 @@ export default function LoginForm() {
       },
     );
   }
-  // return (
-  //   <div className="flex w-full flex-row  bg-gray-100">
-  //     <div className="relative flex w-full flex-col md:flex-row md:gap-5">
-  //       <div className="flex w-full flex-col items-center justify-start md:w-[58%] md:flex-row">
-  //         <div className="relative h-screen w-full">
-  //           <Img
-  //             src="images/img_image.png"
-  //             alt="image_one"
-  //             className="absolute bottom-0 left-0 right-0 top-0 m-auto h-[100%] w-full justify-center object-cover sm:w-full "
-  //           />
-  //           <div className="absolute bottom-0 left-0 right-0 top-0 m-auto flex h-max w-max flex-col items-center justify-center">
-  //             <Heading
-  //               size="2xl"
-  //               as="h1"
-  //               className="!text-white-A700 text-center"
-  //             >
-  //               Hello!
-  //             </Heading>
-  //             <a href="#" className="mt-3">
-  //               <Text as="p" className="!text-white-A700 text-center">
-  //                 Don’t have an account yet?
-  //               </Text>
-  //             </a>
-  //             <div className="mt-[30px] flex w-full flex-row justify-center">
-  //               <Button
-  //                 size="7xl"
-  //                 className="w-full rounded-[29px] font-bold sm:px-5"
-  //               >
-  //                 Create an account
-  //               </Button>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //       <div className=" relative flex flex-1 flex-col items-center justify-start py-4 md:ml-0 md:w-full">
-  //         <div className="relative h-full w-full ">
-  //           <Img
-  //             src="images/img_modal_desktop.svg"
-  //             alt="modaldesktop"
-  //             className="absolute inset-0 m-auto h-screen max-w-[unset] justify-center"
-  //           />
-  //           <div className="relative z-50 m-auto flex h-max w-max flex-col items-center justify-center py-4">
-  //             <Img
-  //               src="images/img_standard_collection.svg"
-  //               alt="standard_one"
-  //               className="h-[41px] w-[41px]"
-  //             />
-  //             <Heading size="xl" as="h2" className="mt-[50px]">
-  //               Welcome Back!{" "}
-  //             </Heading>
-  //             <Text as="p" className="mt-2">
-  //               Sign in to continue{" "}
-  //             </Text>
-  //             <div className="mt-4 flex w-full flex-col items-start justify-start gap-3">
-  //               <Heading
-  //                 size="s"
-  //                 as="h3"
-  //                 className="uppercase tracking-[1.00px]"
-  //               >
-  //                 Email
-  //               </Heading>
-  //               <Input
-  //                 color="gray_500"
-  //                 variant="outline"
-  //                 shape="round"
-  //                 type="email"
-  //                 name="email"
-  //                 placeholder="user@mail.com"
-  //                 suffix={
-  //                   <Img
-  //                     src="images/img_icon_checkcircle.svg"
-  //                     alt="Icon/Check-Circle"
-  //                   />
-  //                 }
-  //                 className="w-full gap-[35px] sm:w-full"
-  //               />
-  //             </div>
-  //             <div className="mt-8 flex w-full flex-col items-start justify-start gap-3">
-  //               <Heading
-  //                 size="s"
-  //                 as="h4"
-  //                 className="uppercase tracking-[1.00px]"
-  //               >
-  //                 Password
-  //               </Heading>
-  //               <Input
-  //                 color="gray_500"
-  //                 variant="outline"
-  //                 shape="round"
-  //                 type="password"
-  //                 name="password"
-  //                 placeholder="Password@123"
-  //                 suffix={<Img src="images/img_icon_eye.svg" alt="Icon/Eye" />}
-  //                 className="w-full gap-[35px] sm:w-full"
-  //               />
-  //             </div>
-  //             <a href="#" className="mt-[23px]">
-  //               <Text as="p" className="!text-indigo-A200 !font-normal">
-  //                 Forgot Password?
-  //               </Text>
-  //             </a>
-  //             <div className="mt-[31px] flex w-full flex-row justify-center">
-  //               <Button
-  //                 size="7xl"
-  //                 className="w-full rounded-[29px] font-bold sm:px-5"
-  //               >
-  //                 Login
-  //               </Button>
-  //             </div>
-  //             <Text size="s" as="p" className="mt-8">
-  //               Or connect with socials
-  //             </Text>
-
-  //             <div className="mt-5 flex w-full flex-row justify-center">
-  //               <Button
-  //                 color="gray_900"
-  //                 size="7xl"
-  //                 leftIcon={
-  //                   <Img src="images/img_icon_apple.svg" alt="Icon/Apple" />
-  //                 }
-  //                 className="w-full gap-[5px] rounded-[29px] font-bold sm:px-5"
-  //               >
-  //                 Connect with Apple
-  //               </Button>
-  //             </div>
-  //             <Button
-  //               color="gray_500_66"
-  //               size="7xl"
-  //               variant="outline"
-  //               leftIcon={
-  //                 <Img src="images/img_icon_google.svg" alt="Icon/Google" />
-  //               }
-  //               className="mt-5 w-full gap-1 rounded-[29px] font-bold sm:px-5"
-  //             >
-  //               Connect with Google+
-  //             </Button>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
   return (
-    <main className="flex h-screen flex-col sm:flex-row">
-      <div className="relative flex h-[500px] flex-col items-center justify-center gap-3 sm:h-full sm:w-[500px]">
+    <main className="flex  flex-col md:flex-row">
+      <div className="relative flex h-[500px] flex-col items-center justify-center gap-3 md:h-auto md:w-[500px]">
         <Img
           src="images/img_image.png"
           alt="modaldesktop"
@@ -208,22 +66,29 @@ export default function LoginForm() {
           </Button>
         </motion.div>
       </div>
-      <div className="w-full">
+      <div className="mx-auto mt-6 w-full max-w-[600px] md:mt-32  md:min-h-screen ">
         <Form
-          title="Log Into Your Account"
+          title="login"
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           styled={true}
         >
-          <Form.Title />
-          <Form.Row
-            label="Email Address"
-            id="email"
-            error={errors?.email?.message}
-          >
-            <input
+          <Form.Title>
+            <Heading as="div" size="xl" className=" text-center">
+              Welcome Back!
+            </Heading>{" "}
+            <Text as="p" className="mt-2 text-center">
+              Sign in to continue{" "}
+            </Text>
+          </Form.Title>
+          <Form.Row label="Email" id="email" error={errors?.email?.message}>
+            <Input
+              color="gray_500"
+              variant="outline"
+              shape="round"
               type="email"
-              className="input"
+              name="email"
+              placeholder="user@mail.com"
               {...register("email", {
                 required: "This field is required",
                 pattern: {
@@ -241,9 +106,9 @@ export default function LoginForm() {
           >
             <div
               tabIndex="0"
-              className=" input flex items-center gap-1 [&>div>svg]:h-[1.2rem] [&>div>svg]:w-[1.2rem]"
+              className=" flex items-center gap-1 rounded-lg border border-solid border-gray-500 px-2 text-gray-500"
             >
-              <input
+              <Input
                 type={passwordHidden ? "password" : "text"}
                 className="dark:text-gray-300; flex-1 text-sm  focus:outline-none dark:bg-gray-700
               "
@@ -265,8 +130,11 @@ export default function LoginForm() {
             id="c-password"
             error={errors?.cpassword?.message}
           >
-            <input
+            <Input
               type="password"
+              color="gray_500"
+              variant="outline"
+              shape="round"
               className="input"
               {...register("cpassword", {
                 required: "This field is required",
@@ -278,7 +146,7 @@ export default function LoginForm() {
             />
           </Form.Row>
           <Form.ButtonContainer>
-            <Button
+            {/* <Button
               disabled={isPending}
               type="secondary"
               onClick={(e) => {
@@ -287,19 +155,40 @@ export default function LoginForm() {
               }}
             >
               reset
-            </Button>
-            <Button disabled={isPending} type="primary">
+            </Button> */}
+
+            <Button
+              disabled={isPending}
+              className="mx-auto w-[80%] max-w-[400px] rounded-full font-bold"
+              size="7xl"
+              color="indigo_A200"
+              variant="fill"
+            >
               {isPending ? <SmallLoader /> : "Login"}
             </Button>
+            <Text className="my-4 text-center">Or connect with socials</Text>
+            <Button
+              color="gray_900"
+              size="7xl"
+              leftIcon={
+                <Img src="images/img_icon_apple.svg" alt="Icon/Apple" />
+              }
+              className="mx-auto w-[80%] max-w-[400px] gap-4 rounded-full font-bold"
+            >
+              Connect with Apple
+            </Button>
+            <Button
+              color="gray_500_66"
+              size="7xl"
+              variant="outline"
+              leftIcon={
+                <Img src="images/img_icon_google.svg" alt="Icon/Google" />
+              }
+              className="mx-auto mt-4 w-[80%] max-w-[400px] gap-4 rounded-full font-bold"
+            >
+              Connect with Google+
+            </Button>
           </Form.ButtonContainer>
-
-          <Form.Footer>
-            Don&apos;t have an account?
-            <Link to="/register" className="font-semibold underline">
-              {" "}
-              Sign up!
-            </Link>
-          </Form.Footer>
         </Form>
       </div>
     </main>

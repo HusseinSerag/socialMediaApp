@@ -1,45 +1,45 @@
 import { createContext, useContext } from "react";
+import { Heading } from "./Heading";
 
 const FormContext = createContext();
 
-export default function Form({
-  title,
-  handleSubmit,
-  onSubmit,
-
-  children,
-}) {
+export default function Form({ title, handleSubmit, onSubmit, children }) {
   return (
     <FormContext.Provider value={{ title }}>
-      <div>
-        <form className="space-y-3 p-4" onSubmit={handleSubmit(onSubmit)}>
+      <>
+        <form
+          className="flex h-full flex-col items-stretch space-y-3 p-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           {children}
         </form>
-      </div>
+      </>
     </FormContext.Provider>
   );
 }
 
 function FormRow({ children, error, label, id }) {
   return (
-    <div className="flex flex-col space-y-2">
-      <label htmlFor={id} className=" text-sm font-medium sm:text-lg">
+    <div className="flex  flex-col space-y-2">
+      <Heading
+        as="label"
+        htmlFor={id}
+        size="md"
+        className=" uppercase tracking-[1.00px]"
+      >
         {label}
-      </label>
+      </Heading>
       {children}
       <div className="text-xs font-medium text-red-500 sm:text-sm">{error}</div>
     </div>
   );
 }
-function Title() {
-  const { title } = useContext(FormContext);
-  return (
-    <h1 className="text-center text-lg font-semibold sm:text-2xl">{title}</h1>
-  );
+function Title({ children }) {
+  return <header>{children}</header>;
 }
 
 function ButtonContainer({ children }) {
-  return <div className="flex justify-end gap-2">{children}</div>;
+  return <div className="flex flex-col  gap-2">{children}</div>;
 }
 
 function FormFooter({ children }) {

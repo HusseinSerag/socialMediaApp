@@ -7,8 +7,8 @@ const shapes = {
 };
 const variants = {
   outline: {
-    gray_500_33: "border-gray-500_33 border-2 border-solid text-gray-500",
-    gray_500: "border-gray-500 border border-solid text-gray-500",
+    gray_500_33: "border-gray-500_33 border-2 border-solid text-gray-800",
+    gray_500: "border-gray-500 border border-solid text-gray-800",
   },
   fill: {
     gray_800: "bg-gray-800",
@@ -25,51 +25,49 @@ const sizes = {
   lg: "h-[48px] px-3.5 text-sm",
 };
 
-const Input = React.forwardRef(
-  (
-    {
-      className = "",
-      name = "",
-      placeholder = "",
-      type = "text",
-      children,
-      label = "",
-      prefix,
-      suffix,
-      onChange,
-      shape = "",
-      variant = "fill",
-      size = "lg",
-      color = "white_A700",
-      ...restProps
-    },
-    ref,
-  ) => {
-    const handleChange = (e) => {
-      if (onChange) onChange(e?.target?.value);
-    };
-
-    return (
-      <>
-        <div
-          className={`${className} flex items-center justify-center text-sm font-medium text-gray-500 ${shapes[shape] || ""} ${variants[variant]?.[color] || variants[variant] || ""} ${sizes[size] || ""}`}
-        >
-          {!!label && label}
-          {!!prefix && prefix}
-          <input
-            ref={ref}
-            type={type}
-            name={name}
-            onChange={handleChange}
-            placeholder={placeholder}
-            {...restProps}
-          />
-          {!!suffix && suffix}
-        </div>
-      </>
-    );
+const Input = React.forwardRef(function Input(
+  {
+    className = "",
+    name = "",
+    placeholder = "",
+    type = "text",
+    children,
+    label = "",
+    prefix,
+    suffix,
+    onChange,
+    shape = "",
+    variant = "fill",
+    size = "lg",
+    color = "white_A700",
+    ...restProps
   },
-);
+  ref,
+) {
+  const handleChange = (e) => {
+    if (onChange) onChange(e?.target?.value);
+  };
+
+  return (
+    <>
+      <div
+        className={`${className} flex items-center justify-center text-sm font-medium text-gray-500 ${shapes[shape] || ""} ${variants[variant]?.[color] || variants[variant] || ""} ${sizes[size] || ""}`}
+      >
+        {!!label && label}
+        {!!prefix && prefix}
+        <input
+          ref={ref}
+          type={type}
+          name={name}
+          onChange={handleChange}
+          placeholder={placeholder}
+          {...restProps}
+        />
+        {!!suffix && suffix}
+      </div>
+    </>
+  );
+});
 
 Input.propTypes = {
   className: PropTypes.string,
