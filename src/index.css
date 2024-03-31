@@ -183,14 +183,5 @@ input:focus {
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   z-index: -1;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
-}
-
-@keyframes starsAnimation {
-  from {
-    transform: translateY(-2000px);
-  }
-  to {
-    transform: translateY(0px);
-  }
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
 }

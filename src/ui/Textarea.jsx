@@ -22,11 +22,12 @@ const sizes = {
   xs: "h-[26px] px-[3px] text-sm",
   sm: "h-[32px] pl-[9px] pr-[35px] text-sm",
   xl: "h-[58px] pl-5 pr-[35px] text-sm",
-  lg: "h-[48px] px-3.5 text-sm",
+  lg: " p-1.5 text-sm",
 };
 
 const Textarea = React.forwardRef(function Textarea(
   {
+    textareaSize = "",
     className = "",
     name = "",
     placeholder = "",
@@ -62,6 +63,8 @@ const Textarea = React.forwardRef(function Textarea(
           onChange={handleChange}
           placeholder={placeholder}
           {...restProps}
+          className="w-full"
+          style={{ height: textareaSize }}
         ></textarea>
         {!!suffix && suffix}
       </div>
