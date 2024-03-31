@@ -52,11 +52,11 @@ export default function LoginForm() {
           alt="modaldesktop"
           className="absolute inset-0 -z-10 h-full w-full justify-center bg-center  object-cover"
         />
-        <Heading size="2xl" as="h1" className="text-white-A700 text-center">
+        <Heading size="2xl" as="h1" className="text-center text-white-A700">
           Hello!
         </Heading>
 
-        <Text as="p" size="md" className="!text-white-A700 text-center">
+        <Text as="p" size="md" className="text-center !text-white-A700">
           Don’t have an account yet?
         </Text>
 
@@ -170,6 +170,7 @@ export default function LoginForm() {
             <Button
               color="gray_900"
               size="7xl"
+              disabled={true}
               leftIcon={
                 <Img src="images/img_icon_apple.svg" alt="Icon/Apple" />
               }
@@ -181,6 +182,7 @@ export default function LoginForm() {
               color="gray_500_66"
               size="7xl"
               variant="outline"
+              disabled={true}
               leftIcon={
                 <Img src="images/img_icon_google.svg" alt="Icon/Google" />
               }
