@@ -5,7 +5,7 @@ import { throwError } from "../utils/helpers";
 const SignUpState = createContext();
 
 const initialState = {
-  status: CREATE,
+  status: START,
 };
 function reducer(state, action) {
   switch (action.type) {

@@ -33,6 +33,7 @@ export default function CreateBio() {
 
   const [value, onChange] = useState(minDate);
 
+  console.log(value);
   function onChangeGender(chosenGender) {
     const value = gender === chosenGender ? "" : chosenGender;
 
@@ -61,10 +62,11 @@ export default function CreateBio() {
       toast.error("Please enter your date of birth!");
       return;
     }
-    console.log(bio);
+
+    const birthdate = value.setUTCDate(0, 0, 0, 0);
 
     updateBio(
-      { bio, id: user.id },
+      { bio, id: user.id, gender, birthdate: birthdate },
       {
         onSuccess: () => {
           toast.success("Bio updated successfully!");
@@ -90,7 +92,7 @@ export default function CreateBio() {
       refetchUser();
     }
   }
-  console.log(user.id);
+
   return (
     <>
       <HeroSection title="Tell us more about yourself." />
