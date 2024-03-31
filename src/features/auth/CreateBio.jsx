@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useSignup } from "../../contexts/SignUpStage";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
-import { UPLOAD } from "../../utils/Constants";
+import { UPLOAD, USER_MIN_AGE } from "../../utils/Constants";
 import { useUser } from "./useUser";
 
 import useBio from "./useBio";
@@ -20,14 +20,18 @@ import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 
 import Calendar from "react-calendar";
+
 const activeClass = "border-black cursor-pointer bg-gray-800 text-white-A700";
+const ageOfUsage = new Date();
+const minDate = new Date(
+  ageOfUsage.setFullYear(ageOfUsage.getFullYear() - USER_MIN_AGE),
+);
 export default function CreateBio() {
   const { dispatch } = useSignup();
   const { isLoading, user, error, refetchUser } = useUser();
   const [gender, setGender] = useState("");
-  const [value, onChange] = useState(() => {
-    return new Date();
-  });
+
+  const [value, onChange] = useState(minDate);
 
   function onChangeGender(chosenGender) {
     const value = gender === chosenGender ? "" : chosenGender;
@@ -38,9 +42,7 @@ export default function CreateBio() {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({
-    defaultValues: user,
-  });
+  } = useForm();
   const { isPending, updateBio, error: BioError } = useBio();
 
   if (isLoading || isPending || user === null) return <FullPageSpinner />;
@@ -55,6 +57,12 @@ export default function CreateBio() {
 
       return;
     }
+    if (!value) {
+      toast.error("Please enter your date of birth!");
+      return;
+    }
+    console.log(bio);
+
     updateBio(
       { bio, id: user.id },
       {
@@ -82,6 +90,7 @@ export default function CreateBio() {
       refetchUser();
     }
   }
+  console.log(user.id);
   return (
     <>
       <HeroSection title="Tell us more about yourself." />
@@ -128,13 +137,19 @@ export default function CreateBio() {
             </div>
             <div>
               <Heading as="h1" size="lg">
-                What&apos;s your birthday?
+                What&apos;s your birthday?{" "}
+                <span className="text-[11px] font-light text-red-500">
+                  {" "}
+                  * required
+                </span>
               </Heading>
               <div className="py-2">
                 <Calendar
                   className={["calender-width"]}
                   value={value}
                   onChange={onChange}
+                  maxDate={minDate}
+                  defaultActiveStartDate={minDate}
                 />
               </div>
             </div>
@@ -144,11 +159,13 @@ export default function CreateBio() {
               </Heading>
               <Form.Row error={errors?.bio?.message} id="bio">
                 <Textarea
+                  key={user.id}
                   textareaSize="120px"
                   id="bio"
                   color="gray_500"
                   variant="outline"
                   shape="round"
+                  defaultValue={user.bio || ""}
                   {...register("bio", {
                     required: "This field is required",
                   })}

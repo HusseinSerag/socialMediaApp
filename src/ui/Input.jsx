@@ -35,7 +35,7 @@ const Input = React.forwardRef(function Input(
     label = "",
     prefix,
     suffix,
-    onChange,
+    onChangeInput,
     shape = "",
     variant = "fill",
     size = "lg",
@@ -45,7 +45,7 @@ const Input = React.forwardRef(function Input(
   ref,
 ) {
   const handleChange = (e) => {
-    if (onChange) onChange(e?.target?.value);
+    if (onChangeInput) onChangeInput(e?.target?.value);
   };
 
   return (

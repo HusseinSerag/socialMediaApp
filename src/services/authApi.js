@@ -7,7 +7,6 @@ export async function register({ email, password, username }) {
     .select()
     .eq("username", username);
 
-  console.log(exists);
   if (exists.length) {
     throwError("Username already exists", 403);
   }

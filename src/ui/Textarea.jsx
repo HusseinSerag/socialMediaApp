@@ -36,17 +36,18 @@ const Textarea = React.forwardRef(function Textarea(
     label = "",
     prefix,
     suffix,
-    onChange,
+    onChangeInput,
     shape = "",
     variant = "fill",
     size = "lg",
     color = "white_A700",
+
     ...restProps
   },
   ref,
 ) {
   const handleChange = (e) => {
-    if (onChange) onChange(e?.target?.value);
+    if (onChangeInput) onChangeInput(e?.target?.value);
   };
 
   return (
@@ -60,7 +61,7 @@ const Textarea = React.forwardRef(function Textarea(
           ref={ref}
           type={type}
           name={name}
-          onChange={handleChange}
+          onChange={() => handleChange()}
           placeholder={placeholder}
           {...restProps}
           className="w-full"

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
-
+import { useQueryClient } from "@tanstack/react-query";
 import { usePasswordVisibility } from "../../hooks/usePasswordVisibility";
 import { useRegister } from "./useRegister";
 import { useSignup } from "../../contexts/SignUpStage";
@@ -26,6 +26,7 @@ export default function RegisterForm() {
   } = useForm();
   const { dispatch } = useSignup();
   const { isPending, signup } = useRegister();
+  const queryClient = useQueryClient();
   function onSubmit(data) {
     const { password, email, username } = data;
 
@@ -34,10 +35,10 @@ export default function RegisterForm() {
       {
         onSuccess: () => {
           toast.success("Account created successfully!");
+          queryClient.removeQueries({ queryKey: ["user"] });
           dispatch({ type: CREATE });
         },
         onError: (err) => {
-          console.log(err);
           toast.error(err.message);
         },
       },
@@ -53,11 +54,11 @@ export default function RegisterForm() {
           alt="modaldesktop"
           className="absolute inset-0 -z-10 h-full w-full justify-center bg-center  object-cover"
         />
-        <Heading size="2xl" as="h1" className="text-white-A700 text-center">
+        <Heading size="2xl" as="h1" className="text-center text-white-A700">
           Hello!
         </Heading>
 
-        <Text as="p" size="md" className="text-white-A700 text-center">
+        <Text as="p" size="md" className="text-center text-white-A700">
           Already have an account?
         </Text>
 
