@@ -11,7 +11,7 @@ import FullPageSpinner from "../../ui/FullPageSpinner";
 
 import { motion } from "framer-motion";
 import ErrorMessage from "../../ui/ErrorMessage";
-import { IoArrowBackOutline } from "react-icons/io5";
+
 import { Heading } from "../../ui/Heading";
 import { Textarea } from "../../ui/Textarea";
 import HeroSection from "../../ui/HeroSection";
@@ -33,7 +33,6 @@ export default function CreateBio() {
 
   const [value, onChange] = useState(minDate);
 
-  console.log(value);
   function onChangeGender(chosenGender) {
     const value = gender === chosenGender ? "" : chosenGender;
 
@@ -48,9 +47,6 @@ export default function CreateBio() {
 
   if (isLoading || isPending || user === null) return <FullPageSpinner />;
 
-  function skip() {
-    dispatch({ type: UPLOAD });
-  }
   function onSubmit(data) {
     const { bio } = data;
     if (!gender) {
@@ -63,10 +59,8 @@ export default function CreateBio() {
       return;
     }
 
-    const birthdate = value.setUTCDate(0, 0, 0, 0);
-
     updateBio(
-      { bio, id: user.id, gender, birthdate: birthdate },
+      { bio, id: user.id, gender, birthdate: value.toISOString() },
       {
         onSuccess: () => {
           toast.success("Bio updated successfully!");
@@ -97,12 +91,7 @@ export default function CreateBio() {
     <>
       <HeroSection title="Tell us more about yourself." />
       <div className="mx-4  space-y-8 md:mx-16">
-        <div className="flex items-center  justify-between gap-3">
-          {/* <Button onClick={skip} type="secondary">
-          <IoArrowBackOutline />
-          Skip
-        </Button> */}
-        </div>
+        <div className="flex items-center  justify-between gap-3"></div>
         <Form handleSubmit={handleSubmit} onSubmit={onSubmit}>
           <div className="mx-auto max-w-[600px] space-y-3">
             <div>
@@ -175,7 +164,9 @@ export default function CreateBio() {
                   placeholder="I like photography!"
                 ></Textarea>
                 <Form.ButtonContainer>
-                  <Button type="primary">{BioError ? "Retry" : "Next"}</Button>
+                  <Button className="mt-4 rounded-lg px-2 py-4" type="primary">
+                    {BioError ? "Retry" : "Next"}
+                  </Button>
                 </Form.ButtonContainer>
               </Form.Row>
             </div>
