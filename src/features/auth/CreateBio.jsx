@@ -17,11 +17,17 @@ import { Textarea } from "../../ui/Textarea";
 import HeroSection from "../../ui/HeroSection";
 import { useState } from "react";
 
+import "react-calendar/dist/Calendar.css";
+
+import Calendar from "react-calendar";
 const activeClass = "border-black cursor-pointer bg-gray-800 text-white-A700";
 export default function CreateBio() {
   const { dispatch } = useSignup();
   const { isLoading, user, error, refetchUser } = useUser();
   const [gender, setGender] = useState("");
+  const [value, onChange] = useState(() => {
+    return new Date();
+  });
 
   function onChangeGender(chosenGender) {
     const value = gender === chosenGender ? "" : chosenGender;
@@ -79,7 +85,7 @@ export default function CreateBio() {
   return (
     <>
       <HeroSection title="Tell us more about yourself." />
-      <div className="mx-8  space-y-8 md:mx-16">
+      <div className="mx-4  space-y-8 md:mx-16">
         <div className="flex items-center  justify-between gap-3">
           {/* <Button onClick={skip} type="secondary">
           <IoArrowBackOutline />
@@ -118,6 +124,18 @@ export default function CreateBio() {
                 >
                   Female
                 </motion.span>
+              </div>
+            </div>
+            <div>
+              <Heading as="h1" size="lg">
+                What&apos;s your birthday?
+              </Heading>
+              <div className="py-2">
+                <Calendar
+                  className={["calender-width"]}
+                  value={value}
+                  onChange={onChange}
+                />
               </div>
             </div>
             <div>
