@@ -38,8 +38,8 @@ function Title({ children }) {
   return <header>{children}</header>;
 }
 
-function ButtonContainer({ children }) {
-  return <div className="flex flex-col  gap-2">{children}</div>;
+function ButtonContainer({ children, className }) {
+  return <div className={`flex flex-col gap-2 ${className}`}>{children}</div>;
 }
 
 function FormFooter({ children }) {

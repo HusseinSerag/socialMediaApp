@@ -1,4 +1,4 @@
-export default function Avatar({ avatar, name, size }) {
+export default function Avatar({ avatar, name, size, forwardedRef }) {
   const preview = {
     sm: "h-[40px] w-[40px]",
     lg: "h-[180px] w-[180px]",
@@ -8,6 +8,7 @@ export default function Avatar({ avatar, name, size }) {
       src={avatar || "/defaultPrfPic.jpg"}
       alt={`${name}'s avatar`}
       className={`border-1  ${preview[size]} rounded-full object-cover`}
+      ref={forwardedRef}
     />
   );
 }
