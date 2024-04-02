@@ -74,14 +74,22 @@ input:-webkit-autofill:active {
   position: relative;
   animation: rotate 1s linear infinite;
 }
-.loader::before,
-.bigLoader::before {
+.loader::before {
   content: "";
   box-sizing: border-box;
   position: absolute;
   inset: 0px;
   border-radius: 50%;
   border: 5px solid var(--loader-color);
+  animation: prixClipFix 2s linear infinite;
+}
+.bigLoader::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0px;
+  border-radius: 50%;
+  border: 5px solid black;
   animation: prixClipFix 2s linear infinite;
 }
 
