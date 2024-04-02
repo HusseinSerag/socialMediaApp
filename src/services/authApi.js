@@ -1,4 +1,9 @@
-import { AVATAR_BUCKET_NAME, USER_TABLE_NAME } from "../utils/Constants";
+import {
+  AVATAR_BUCKET_NAME,
+  FRIENDS_TABLE_NAME,
+  POSTS_TABLE_NAME,
+  USER_TABLE_NAME,
+} from "../utils/Constants";
 import { getAssetURL, throwError } from "../utils/helpers";
 import supabase from "./supabase";
 export async function register({ email, password, username }) {
@@ -55,13 +60,14 @@ export async function getCurrentUser() {
 
   const { data: currentUser, error: currentUserError } = await supabase
     .from(USER_TABLE_NAME)
-    .select()
+    .select(`*,${POSTS_TABLE_NAME}(*)`)
     .eq("auth_id", user?.id)
     .single();
 
   if (currentUserError) {
     throwError(currentUserError.message, 400);
   }
+
   return { ...currentUser, email: user.email };
 }
 
