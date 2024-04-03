@@ -39,8 +39,13 @@ function MenuList({ name, children }) {
     )
   );
 }
-function MenuItems({ children }) {
-  return <div>{children}</div>;
+function MenuItems({ children, onClick }) {
+  const { close } = useContext(MenuContext);
+  function handleClick() {
+    onClick?.();
+    close();
+  }
+  return <div onClick={handleClick}>{children}</div>;
 }
 Menu.Toggle = ToggleMenu;
 Menu.MenuList = MenuList;

@@ -8,6 +8,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import Menu from "../../ui/Menu";
 import { MdOutlineDelete } from "react-icons/md";
 import { useUser } from "../auth/useUser";
+import Modal from "../../ui/Modal";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
@@ -47,17 +48,23 @@ export default function Post({ post }) {
               />
               <Menu.MenuList name={post.id}>
                 {isUser && (
-                  <Menu.Action>
-                    <span className=" flex w-max items-center gap-2 rounded-lg">
-                      <MdOutlineDelete className="h-5 w-5 font-semibold" />{" "}
-                      <span className="cursor-pointer text-sm font-semibold">
-                        {" "}
-                        Delete Post
-                      </span>
-                    </span>
-                  </Menu.Action>
+                  <Modal.Toggle
+                    opens={post.id}
+                    render={(click) => (
+                      <Menu.Action onClick={click}>
+                        <span className=" flex w-max items-center gap-2 rounded-lg">
+                          <MdOutlineDelete className="h-5 w-5 font-semibold" />{" "}
+                          <span className="cursor-pointer text-sm font-semibold">
+                            {" "}
+                            Delete Post
+                          </span>
+                        </span>
+                      </Menu.Action>
+                    )}
+                  />
                 )}
               </Menu.MenuList>
+              <Modal.Content name={post.id} />
             </span>
           </div>
           <span>{post.postContent}</span>
