@@ -8,9 +8,9 @@ export function useLogout() {
   const { mutate: logoutUser, isPending } = useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      queryClient.removeQueries({
-        queryKey: ["user"],
-      });
+      queryClient.resetQueries();
+      queryClient.removeQueries();
+
       toast.success("Logged out successfully!");
     },
     onError: (err) => toast.error(err.message),

@@ -14,6 +14,7 @@ import AppLayout from "./ui/AppLayout";
 import Profile from "./pages/Profile";
 import FriendsSearch from "./pages/FriendsSearch";
 import UserPage from "./pages/UserPage";
+import AuthLayout from "./ui/AuthLayout";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,9 +34,11 @@ function App() {
         <Routes>
           <Route element={<AppLayout />}>
             <Route path="/" element={<Homepage />} />
-            <Route path="/profile/:id" element={<Profile />} />
-            <Route path="/search" element={<FriendsSearch />} />
-            <Route path="you" element={<UserPage />} />
+            <Route element={<AuthLayout />}>
+              <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/search" element={<FriendsSearch />} />
+              <Route path="you" element={<UserPage />} />
+            </Route>
           </Route>
 
           <Route path="/login" element={<Login />} />
