@@ -5,13 +5,12 @@ import PostList from "./PostList";
 import { useGetPosts } from "./useGetPosts";
 
 export default function PostWrapper() {
-  const { user } = useUser();
-  const { posts, isLoading } = useGetPosts(user?.id || "");
-  if (isLoading) return <FullPageSpinner />;
+  const { posts, isLoading: isLoadingPosts } = useGetPosts();
+  // const { posts, isLoading } = useGetPosts(user?.id || "");
+  if (isLoadingPosts) return <FullPageSpinner />;
   return (
     <>
-      <AddPost user={user} />
-      <PostList user={user} posts={posts} />
+      <PostList posts={posts} />
     </>
   );
 }

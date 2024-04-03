@@ -5,11 +5,16 @@ import ErrorMessage from "../../ui/ErrorMessage";
 import FullPageSpinner from "../../ui/FullPageSpinner";
 import { Heading } from "../../ui/Heading";
 import { FRIENDS_RETURNED_FRIEND_SEARCH } from "../../utils/Constants";
+
 import { useUser } from "../auth/useUser";
 import FriendIconOnUserProfile from "../friends/FriendIconOnUserProfile";
 import useUserFriend from "../friends/useUserFriends";
+import { FiEdit2 } from "react-icons/fi";
 
 import { LiaUserFriendsSolid } from "react-icons/lia";
+import { format } from "date-fns";
+
+import PostWrapper from "../posts/PostWrapper";
 
 export default function UserProfile() {
   const { isLoading, user, error, refetchUser } = useUser();
@@ -18,6 +23,7 @@ export default function UserProfile() {
   );
 
   const goBack = useNavigateTo();
+
   if (isLoading || isLoadingUserFriend) return <FullPageSpinner />;
   if (error)
     return (
@@ -31,7 +37,7 @@ export default function UserProfile() {
     );
 
   const posts = user.posts;
-  console.log(posts);
+
   return (
     <>
       <div className=" flex flex-col  items-center bg-gray-200 py-12">
@@ -44,6 +50,7 @@ export default function UserProfile() {
           >
             Back
           </Button>
+          <FiEdit2 className="absolute right-2 top-2 h-5 w-5 cursor-pointer" />
           <Avatar name={user.username} avatar={user.profilePicture} size="lg" />
           <Heading as="h1" size="xl" className=" font-bold">
             {user.username}
@@ -84,6 +91,18 @@ export default function UserProfile() {
               size="lg"
               className="mb-2 font-semibold uppercase tracking-wide"
             >
+              Birthday
+            </Heading>
+            <p className="text-[13px] text-gray-600">
+              {format(new Date(user.birthdate), "dd MMM uuuu")}
+            </p>
+          </div>
+          <div className="mt-4 w-full px-4">
+            <Heading
+              as="h2"
+              size="lg"
+              className="mb-2 font-semibold uppercase tracking-wide"
+            >
               Friends
             </Heading>
             <div className="flex flex-wrap space-x-3">
@@ -95,10 +114,10 @@ export default function UserProfile() {
         </div>
       </div>
       <div className="p-8">
-        <Heading as="h1" size="2xl">
+        <Heading as="h1" className="mb-4" size="2xl">
           Your Posts
         </Heading>
-        {posts.length === 0 && <LiaUserFriendsSolid />}
+        <PostWrapper />
       </div>
     </>
   );

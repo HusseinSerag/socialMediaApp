@@ -13,13 +13,18 @@ export async function createPost({ postOwner, postContent }) {
   return data;
 }
 
-export async function getPosts() {
-  const { data, error } = await supabase
-    .from(`${POSTS_TABLE_NAME}`)
-    .select(`*,${USER_TABLE_NAME}("*")`);
-  if (error) {
-    throwError(error.message, error.code);
-  }
+export async function getPosts(id) {
+  if (id) {
+    const { data, error } = await supabase
+      .from(`${POSTS_TABLE_NAME}`)
+      .select(`*,${USER_TABLE_NAME}("*")`)
+      .eq("postOwner", id);
+    if (error) {
+      throwError(error.message, error.code);
+    }
 
-  return data;
+    return data;
+  } else {
+    return [];
+  }
 }

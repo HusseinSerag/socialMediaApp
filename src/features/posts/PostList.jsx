@@ -4,7 +4,7 @@ import { useGetPosts } from "./useGetPosts";
 
 export default function PostList({ user, posts }) {
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col gap-4">
       {posts.map((post) => (
         <Post key={post.id} post={post} />
       ))}
