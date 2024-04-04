@@ -1,15 +1,13 @@
 import { useEffect, useRef } from "react";
 
-export default function useClickOutsideModal(
-  closeModal,
-  listenCapturing = true,
-) {
+export default function useClickOutsideModal(close, listenCapturing = true) {
   const ref = useRef();
   useEffect(
     function () {
       function handleClick(e) {
+        if (ref === undefined) return;
         if (ref.current && !ref.current.contains(e.target)) {
-          closeModal();
+          close();
         }
       }
 
@@ -18,7 +16,7 @@ export default function useClickOutsideModal(
       return () =>
         document.removeEventListener("click", handleClick, listenCapturing);
     },
-    [closeModal, listenCapturing],
+    [close, listenCapturing],
   );
   return { ref };
 }

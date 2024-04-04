@@ -9,10 +9,13 @@ import Menu from "../../ui/Menu";
 import { MdOutlineDelete } from "react-icons/md";
 import { useUser } from "../auth/useUser";
 import Modal from "../../ui/Modal";
+import ConfirmModal from "../../ui/ConfirmModal";
+import useDeletePost from "./useDeletePost";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
   const { user } = useUser();
+  const { isPending, mutate: deletePost } = useDeletePost();
   const isUser = user?.id === post.users.id;
   return (
     <div className="space-y-1 rounded-lg bg-gray-50 p-3">
@@ -37,19 +40,11 @@ export default function Post({ post }) {
               })}
             </span>
             <span className="relative ml-auto">
-              <Menu.Toggle
-                name={post.id}
-                render={(onClick) => (
-                  <CiMenuKebab
-                    className="h-6 w-6 cursor-pointer"
-                    onClick={onClick}
-                  />
-                )}
-              />
+              <Menu.Toggle name={post.id} />
               <Menu.MenuList name={post.id}>
                 {isUser && (
                   <Modal.Toggle
-                    opens={post.id}
+                    opens="delete"
                     render={(click) => (
                       <Menu.Action onClick={click}>
                         <span className=" flex w-max items-center gap-2 rounded-lg">
@@ -64,7 +59,6 @@ export default function Post({ post }) {
                   />
                 )}
               </Menu.MenuList>
-              <Modal.Content name={post.id} />
             </span>
           </div>
           <span>{post.postContent}</span>
@@ -74,6 +68,24 @@ export default function Post({ post }) {
             <FaRegBookmark className="h-[17px] w-[17px]" />
           </div>
         </div>
+        <Modal.Content
+          name="delete"
+          render={(close) => (
+            <ConfirmModal
+              resourceName="post"
+              onClose={close}
+              disabled={isPending}
+              onConfirm={() => {
+                deletePost(post.id, {
+                  onSuccess: () => {
+                    close();
+                  },
+                });
+              }}
+            />
+          )}
+          resourceName={"post"}
+        />
       </div>
     </div>
   );

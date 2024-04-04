@@ -1,10 +1,12 @@
 import { createContext, useContext, useState } from "react";
 import useClickOutsideModal from "../hooks/useClickOutsideModal";
+import { CiMenuKebab } from "react-icons/ci";
 
 const MenuContext = createContext();
 export default function Menu({ children }) {
   const [active, setActive] = useState("");
-  function toggle(clickedItem) {
+  function toggle(e, clickedItem) {
+    e.stopPropagation();
     setActive((active) => (active === clickedItem ? "" : clickedItem));
   }
   function close() {
@@ -20,23 +22,22 @@ export default function Menu({ children }) {
 function ToggleMenu({ name, render, children }) {
   const { toggle } = useContext(MenuContext);
 
-  function openThis(e) {
-    e.stopPropagation();
-    toggle(name);
-  }
-
-  return render(openThis);
+  return (
+    <CiMenuKebab
+      className="h-6 w-6 cursor-pointer"
+      onClick={(e) => toggle(e, name)}
+    />
+  );
 }
 
 function MenuList({ name, children }) {
   const { active, close } = useContext(MenuContext);
   const { ref } = useClickOutsideModal(close, false);
+  if (active !== name) return null;
   return (
-    active === name && (
-      <div ref={ref} className="absolute right-4 top-[30px] bg-white-A700 p-2">
-        {children}
-      </div>
-    )
+    <div ref={ref} className="absolute right-4 top-[30px] bg-white-A700 p-2">
+      {children}
+    </div>
   );
 }
 function MenuItems({ children, onClick }) {

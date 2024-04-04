@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  transition: all 0.2s;
+}
 :root {
   --loader-color: #fff;
 }
