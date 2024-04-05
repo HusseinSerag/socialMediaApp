@@ -6,7 +6,7 @@ export function useGetPosts() {
 
   const { data: posts, isLoading } = useQuery({
     queryKey: ["posts", user?.id],
-    queryFn: () => getPosts(user?.id),
+    queryFn: () => getPosts({ id: user?.id }),
   });
   return { posts, isLoading };
 }

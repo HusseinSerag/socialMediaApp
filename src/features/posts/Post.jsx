@@ -5,18 +5,27 @@ import { FaRegComment } from "react-icons/fa";
 import { BiLike } from "react-icons/bi";
 import { FaRegBookmark } from "react-icons/fa";
 import { CiMenuKebab } from "react-icons/ci";
+import { AiFillLike } from "react-icons/ai";
 import Menu from "../../ui/Menu";
 import { MdOutlineDelete } from "react-icons/md";
 import { useUser } from "../auth/useUser";
 import Modal from "../../ui/Modal";
 import ConfirmModal from "../../ui/ConfirmModal";
 import useDeletePost from "./useDeletePost";
+import { useGetLikes } from "./useGetLikes";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
   const { user } = useUser();
   const { isPending, mutate: deletePost } = useDeletePost();
+  const { isLoading: isLoadingLikes, likes, error } = useGetLikes(post.id);
+  if (isLoadingLikes) return;
   const isUser = user?.id === post.users.id;
+  const numberOfLikes = likes.length;
+  const userLikedThisPost = likes
+    .map((post) => post.users.id === user.id)
+    .at(0);
+
   return (
     <div className="space-y-1 rounded-lg bg-gray-50 p-3">
       <div className="flex  gap-4">
@@ -64,7 +73,14 @@ export default function Post({ post }) {
           <span>{post.postContent}</span>
           <div className="mt-4 flex space-x-8">
             <FaRegComment className="h-[17px] w-[17px]" />
-            <BiLike className="h-[19px] w-[19px]" />
+            <span className="flex cursor-pointer gap-1">
+              {numberOfLikes}
+              {userLikedThisPost ? (
+                <AiFillLike className="h-[19px] w-[19px]" />
+              ) : (
+                <BiLike className="h-[19px] w-[19px]" />
+              )}
+            </span>
             <FaRegBookmark className="h-[17px] w-[17px]" />
           </div>
         </div>

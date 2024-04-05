@@ -1,5 +1,5 @@
-import UserProfile from "../features/Profile/UserProfile";
+import ProfilePreview from "../features/Profile/profilePreview";
 
 export default function UserPage() {
-  return <UserProfile />;
+  return <ProfilePreview />;
 }
