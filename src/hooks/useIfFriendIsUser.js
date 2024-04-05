@@ -6,7 +6,11 @@ import { FRIENDS_RETURNED_FRIEND_SEARCH } from "../utils/Constants";
 export default function useIfFriendIsUser() {
   const { isLoading, user: loggedInUser, error, refetchUser } = useUser();
   const { error: userError, user: userFriend, isLoadingGetUser } = useGetUser();
-  const user = loggedInUser?.id === userFriend?.id ? loggedInUser : userFriend;
+  const userObject =
+    loggedInUser?.id === userFriend?.id
+      ? { user: loggedInUser, isUser: true }
+      : { user: userFriend, isUser: false };
+  const { user, isUser } = userObject;
   const { data: friends, isLoading: isLoadingUserFriend } = useUserFriend(
     FRIENDS_RETURNED_FRIEND_SEARCH,
     user,
@@ -21,5 +25,6 @@ export default function useIfFriendIsUser() {
     friends,
     isLoadingUserFriend,
     user,
+    isUser,
   };
 }

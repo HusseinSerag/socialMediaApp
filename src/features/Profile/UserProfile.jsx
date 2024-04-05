@@ -21,10 +21,11 @@ export default function UserProfile({
   userError,
   refetchUser,
   user,
+  isUser,
   friends,
 }) {
   const goBack = useNavigateTo();
-
+  console.log(user);
   if (isLoading || isLoadingUserFriend || isLoadingGetUser || !user?.id)
     return <FullPageSpinner />;
   if (error || userError)
@@ -39,7 +40,7 @@ export default function UserProfile({
     );
 
   const posts = user?.posts;
-  // console.log(user);
+
   return (
     <>
       <div className=" flex flex-col  items-center bg-gray-200 py-12">
@@ -52,7 +53,9 @@ export default function UserProfile({
           >
             Back
           </Button>
-          <FiEdit2 className="absolute right-2 top-2 h-5 w-5 cursor-pointer" />
+          {isUser && (
+            <FiEdit2 className="absolute right-2 top-2 h-5 w-5 cursor-pointer" />
+          )}
           <Avatar
             name={user?.username}
             avatar={user?.profilePicture}
@@ -124,9 +127,9 @@ export default function UserProfile({
       </div>
       <div className="p-8">
         <Heading as="h1" className="mb-4" size="2xl">
-          Your Posts
+          {isUser ? "Your" : `${user?.username}'s`} Posts
         </Heading>
-        <PostWrapper />
+        {user?.id && <PostWrapper id={user?.id} />}
       </div>
     </>
   );

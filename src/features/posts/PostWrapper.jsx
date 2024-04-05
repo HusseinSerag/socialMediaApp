@@ -6,9 +6,9 @@ import AddPost from "./AddPost";
 import PostList from "./PostList";
 import { useGetPosts } from "./useGetPosts";
 
-export default function PostWrapper() {
-  const { posts, isLoading: isLoadingPosts } = useGetPosts();
-  // const { posts, isLoading } = useGetPosts(user?.id || "");
+export default function PostWrapper({ id }) {
+  const { posts, isLoading: isLoadingPosts } = useGetPosts({ id });
+
   if (isLoadingPosts) return <FullPageSpinner />;
   return (
     <Modal>

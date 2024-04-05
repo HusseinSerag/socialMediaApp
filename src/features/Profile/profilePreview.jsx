@@ -11,6 +11,7 @@ export default function ProfilePreview() {
     refetchUser,
     user,
     friends,
+    isUser,
   } = useIfFriendIsUser();
 
   return (
@@ -24,6 +25,7 @@ export default function ProfilePreview() {
       refetchUser={refetchUser}
       user={user}
       friends={friends}
+      isUser={isUser}
     />
   );
 }
