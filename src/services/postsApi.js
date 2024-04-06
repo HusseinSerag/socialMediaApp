@@ -51,7 +51,19 @@ export async function likePost({ postId, likedUser }) {
   }
   return data;
 }
+export async function unlikePost({ postId, likedUser }) {
+  const { error } = await supabase
+    .from(LIKES_TABLE_NAME)
+    .delete()
+    .eq("postId", postId)
+    .eq("likedUser", likedUser);
+
+  if (error) {
+    throwError(error.message, error.code);
+  }
+}
 export async function getLikes({ postId }) {
+  if (!postId) return;
   const { data, error } = await supabase
     .from(LIKES_TABLE_NAME)
     .select(`*,${USER_TABLE_NAME}(*),${POSTS_TABLE_NAME}(*)`)

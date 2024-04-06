@@ -13,19 +13,33 @@ import Modal from "../../ui/Modal";
 import ConfirmModal from "../../ui/ConfirmModal";
 import useDeletePost from "./useDeletePost";
 import { useGetLikes } from "./useGetLikes";
+import useLikePost from "./useLikePost";
+import useUnlikePost from "./useUnlikePost";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
   const { user } = useUser();
   const { isPending, mutate: deletePost } = useDeletePost();
+
   const { isLoading: isLoadingLikes, likes, error } = useGetLikes(post.id);
+  const { mutate: likePost, isPending: isLiking } = useLikePost();
+  const { mutate: unlikePost, isPending: isUnliking } = useUnlikePost();
+
   if (isLoadingLikes) return;
   const isUser = user?.id === post.users.id;
   const numberOfLikes = likes.length;
-  const userLikedThisPost = likes
-    .map((post) => post.users.id === user.id)
-    .at(0);
+  const userLikedThisPost = likes.find((post) => post.users.id === user.id);
 
+  function like() {
+    if (!isLiking) {
+      likePost({ postId: post.id, likedUser: user.id });
+    }
+  }
+  function dislike() {
+    if (!isUnliking) {
+      unlikePost({ postId: post.id, likedUser: user.id });
+    }
+  }
   return (
     <div className="space-y-1 rounded-lg bg-gray-50 p-3">
       <div className="flex  gap-4">
@@ -76,9 +90,9 @@ export default function Post({ post }) {
             <span className="flex cursor-pointer gap-1">
               {numberOfLikes}
               {userLikedThisPost ? (
-                <AiFillLike className="h-[19px] w-[19px]" />
+                <AiFillLike onClick={dislike} className="h-[19px] w-[19px]" />
               ) : (
-                <BiLike className="h-[19px] w-[19px]" />
+                <BiLike onClick={like} className="h-[19px] w-[19px]" />
               )}
             </span>
             <FaRegBookmark className="h-[17px] w-[17px]" />

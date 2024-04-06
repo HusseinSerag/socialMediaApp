@@ -25,7 +25,7 @@ export default function UserProfile({
   friends,
 }) {
   const goBack = useNavigateTo();
-  console.log(user);
+
   if (isLoading || isLoadingUserFriend || isLoadingGetUser || !user?.id)
     return <FullPageSpinner />;
   if (error || userError)
