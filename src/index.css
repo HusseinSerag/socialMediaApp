@@ -132,6 +132,7 @@ a {
 body {
   margin: 0;
   padding: 0;
+  background-color: theme(colors.socialBg);
 }
 * {
   box-sizing: border-box;

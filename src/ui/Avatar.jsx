@@ -7,7 +7,7 @@ export default function Avatar({ avatar, name, size, forwardedRef }) {
     <img
       src={avatar || "/defaultPrfPic.jpg"}
       alt={`${name}'s avatar`}
-      className={`border-1  ${preview[size]} rounded-full object-cover`}
+      className={`border-1  ${preview[size]} overflow-hidden rounded-full object-cover`}
       ref={forwardedRef}
     />
   );

@@ -16,9 +16,13 @@ import { useGetLikes } from "./useGetLikes";
 import useLikePost from "./useLikePost";
 import useUnlikePost from "./useUnlikePost";
 import { useGetComments } from "./useGetComments";
+import PostImage from "../../ui/PostImage";
+import AddComment from "./AddComment";
+import Card from "../../ui/Card";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
+
   const { user } = useUser();
   const { isPending, mutate: deletePost } = useDeletePost();
 
@@ -52,18 +56,21 @@ export default function Post({ post }) {
     }
   }
   return (
-    <div className="space-y-1 rounded-lg bg-gray-50 p-3">
-      <div className="flex  gap-4">
+    <Card>
+      <div className="flex gap-3">
         <Avatar
           size="sm"
           name={post.users.username}
           avatar={post.users.profilePicture}
         />
         <div className="w-full">
-          <div className="mb-3 flex items-center gap-2">
+          <div className=" mb-3 flex  flex-col gap-1">
             <Link to={`/profile/${post.users.id}`}>
-              <span className="text-sm font-semibold">
-                {post.users.username}
+              <span className="text-sm ">
+                <span className="font-semibold">
+                  {isUser ? "You " : post.users.username + " "}
+                </span>
+                shared a<span className="text-socialBlue"> post</span>
               </span>
             </Link>
 
@@ -73,29 +80,10 @@ export default function Post({ post }) {
                 includeSeconds: true,
               })}
             </span>
-            <span className="relative ml-auto">
-              <Menu.Toggle name={post.id} />
-              <Menu.MenuList name={post.id}>
-                {isUser && (
-                  <Modal.Toggle
-                    opens="delete"
-                    render={(click) => (
-                      <Menu.Action onClick={click}>
-                        <span className=" flex w-max items-center gap-2 rounded-lg">
-                          <MdOutlineDelete className="h-5 w-5 font-semibold" />{" "}
-                          <span className="cursor-pointer text-sm font-semibold">
-                            {" "}
-                            Delete Post
-                          </span>
-                        </span>
-                      </Menu.Action>
-                    )}
-                  />
-                )}
-              </Menu.MenuList>
-            </span>
           </div>
-          <span>{post.postContent}</span>
+
+          <div className="my-3">{post.postContent}</div>
+          <PostImage />
           <div className="mt-4 flex space-x-8">
             <Modal.Toggle
               opens={`post_${post.id}`}
@@ -120,7 +108,35 @@ export default function Post({ post }) {
             </span>
             <FaRegBookmark className="h-[17px] w-[17px]" />
           </div>
+          <AddComment post={post} />
         </div>
+
+        <div>
+          <span className="relative ml-auto">
+            <Menu.Toggle name={post.id} />
+            <Menu.MenuList name={post.id}>
+              {isUser && (
+                <Modal.Toggle
+                  opens="delete"
+                  render={(click) => (
+                    <Menu.Action onClick={click}>
+                      <span className=" flex w-max items-center gap-2 rounded-lg">
+                        <MdOutlineDelete className="h-5 w-5 font-semibold" />{" "}
+                        <span className="cursor-pointer text-sm font-semibold">
+                          {" "}
+                          Delete Post
+                        </span>
+                      </span>
+                    </Menu.Action>
+                  )}
+                />
+              )}
+            </Menu.MenuList>
+          </span>
+        </div>
+      </div>
+
+      <div>
         <Modal.Content
           name="delete"
           render={(close) => (
@@ -141,6 +157,6 @@ export default function Post({ post }) {
         />
         <Modal.Content name={`post_${post.id}`} render={(close) => {}} />
       </div>
-    </div>
+    </Card>
   );
 }

@@ -1,10 +1,15 @@
+import AddPost from "../features/posts/AddPost";
 import PostWrapper from "../features/posts/PostWrapper";
+import Card from "../ui/Card";
 
 export default function Homepage() {
   return (
-    <div className="rounded-lg bg-white-A700 p-4 shadow-md shadow-gray-300">
-      {/* <PostWrapper id="" /> */}
-      Hello
-    </div>
+    <>
+      <AddPost />
+      <Card>
+        {/* <PostWrapper id="" /> */}
+        Hello
+      </Card>
+    </>
   );
 }

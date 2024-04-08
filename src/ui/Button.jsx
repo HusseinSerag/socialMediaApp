@@ -43,6 +43,7 @@ const sizes = {
   "7xl": "h-[58px] px-[35px] text-sm",
   md: "h-[30px] px-[7px] text-sm",
   sm: "h-[28px] px-[7px]",
+  "": "",
 };
 
 const Button = ({
@@ -58,7 +59,7 @@ const Button = ({
 }) => {
   return (
     <button
-      className={`${className} flex cursor-pointer items-center justify-center text-center ${(shape && shapes[shape]) || ""} ${(size && sizes[size]) || ""} ${(variant && variants[variant]?.[color]) || ""}`}
+      className={` flex cursor-pointer items-center justify-center text-center ${(shape && shapes[shape]) || ""} ${(size && sizes[size]) || ""} ${(variant && variants[variant]?.[color]) || ""} ${className}`}
       {...restProps}
     >
       {!!leftIcon && leftIcon}
@@ -87,6 +88,7 @@ Button.propTypes = {
     "7xl",
     "md",
     "sm",
+    "",
   ]),
   variant: PropTypes.oneOf(["fill", "outline"]),
   color: PropTypes.oneOf([
@@ -107,6 +109,7 @@ Button.propTypes = {
     "gray_500",
     "gray_500_99",
     "gray_500_66",
+    "",
   ]),
 };
 
