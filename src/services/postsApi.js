@@ -2,6 +2,7 @@ import {
   LIKES_TABLE_NAME,
   POSTS_TABLE_NAME,
   USER_TABLE_NAME,
+  COMMENTS_TABLE_NAME,
 } from "../utils/Constants";
 import { throwError } from "../utils/helpers";
 import supabase from "./supabase";
@@ -70,7 +71,23 @@ export async function getLikes({ postId }) {
     .eq("postId", postId);
   if (error) {
     if (error.code === "400") {
-      return 0;
+      return [];
+    }
+    throwError(error.message, error.code);
+  }
+
+  return data;
+}
+
+export async function getComments({ postId }) {
+  if (!postId) return;
+  const { data, error } = await supabase
+    .from(COMMENTS_TABLE_NAME)
+    .select(`*,${USER_TABLE_NAME}(*),${POSTS_TABLE_NAME}(*)`)
+    .eq("postId", postId);
+  if (error) {
+    if (error.code === "400") {
+      return [];
     }
     throwError(error.message, error.code);
   }

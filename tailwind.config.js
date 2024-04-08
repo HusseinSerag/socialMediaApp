@@ -5,6 +5,8 @@ export default {
   theme: {
     extend: {
       colors: {
+        socialBg: "#F5F7FB",
+        socialBlue: "218DFA",
         gray: {
           100: "#f7f7f7",
           500: "#8f92a1",

@@ -15,19 +15,30 @@ import useDeletePost from "./useDeletePost";
 import { useGetLikes } from "./useGetLikes";
 import useLikePost from "./useLikePost";
 import useUnlikePost from "./useUnlikePost";
+import { useGetComments } from "./useGetComments";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
   const { user } = useUser();
   const { isPending, mutate: deletePost } = useDeletePost();
 
-  const { isLoading: isLoadingLikes, likes, error } = useGetLikes(post.id);
+  const {
+    isLoading: isLoadingLikes,
+    likes,
+    error: postError,
+  } = useGetLikes(post.id);
+  const {
+    isLoading: isLoadingComments,
+    comments,
+    error: commentError,
+  } = useGetComments(post.id);
   const { mutate: likePost, isPending: isLiking } = useLikePost();
   const { mutate: unlikePost, isPending: isUnliking } = useUnlikePost();
 
-  if (isLoadingLikes) return;
+  if (isLoadingLikes || isLoadingComments) return;
   const isUser = user?.id === post.users.id;
   const numberOfLikes = likes.length;
+  const numberOfComments = comments.length;
   const userLikedThisPost = likes.find((post) => post.users.id === user.id);
 
   function like() {
@@ -86,7 +97,19 @@ export default function Post({ post }) {
           </div>
           <span>{post.postContent}</span>
           <div className="mt-4 flex space-x-8">
-            <FaRegComment className="h-[17px] w-[17px]" />
+            <Modal.Toggle
+              opens={`post_${post.id}`}
+              render={(click) => (
+                <span
+                  className="flex cursor-pointer items-center gap-1"
+                  onClick={click}
+                >
+                  {numberOfComments}
+                  <FaRegComment className="h-[17px] w-[17px]" />
+                </span>
+              )}
+            />
+
             <span className="flex cursor-pointer gap-1">
               {numberOfLikes}
               {userLikedThisPost ? (
@@ -116,6 +139,7 @@ export default function Post({ post }) {
           )}
           resourceName={"post"}
         />
+        <Modal.Content name={`post_${post.id}`} render={(close) => {}} />
       </div>
     </div>
   );

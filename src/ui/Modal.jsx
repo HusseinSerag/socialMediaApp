@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { IoMdClose } from "react-icons/io";
-import useClickOutsideModal from "../hooks/useClickOutsideModal";
 
 const ModalContext = createContext();
 export default function Modal({ children }) {

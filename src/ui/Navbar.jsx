@@ -1,14 +1,17 @@
 import { Link, NavLink } from "react-router-dom";
 import { useUser } from "../features/auth/useUser";
 import Avatar from "./Avatar";
-import FullPageSpinner from "./FullPageSpinner";
+
 import NavItem from "./NavItem";
 
+import { AiOutlineHome as FaHome } from "react-icons/ai";
+import { IoBookmarksOutline } from "react-icons/io5";
 import { GrSearch } from "react-icons/gr";
 import { MdLogin } from "react-icons/md";
+import { FaRegBell } from "react-icons/fa";
 import { IoCreateOutline } from "react-icons/io5";
 import { IoLogOutOutline } from "react-icons/io5";
-import { FaHome } from "react-icons/fa";
+
 import { useLogout } from "../features/auth/useLogout";
 
 const className = "hidden sm:block font-semibold text-sm ";
@@ -17,31 +20,43 @@ export default function Navbar() {
   const { logout, isPending } = useLogout();
   const authenticated = Boolean(user?.id);
 
-  if (isLoading || isPending) return <FullPageSpinner />;
+  if (isLoading || isPending) return;
 
   function onClick() {
     logout();
   }
   return (
-    <nav className="order-2 border-r bg-gray-100 dark:border-r-gray-700 dark:bg-gray-900">
-      <ul className="flex h-full items-center gap-4 px-4 sm:flex-col sm:items-start sm:py-10">
+    <nav className="order-2  flex h-[100px] rounded-lg  bg-white-A700 shadow-sm sm:h-max">
+      <ul className="flex w-full items-center justify-between gap-4 px-4 sm:flex-col sm:items-start sm:py-10">
         {authenticated && (
           <>
-            <NavLink className="w-auto sm:w-full" to="/">
-              <NavItem>
-                <FaHome className="justify-self-center" />
+            <NavLink className="sm:w-full" to="/">
+              <NavItem className="w-auto rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
+                <FaHome className="" />
                 <div className={className}>Home</div>
               </NavItem>
             </NavLink>
-            <NavLink className="w-auto sm:w-full" to="/search">
-              <NavItem>
-                <GrSearch className="justify-self-center" />
-                <div className={className}>Friends Search</div>
+            <NavLink className="sm:w-full" to="/search">
+              <NavItem className="w-auto rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
+                <GrSearch className="" />
+                <div className={className}>Friends</div>
+              </NavItem>
+            </NavLink>
+            <NavLink className="sm:w-full" to="/search">
+              <NavItem className="rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
+                <IoBookmarksOutline />
+                <div className={className}>Saved Posts</div>
+              </NavItem>
+            </NavLink>
+            <NavLink className="sm:w-full" to="/search">
+              <NavItem className="rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
+                <FaRegBell className="" />
+                <div className={className}>Notifications</div>
               </NavItem>
             </NavLink>
 
-            <Link
-              className="ml-auto mt-0 w-auto sm:mt-auto sm:w-full"
+            {/* <Link
+              className=" mt-0 w-auto rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300  sm:w-full"
               to={`you`}
             >
               <NavItem>
@@ -52,26 +67,31 @@ export default function Navbar() {
                 />
                 <div className={className}>{user.username}</div>
               </NavItem>
-            </Link>
-            {
-              <NavItem onClick={onClick}>
-                <IoLogOutOutline className="justify-self-center" />
-                <div className={className}> Logout</div>
-              </NavItem>
-            }
+            </Link> */}
+
+            <NavItem
+              onClick={onClick}
+              className="rounded-md  bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full"
+            >
+              <IoLogOutOutline />
+              <div className={className}> Logout</div>
+            </NavItem>
           </>
         )}
         {!authenticated && (
           <>
-            <Link className="w-auto sm:w-full" to="/login">
+            <Link
+              className="w-auto rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full"
+              to="/login"
+            >
               <NavItem>
-                <MdLogin className="justify-self-center" />
+                <MdLogin className="" />
                 <div>Login</div>
               </NavItem>
             </Link>
             <Link className="w-auto sm:w-full" to="register">
               <NavItem>
-                <IoCreateOutline className="justify-self-center" />
+                <IoCreateOutline className="" />
                 <div>Register</div>
               </NavItem>
             </Link>

@@ -8,7 +8,8 @@ export default function useGetUser() {
 
   const { user: loggedInUser } = useUser();
 
-  const passedInID = id || loggedInUser?.id;
+  const passedInID = id || loggedInUser?.id || "1";
+
   const {
     isLoading,
     data: user,
