@@ -4,7 +4,6 @@ import { formatDistanceToNow } from "date-fns";
 import { FaRegComment } from "react-icons/fa";
 import { BiLike } from "react-icons/bi";
 import { FaRegBookmark } from "react-icons/fa";
-import { CiMenuKebab } from "react-icons/ci";
 import { AiFillLike } from "react-icons/ai";
 import Menu from "../../ui/Menu";
 import { MdOutlineDelete } from "react-icons/md";
@@ -83,20 +82,14 @@ export default function Post({ post }) {
           </div>
 
           <div className="my-3">{post.postContent}</div>
-          <PostImage />
+          {post?.postPhotos?.length > 0 && (
+            <PostImage postPhotos={post.postPhotos} />
+          )}
           <div className="mt-4 flex space-x-8">
-            <Modal.Toggle
-              opens={`post_${post.id}`}
-              render={(click) => (
-                <span
-                  className="flex cursor-pointer items-center gap-1"
-                  onClick={click}
-                >
-                  {numberOfComments}
-                  <FaRegComment className="h-[17px] w-[17px]" />
-                </span>
-              )}
-            />
+            <span className="flex cursor-pointer items-center gap-1">
+              {numberOfComments}
+              <FaRegComment className="h-[17px] w-[17px]" />
+            </span>
 
             <span className="flex cursor-pointer gap-1">
               {numberOfLikes}
@@ -117,7 +110,7 @@ export default function Post({ post }) {
             <Menu.MenuList name={post.id}>
               {isUser && (
                 <Modal.Toggle
-                  opens="delete"
+                  opens={"delete" + post.id}
                   render={(click) => (
                     <Menu.Action onClick={click}>
                       <span className=" flex w-max items-center gap-2 rounded-lg">
@@ -138,24 +131,26 @@ export default function Post({ post }) {
 
       <div>
         <Modal.Content
-          name="delete"
+          name={"delete" + post.id}
           render={(close) => (
             <ConfirmModal
               resourceName="post"
               onClose={close}
               disabled={isPending}
               onConfirm={() => {
-                deletePost(post.id, {
-                  onSuccess: () => {
-                    close();
+                deletePost(
+                  { id: post.id },
+                  {
+                    onSuccess: () => {
+                      close();
+                    },
                   },
-                });
+                );
               }}
             />
           )}
           resourceName={"post"}
         />
-        <Modal.Content name={`post_${post.id}`} render={(close) => {}} />
       </div>
     </Card>
   );

@@ -33,7 +33,7 @@ function ModalContent({ name, render }) {
   return (
     isOpen === name &&
     createPortal(
-      <div className="absolute inset-0 h-screen  opacity-[10] backdrop-blur-sm">
+      <div className="fixed inset-0 h-screen  opacity-[10] backdrop-blur-sm">
         <div className="fixed left-[50%] top-[50%] w-[80%] max-w-[600px] translate-x-[-50%] translate-y-[-50%] rounded-lg border bg-white-A700 p-6 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
           <span className="absolute right-4 top-4">
             <IoMdClose

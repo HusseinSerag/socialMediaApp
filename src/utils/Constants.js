@@ -8,6 +8,8 @@ const POSTS_TABLE_NAME = "posts";
 const FRIENDS_TABLE_NAME = "friends";
 const LIKES_TABLE_NAME = "likes";
 const COMMENTS_TABLE_NAME = "comments";
+const POSTS_PHOTOS_BUCKET_NAME = "posts";
+const POSTS_PHOTOS_TABLE_NAME = "postPhotos";
 
 const MAX_CHAR_POST = 80;
 
@@ -31,4 +33,6 @@ export {
   COMMENTS_TABLE_NAME,
   LIKES_TABLE_NAME,
   USER_MIN_AGE,
+  POSTS_PHOTOS_BUCKET_NAME,
+  POSTS_PHOTOS_TABLE_NAME,
 };
