@@ -2,7 +2,12 @@ import { useForm } from "react-hook-form";
 import { useSignup } from "../../contexts/SignUpStage";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
-import { UPLOAD, USER_MIN_AGE } from "../../utils/Constants";
+import {
+  PRIVATE_ACCOUNT_TYPE,
+  PUBLIC_ACCOUNT_TYPE,
+  UPLOAD,
+  USER_MIN_AGE,
+} from "../../utils/Constants";
 import { useUser } from "./useUser";
 
 import useBio from "./useBio";
@@ -29,10 +34,17 @@ const minDate = new Date(
 export default function CreateBio() {
   const { dispatch } = useSignup();
   const { isLoading, user, error, refetchUser } = useUser();
+
   const [gender, setGender] = useState("");
+  const [accountType, setAccountType] = useState(PUBLIC_ACCOUNT_TYPE);
 
   const [value, onChange] = useState(minDate);
 
+  function onChangeAccountType(chosenType) {
+    setAccountType((accountType) =>
+      accountType === chosenType ? accountType : chosenType,
+    );
+  }
   function onChangeGender(chosenGender) {
     const value = gender === chosenGender ? "" : chosenGender;
 
@@ -58,9 +70,12 @@ export default function CreateBio() {
       toast.error("Please enter your date of birth!");
       return;
     }
+    if (!accountType) {
+      toast.error("Please enter which type of account you want!");
+    }
 
     updateBio(
-      { bio, id: user.id, gender, birthdate: value.toISOString() },
+      { bio, id: user.id, gender, birthdate: value.toISOString(), accountType },
       {
         onSuccess: () => {
           toast.success("Bio updated successfully!");
@@ -96,6 +111,38 @@ export default function CreateBio() {
           <div className="mx-auto max-w-[600px] space-y-3">
             <div>
               <Heading as="h1" size="lg">
+                DO you want a public or private account?
+                <span className="text-[11px] font-light text-red-500">
+                  {" "}
+                  * required
+                </span>
+              </Heading>
+              <div className="flex space-x-4 p-2">
+                <motion.span
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => onChangeAccountType(PUBLIC_ACCOUNT_TYPE)}
+                  className={` 
+                  ${accountType === PUBLIC_ACCOUNT_TYPE && activeClass}  rounded-lg border border-black p-4 hover:cursor-pointer 
+                hover:bg-gray-800
+                hover:text-white-A700`}
+                >
+                  Public
+                </motion.span>
+                <motion.span
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => onChangeAccountType(PRIVATE_ACCOUNT_TYPE)}
+                  className={`
+                  ${accountType === PRIVATE_ACCOUNT_TYPE && activeClass}
+                  rounded-lg  border border-black p-4 hover:cursor-pointer hover:border-gray-700 hover:bg-gray-800
+                hover:text-white-A700
+                `}
+                >
+                  Private
+                </motion.span>
+              </div>
+            </div>
+            <div>
+              <Heading as="h1" size="lg">
                 What&apos;s your gender?{" "}
                 <span className="text-[11px] font-light text-red-500">
                   {" "}
@@ -126,6 +173,7 @@ export default function CreateBio() {
                 </motion.span>
               </div>
             </div>
+
             <div>
               <Heading as="h1" size="lg">
                 What&apos;s your birthday?{" "}

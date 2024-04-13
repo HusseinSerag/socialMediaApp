@@ -23,14 +23,14 @@ export default function FriendItem({ friend }) {
 
   return (
     <>
-      <Link className="block" to={`/profile/${friend.id}`}>
+      <Link to={`/profile/${friend.id}`}>
         <div className="flex cursor-pointer items-center gap-3 p-2 hover:bg-gray-200">
           <Avatar
             size="sm"
             name={friend.username}
             avatar={friend.profilePicture}
           />
-          {friend.username}
+          <span>{friend.username}</span>
         </div>
       </Link>
       {notFriends && (
@@ -38,8 +38,8 @@ export default function FriendItem({ friend }) {
           Add Friend
         </Button>
       )}
-      {friendsAdded && <Button type="primary">Friends</Button>}
-      {pending && <Button type="primary">Request Sent</Button>}
+      {friendsAdded && <Button>Friends</Button>}
+      {pending && <Button>Request Sent</Button>}
     </>
   );
 }

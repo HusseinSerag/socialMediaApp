@@ -27,6 +27,7 @@ export default function NotificationsReceived() {
     [refetch],
   );
   useEffect(() => {
+    if (!user.id) return;
     const subscription = supabase
       .channel("table-db-changes")
       .on(
@@ -35,7 +36,7 @@ export default function NotificationsReceived() {
           event: "INSERT",
           schema: "public",
           table: NOTIFICATIONS_TABLE_NAME,
-          filter: `userId=eq.${user.id}`,
+          filter: `userId=eq.${user?.id}`,
         },
         handleInserts,
       )
@@ -44,7 +45,7 @@ export default function NotificationsReceived() {
     return () => {
       subscription.unsubscribe();
     };
-  }, [handleInserts, user.id]);
+  }, [handleInserts, user?.id]);
 
   return <></>;
 }

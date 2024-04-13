@@ -17,7 +17,7 @@ export default function PostWrapper({ id = "", homepage = false, user = {} }) {
   if (isLoadingPosts) return <FullPageSpinner />;
   return (
     <PostsContainer
-      noPostMessageForUser={"You don't have any posts yet!"}
+      noPostMessageForUser={"It seems that there are no posts here!"}
       noPostMessageForNonUser={"No posts"}
       posts={posts}
     />
