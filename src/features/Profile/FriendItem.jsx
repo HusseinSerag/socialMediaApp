@@ -13,7 +13,7 @@ export default function FriendItem({ friend }) {
   const { addFriend, isPending } = useSendFriendRequest();
 
   function addFriendRequest() {
-    addFriend({ id1: user.id, id2: friend.id });
+    addFriend({ id1: user.id, id2: friend.id, username: user.username });
   }
   if (isLoading) return;
   if (user.id === friend.id) return;

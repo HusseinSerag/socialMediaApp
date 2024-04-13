@@ -2,6 +2,8 @@ import {
   FRIENDS_RETURNED_FRIEND_SEARCH,
   FRIENDS_TABLE_NAME,
   NOT_FRIENDS_RETURNED_FRIEND_SEARCH,
+  NOTIFICATION_REASON_FRIEND_REQUEST,
+  NOTIFICATIONS_TABLE_NAME,
   PENDING_RETURNED_FRIEND_SEARCH,
   USER_TABLE_NAME,
 } from "../utils/Constants";
@@ -75,7 +77,7 @@ export async function userFriends({ id, status }) {
 
   return (await friendsData).flat();
 }
-export async function sendFriendRequest(id1, id2) {
+export async function sendFriendRequest(id1, id2, username) {
   const { data, error } = await supabase
     .from(FRIENDS_TABLE_NAME)
     .insert({ friend1: id1, friend2: id2, requestStatus: "pending" })
@@ -84,5 +86,13 @@ export async function sendFriendRequest(id1, id2) {
   if (error) {
     throwError(error.message, error.code);
   }
+  await supabase.from(NOTIFICATIONS_TABLE_NAME).insert({
+    userId: id2,
+    read: false,
+    reason: NOTIFICATION_REASON_FRIEND_REQUEST,
+    additionalData: {
+      username,
+    },
+  });
   return data;
 }

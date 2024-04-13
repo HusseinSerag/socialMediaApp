@@ -11,6 +11,7 @@ const COMMENTS_TABLE_NAME = "comments";
 const POSTS_PHOTOS_BUCKET_NAME = "posts";
 const POSTS_PHOTOS_TABLE_NAME = "postPhotos";
 const SAVED_POSTS_TABLE_NAME = "savedPosts";
+const NOTIFICATIONS_TABLE_NAME = "notifications";
 
 const MAX_CHAR_POST = 80;
 
@@ -22,6 +23,8 @@ const USER_MIN_AGE = 12;
 
 const PUBLIC_ACCOUNT_TYPE = "public";
 const PRIVATE_ACCOUNT_TYPE = "private";
+
+const NOTIFICATION_REASON_FRIEND_REQUEST = "friend_request";
 export {
   START,
   CREATE,
@@ -42,4 +45,6 @@ export {
   POSTS_PHOTOS_TABLE_NAME,
   PUBLIC_ACCOUNT_TYPE,
   PRIVATE_ACCOUNT_TYPE,
+  NOTIFICATIONS_TABLE_NAME,
+  NOTIFICATION_REASON_FRIEND_REQUEST,
 };
