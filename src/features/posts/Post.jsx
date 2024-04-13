@@ -44,18 +44,13 @@ export default function Post({ post }) {
   } = useGetComments(post.id);
   const { mutate: likePost, isPending: isLiking } = useLikePost();
   const { mutate: unlikePost, isPending: isUnliking } = useUnlikePost();
-  const { isLoading: isLoadingAreFriends, areFriends } = useIfFriends(
-    post.users.id,
-  );
 
-  if (isLoadingLikes || isLoadingComments || isLoadingAreFriends) return;
+  if (isLoadingLikes || isLoadingComments) return;
   const isUser = user?.id === post.users.id;
   const numberOfLikes = likes.length;
   const numberOfComments = comments.length;
   const userLikedThisPost = likes.find((post) => post.users.id === user.id);
-
   const likedUsers = likes.map((likes) => likes.users);
-  const usersAreFriends = areFriends === "accepted";
 
   function like() {
     if (!isLiking) {
@@ -80,7 +75,7 @@ export default function Post({ post }) {
         />
         <div className="w-full">
           <div className=" mb-3 flex  flex-col gap-1">
-            <Link to={`/profile/${post.users.id}`}>
+            <Link to={isUser ? "/you" : `/profile/${post.users.id}`}>
               <span className="text-sm ">
                 <span className="font-semibold">
                   {isUser ? "You " : post.users.username + " "}
@@ -120,7 +115,12 @@ export default function Post({ post }) {
                   />
                   <Modal.Content
                     name={`noOfLikesPost${post.id}`}
-                    render={() => <ListOfUsersInModal users={likedUsers} />}
+                    render={() => (
+                      <ListOfUsersInModal
+                        users={likedUsers}
+                        loggedInUser={user}
+                      />
+                    )}
                   />
                 </Modal>
               ) : (

@@ -1,4 +1,11 @@
-export default function ListOfUsersInModal({ users }) {
-  console.log(users);
-  return <div>{users.map((user) => user.username)}</div>;
+import UserInList from "./UserInList";
+
+export default function ListOfUsersInModal({ users, loggedInUser }) {
+  return (
+    <div className="mr-4 h-52 space-y-3 overflow-y-auto p-2">
+      {users.map((user) => (
+        <UserInList user={user} loggedInUser={loggedInUser} key={user.id} />
+      ))}
+    </div>
+  );
 }
