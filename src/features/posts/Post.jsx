@@ -68,13 +68,7 @@ export default function Post({ post }) {
     }
   }
   function popUpAMessage(resource) {
-    if (numberOfLikes > 0)
-      toast.error(
-        `You aren't friends with ${post.users.username} to view this information! Add ${post.users.gender === "male" ? "him" : "her"} first `,
-      );
-    else {
-      toast.error(`${resource} has 0 likes! `);
-    }
+    toast.error(`${resource} has 0 likes! `);
   }
   return (
     <Card>
@@ -114,7 +108,7 @@ export default function Post({ post }) {
             </span>
 
             <span className="flex cursor-pointer gap-1">
-              {numberOfLikes > 0 && (usersAreFriends || isUser) ? (
+              {numberOfLikes > 0 ? (
                 <Modal>
                   <Modal.Toggle
                     opens={`noOfLikesPost${post.id}`}

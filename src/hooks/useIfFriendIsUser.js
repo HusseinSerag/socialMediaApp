@@ -1,4 +1,5 @@
 import { useUser } from "../features/auth/useUser";
+import useIfFriends from "../features/friends/useIfFriends";
 import useUserFriend from "../features/friends/useUserFriends";
 import useGetUser from "../features/Profile/useGetUser";
 import { FRIENDS_RETURNED_FRIEND_SEARCH } from "../utils/Constants";
@@ -15,7 +16,9 @@ export default function useIfFriendIsUser() {
     FRIENDS_RETURNED_FRIEND_SEARCH,
     user,
   );
+  const { isLoadingAreFriends, areFriends } = useIfFriends(user?.id ?? "");
 
+  const usersAreFriends = areFriends === FRIENDS_RETURNED_FRIEND_SEARCH;
   return {
     isLoading,
     error,
@@ -26,5 +29,7 @@ export default function useIfFriendIsUser() {
     isLoadingUserFriend,
     user,
     isUser,
+    isLoadingAreFriends,
+    usersAreFriends,
   };
 }

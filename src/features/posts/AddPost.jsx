@@ -23,6 +23,7 @@ export default function AddPost() {
     preview,
     removeImage,
     sortBefore,
+    photos,
   } = useHandlePhotos();
   const { addPost, isPending } = useAddPost();
   const { user } = useUser();

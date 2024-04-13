@@ -12,6 +12,13 @@ import { FiEdit2 } from "react-icons/fi";
 import { format } from "date-fns";
 
 import PostWrapper from "../posts/PostWrapper";
+import {
+  FRIENDS_RETURNED_FRIEND_SEARCH,
+  PRIVATE_ACCOUNT_TYPE,
+  PUBLIC_ACCOUNT_TYPE,
+} from "../../utils/Constants";
+import useIfFriends from "../friends/useIfFriends";
+import useIfFriendIsUser from "../../hooks/useIfFriendIsUser";
 
 export default function UserProfile({
   isLoading,
@@ -23,10 +30,18 @@ export default function UserProfile({
   user,
   isUser,
   friends,
+  isLoadingAreFriends,
+  usersAreFriends,
 }) {
   const goBack = useNavigateTo();
 
-  if (isLoading || isLoadingUserFriend || isLoadingGetUser || !user?.id)
+  if (
+    isLoading ||
+    isLoadingUserFriend ||
+    isLoadingGetUser ||
+    !user?.id ||
+    isLoadingAreFriends
+  )
     return <FullPageSpinner />;
   if (error || userError)
     return (
@@ -41,6 +56,13 @@ export default function UserProfile({
 
   const posts = user?.posts;
 
+  const accountType =
+    user.accountType === PUBLIC_ACCOUNT_TYPE
+      ? PUBLIC_ACCOUNT_TYPE
+      : PRIVATE_ACCOUNT_TYPE;
+
+  const canSeeAccountPost =
+    isUser || accountType === PUBLIC_ACCOUNT_TYPE || usersAreFriends;
   return (
     <>
       <div className=" flex flex-col  items-center bg-gray-200 py-12">
@@ -131,7 +153,9 @@ export default function UserProfile({
         <Heading as="h1" className="mb-4" size="2xl">
           {isUser ? "Your" : `${user?.username}'s`} Posts
         </Heading>
-        {user?.id && <PostWrapper id={user?.id} />}
+        {canSeeAccountPost
+          ? user?.id && <PostWrapper id={user?.id} />
+          : "Account is private"}
       </div>
     </>
   );

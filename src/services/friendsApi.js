@@ -9,7 +9,7 @@ import { throwError } from "../utils/helpers";
 import supabase from "./supabase";
 
 export async function areFriends(userID, ID) {
-  if (!ID) return;
+  if (!ID) return {};
   const query = `and(friend1.eq.${userID},friend2.eq.${ID}),and(friend1.eq.${ID},friend2.eq.${userID})`;
 
   const { data, error } = await supabase

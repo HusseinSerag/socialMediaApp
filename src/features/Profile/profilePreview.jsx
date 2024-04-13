@@ -12,6 +12,8 @@ export default function ProfilePreview() {
     user,
     friends,
     isUser,
+    isLoadingAreFriends,
+    usersAreFriends,
   } = useIfFriendIsUser();
 
   return (
@@ -26,6 +28,8 @@ export default function ProfilePreview() {
       user={user}
       friends={friends}
       isUser={isUser}
+      isLoadingAreFriends={isLoadingAreFriends}
+      usersAreFriends={usersAreFriends}
     />
   );
 }
