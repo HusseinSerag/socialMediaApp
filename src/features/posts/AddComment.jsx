@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import Avatar from "../../ui/Avatar";
 
-export default function AddComment({ post }) {
+export default function AddComment({ post, user }) {
   const commentRef = useRef(null);
   useEffect(function () {
     const textarea = commentRef.current;
@@ -23,11 +23,7 @@ export default function AddComment({ post }) {
   return (
     <div className="mt-4 flex gap-3">
       <div>
-        <Avatar
-          avatar={post.users.profilePicture}
-          name={post.users.username}
-          size="sm"
-        />
+        <Avatar avatar={user.profilePicture} name={user.username} size="sm" />
       </div>
       <textarea
         ref={commentRef}

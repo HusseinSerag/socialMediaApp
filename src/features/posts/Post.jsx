@@ -23,7 +23,7 @@ import PostImage from "./PostImage";
 import AddComment from "./AddComment";
 import Card from "../../ui/Card";
 import ListOfUsersInModal from "../../ui/ListOfUsersInModal";
-import useIfFriends from "../friends/useIfFriends";
+
 import toast from "react-hot-toast";
 
 export default function Post({ post }) {
@@ -138,7 +138,7 @@ export default function Post({ post }) {
             </span>
             <FaRegBookmark className="h-[17px] w-[17px]" />
           </div>
-          <AddComment post={post} />
+          <AddComment user={user} post={post} />
         </div>
 
         <div>

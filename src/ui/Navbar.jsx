@@ -42,7 +42,7 @@ export default function Navbar() {
                 <div className={className}>Friends</div>
               </NavItem>
             </NavLink>
-            <NavLink className="sm:w-full" to="/search">
+            <NavLink className="sm:w-full" to="/saved">
               <NavItem className="rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
                 <IoBookmarksOutline />
                 <div className={className}>Saved Posts</div>
@@ -78,7 +78,7 @@ export default function Navbar() {
             </NavItem>
           </>
         )}
-        {!authenticated && (
+        {/* {!authenticated && (
           <>
             <Link
               className="w-auto rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full"
@@ -96,7 +96,7 @@ export default function Navbar() {
               </NavItem>
             </Link>
           </>
-        )}
+        )} */}
       </ul>
     </nav>
   );

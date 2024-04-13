@@ -15,6 +15,7 @@ import Profile from "./pages/Profile";
 import FriendsSearch from "./pages/FriendsSearch";
 import UserPage from "./pages/UserPage";
 import AuthLayout from "./ui/AuthLayout";
+import SavedPostsPage from "./pages/SavedPostsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,6 +39,7 @@ function App() {
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/search" element={<FriendsSearch />} />
               <Route path="you" element={<UserPage />} />
+              <Route path="/saved" element={<SavedPostsPage />} />
             </Route>
           </Route>
 
