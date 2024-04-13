@@ -202,3 +202,7 @@ input:focus {
   width: 100% !important;
   max-width: 350px !important;
 }
+
+a.active li {
+  background-color: theme(colors.gray.200);
+}

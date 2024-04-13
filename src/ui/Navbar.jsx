@@ -30,7 +30,7 @@ export default function Navbar() {
       <ul className="flex w-full items-center justify-between gap-4 px-4 sm:flex-col sm:items-start sm:py-10">
         {authenticated && (
           <>
-            <NavLink className="sm:w-full" to="/">
+            <NavLink className={`sm:w-full`} to="/">
               <NavItem className="w-auto rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
                 <FaHome className="" />
                 <div className={className}>Home</div>
@@ -48,7 +48,7 @@ export default function Navbar() {
                 <div className={className}>Saved Posts</div>
               </NavItem>
             </NavLink>
-            <NavLink className="sm:w-full" to="/search">
+            <NavLink className="sm:w-full" to="/notifications">
               <NavItem className="rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
                 <FaRegBell className="" />
                 <div className={className}>Notifications</div>
