@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { unsavePost } from "../../services/postsApi";
 import toast from "react-hot-toast";
 
-export default function useUnlikePost() {
+export default function useUnsavePost() {
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: unsavePost,

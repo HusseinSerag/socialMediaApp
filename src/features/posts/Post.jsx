@@ -28,6 +28,7 @@ import ListOfUsersInModal from "../../ui/ListOfUsersInModal";
 import toast from "react-hot-toast";
 import useSavePost from "./useSavePost";
 import { useGetSavedPosts } from "./useGetSavedPosts";
+import useUnsavePost from "./useUnsavePost";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
@@ -54,13 +55,15 @@ export default function Post({ post }) {
   const { mutate: likePost, isPending: isLiking } = useLikePost();
   const { mutate: unlikePost, isPending: isUnliking } = useUnlikePost();
 
+  const { mutate: unsavePost, isPending: isUnsaving } = useUnsavePost();
+
   if (isLoadingLikes || isLoadingComments || isLoadingSaved) return;
 
   const isUser = user?.id === post.users.id;
 
   const numberOfLikes = likes.length;
   const numberOfComments = comments.length;
-  const numberOfSavedPosts = isUser && savePost.length;
+  const numberOfSavedPosts = savedPosts.length;
 
   const userLikedThisPost = likes.find((post) => post.users.id === user.id);
   const userSavedThisPost = savedPosts.find(
@@ -68,6 +71,7 @@ export default function Post({ post }) {
   );
 
   const likedUsers = likes.map((likes) => likes.users);
+  const savedUsers = savedPosts.map((saved) => saved.users);
 
   function like() {
     if (!isLiking) {
@@ -84,12 +88,15 @@ export default function Post({ post }) {
       savePost({ postId: post.id, userId: user.id });
     }
   }
-  function unsave() {}
+  function unsave() {
+    if (!isUnsaving) {
+      unsavePost({ postId: post.id, userId: user.id });
+    }
+  }
   function popUpAMessage(resource) {
     toast.error(`${resource} has 0 likes! `);
   }
 
-  console.log(numberOfSavedPosts);
   return (
     <Card>
       <div className="flex gap-3">
@@ -140,12 +147,7 @@ export default function Post({ post }) {
                   />
                   <Modal.Content
                     name={`noOfLikesPost${post.id}`}
-                    render={() => (
-                      <ListOfUsersInModal
-                        users={likedUsers}
-                        loggedInUser={user}
-                      />
-                    )}
+                    render={() => <ListOfUsersInModal users={likedUsers} />}
                   />
                 </Modal>
               ) : (
@@ -161,10 +163,26 @@ export default function Post({ post }) {
                 <BiLike onClick={like} className="h-[19px] w-[19px]" />
               )}
             </span>
-            <div className="cursor-pointer">
+            <div className="flex cursor-pointer items-center gap-1">
+              {isUser && numberOfSavedPosts > 0 && (
+                <Modal>
+                  <Modal.Toggle
+                    opens={`noOfSavedPost${post.id}`}
+                    render={(click) => (
+                      <div onClick={click} className="hover:underline">
+                        {numberOfSavedPosts}
+                      </div>
+                    )}
+                  />
+                  <Modal.Content
+                    name={`noOfSavedPost${post.id}`}
+                    render={() => <ListOfUsersInModal users={savedUsers} />}
+                  />
+                </Modal>
+              )}
               {userSavedThisPost ? (
-                <div>
-                  <PiBookmarkSimpleFill className="h-[17px] w-[17px]" />
+                <div onClick={unsave}>
+                  <PiBookmarkSimpleFill className="h-[19px] w-[19px]" />
                 </div>
               ) : (
                 <div onClick={save}>

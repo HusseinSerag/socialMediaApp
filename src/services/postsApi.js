@@ -163,12 +163,12 @@ export async function savePost({ postId, userId }) {
   }
   return data;
 }
-export async function unsavePost({ postId, likedUser }) {
+export async function unsavePost({ postId, userId }) {
   const { error } = await supabase
     .from(SAVED_POSTS_TABLE_NAME)
     .delete()
     .eq("postId", postId)
-    .eq("likedUser", likedUser);
+    .eq("userId", userId);
 
   if (error) {
     throwError(error.message, error.code);
