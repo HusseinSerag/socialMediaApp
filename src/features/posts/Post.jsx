@@ -22,6 +22,9 @@ import { useGetComments } from "./useGetComments";
 import PostImage from "./PostImage";
 import AddComment from "./AddComment";
 import Card from "../../ui/Card";
+import ListOfUsersInModal from "../../ui/ListOfUsersInModal";
+import useIfFriends from "../friends/useIfFriends";
+import toast from "react-hot-toast";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
@@ -41,12 +44,18 @@ export default function Post({ post }) {
   } = useGetComments(post.id);
   const { mutate: likePost, isPending: isLiking } = useLikePost();
   const { mutate: unlikePost, isPending: isUnliking } = useUnlikePost();
+  const { isLoading: isLoadingAreFriends, areFriends } = useIfFriends(
+    post.users.id,
+  );
 
-  if (isLoadingLikes || isLoadingComments) return;
+  if (isLoadingLikes || isLoadingComments || isLoadingAreFriends) return;
   const isUser = user?.id === post.users.id;
   const numberOfLikes = likes.length;
   const numberOfComments = comments.length;
   const userLikedThisPost = likes.find((post) => post.users.id === user.id);
+
+  const likedUsers = likes.map((likes) => likes.users);
+  const usersAreFriends = areFriends === "accepted";
 
   function like() {
     if (!isLiking) {
@@ -56,6 +65,15 @@ export default function Post({ post }) {
   function dislike() {
     if (!isUnliking) {
       unlikePost({ postId: post.id, likedUser: user.id });
+    }
+  }
+  function popUpAMessage(resource) {
+    if (numberOfLikes > 0)
+      toast.error(
+        `You aren't friends with ${post.users.username} to view this information! Add ${post.users.gender === "male" ? "him" : "her"} first `,
+      );
+    else {
+      toast.error(`${resource} has 0 likes! `);
     }
   }
   return (
@@ -96,7 +114,28 @@ export default function Post({ post }) {
             </span>
 
             <span className="flex cursor-pointer gap-1">
-              {numberOfLikes}
+              {numberOfLikes > 0 && (usersAreFriends || isUser) ? (
+                <Modal>
+                  <Modal.Toggle
+                    opens={`noOfLikesPost${post.id}`}
+                    render={(open) => (
+                      <div onClick={open} className="hover:underline">
+                        {numberOfLikes}
+                      </div>
+                    )}
+                  />
+                  <Modal.Content
+                    name={`noOfLikesPost${post.id}`}
+                    render={() => <ListOfUsersInModal users={likedUsers} />}
+                  />
+                </Modal>
+              ) : (
+                <div onClick={() => popUpAMessage("Post")}>
+                  {" "}
+                  {numberOfLikes}
+                </div>
+              )}
+
               {userLikedThisPost ? (
                 <AiFillLike onClick={dislike} className="h-[19px] w-[19px]" />
               ) : (

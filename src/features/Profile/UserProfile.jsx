@@ -91,7 +91,9 @@ export default function UserProfile({
             <p className="text-[13px] text-gray-600">
               {user?.bio
                 ? user?.bio
-                : "Hmmmm it seems you don't have a bio yet, edit this and add your bio!"}
+                : isUser
+                  ? "Hmmmm it seems you don't have a bio yet, edit this and add your bio!"
+                  : `${user.username} doesn't seem to have a bio at the moment!`}
             </p>
           </div>
           <div className="mt-4 w-full px-4">
