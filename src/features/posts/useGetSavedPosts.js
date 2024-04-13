@@ -10,9 +10,10 @@ export function useGetSavedPosts({ postId = "", userId = "" }) {
     data: posts,
     isLoading,
     error,
+    isFetching,
   } = useQuery({
     queryKey: ["postSave", inputID.id],
     queryFn: () => getSaved(inputID),
   });
-  return { posts, isLoading, error };
+  return { posts, isLoading, error, isFetching };
 }
