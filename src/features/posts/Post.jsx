@@ -46,7 +46,7 @@ export default function Post({ post }) {
     isLoading: isLoadingSaved,
     posts: savedPosts,
     error: savedError,
-  } = useGetSavedPosts(post.id);
+  } = useGetSavedPosts({ postId: post.id });
   const {
     isLoading: isLoadingComments,
     comments,

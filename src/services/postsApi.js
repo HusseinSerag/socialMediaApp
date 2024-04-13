@@ -91,6 +91,21 @@ async function getUserPost(id) {
     return [];
   }
 }
+async function getPostByPostId(id) {
+  if (id) {
+    const { data, error } = await supabase
+      .from(`${POSTS_TABLE_NAME}`)
+      .select(`*,${USER_TABLE_NAME}("*"),${POSTS_PHOTOS_TABLE_NAME}(*)`)
+      .eq("id", id);
+    if (error) {
+      throwError(error.message, error.code);
+    }
+
+    return data;
+  } else {
+    return [];
+  }
+}
 export async function deletePost({ id }) {
   const { error } = await supabase.from(POSTS_TABLE_NAME).delete().eq("id", id);
   if (error) {
@@ -174,14 +189,27 @@ export async function unsavePost({ postId, userId }) {
     throwError(error.message, error.code);
   }
 }
-export async function getSaved({ postId }) {
-  if (!postId) return [];
+export async function getSaved({ id, isPost }) {
+  if (!id) return [];
   const { data, error } = await supabase
     .from(SAVED_POSTS_TABLE_NAME)
     .select(`*,${USER_TABLE_NAME}(*),${POSTS_TABLE_NAME}(*)`)
-    .eq("postId", postId);
+    .eq(`${isPost ? "postId" : "userId"}`, id);
   if (error) {
     throwError(error.message, error.code);
   }
-  return data;
+
+  if (!isPost) {
+    const posts = await Promise.all([
+      ...data.map((post) => {
+        const { id } = post.posts;
+
+        return getPostByPostId(id);
+      }),
+    ]);
+
+    return posts.flat();
+  } else {
+    return data;
+  }
 }
