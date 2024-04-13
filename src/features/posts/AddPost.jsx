@@ -12,7 +12,7 @@ import Card from "../../ui/Card";
 import { useUser } from "../auth/useUser";
 import Avatar from "../../ui/Avatar";
 import Button from "../../ui/Button";
-import PostImagePreview from "../../ui/PostImagePreview";
+import PostImagePreview from "./PostImagePreview";
 import Modal from "../../ui/Modal";
 import useHandlePhotos from "./useHandlePhotos";
 export default function AddPost() {

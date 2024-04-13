@@ -1,6 +1,7 @@
 import { IoClose } from "react-icons/io5";
-import Modal from "./Modal";
+import Modal from "../../ui/Modal";
 import { useEffect, useRef } from "react";
+import ClickOnImagePreview from "../../ui/ClickOnImagePreview";
 
 export default function PostImagePreview({
   src,
@@ -67,14 +68,7 @@ export default function PostImagePreview({
       />
       <Modal.Content
         name={src}
-        render={() => (
-          <div className="h-full max-h-[600px] max-w-[600px] p-4">
-            <img
-              src={src}
-              className="h-full max-h-[500px] min-h-[500px] w-full cursor-pointer object-cover"
-            />
-          </div>
-        )}
+        render={() => <ClickOnImagePreview src={src} />}
       />
     </div>
   );

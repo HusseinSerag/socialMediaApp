@@ -5,17 +5,21 @@ import { FaRegComment } from "react-icons/fa";
 import { BiLike } from "react-icons/bi";
 import { FaRegBookmark } from "react-icons/fa";
 import { AiFillLike } from "react-icons/ai";
-import Menu from "../../ui/Menu";
 import { MdOutlineDelete } from "react-icons/md";
+
+import Menu from "../../ui/Menu";
 import { useUser } from "../auth/useUser";
 import Modal from "../../ui/Modal";
 import ConfirmModal from "../../ui/ConfirmModal";
+
 import useDeletePost from "./useDeletePost";
 import { useGetLikes } from "./useGetLikes";
 import useLikePost from "./useLikePost";
 import useUnlikePost from "./useUnlikePost";
+
 import { useGetComments } from "./useGetComments";
-import PostImage from "../../ui/PostImage";
+
+import PostImage from "./PostImage";
 import AddComment from "./AddComment";
 import Card from "../../ui/Card";
 
