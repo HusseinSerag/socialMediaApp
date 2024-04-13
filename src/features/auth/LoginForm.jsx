@@ -109,8 +109,9 @@ export default function LoginForm() {
               className=" flex items-center gap-1 rounded-lg border border-solid border-gray-500 px-2 text-gray-500"
             >
               <Input
+                color=""
                 type={passwordHidden ? "password" : "text"}
-                className="dark:text-gray-300; flex-1 text-sm  focus:outline-none dark:bg-gray-700
+                className=" flex-1 text-sm  focus:outline-none 
               "
                 {...register("password", {
                   required: "This field is required",

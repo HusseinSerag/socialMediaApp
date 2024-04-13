@@ -128,7 +128,8 @@ export default function RegisterForm() {
             >
               <Input
                 type={passwordHidden ? "password" : "text"}
-                className="dark:text-gray-300; flex-1 text-sm  focus:outline-none dark:bg-gray-700
+                color=""
+                className=" flex-1 text-sm  focus:outline-none dark:bg-gray-700
             "
                 {...register("password", {
                   required: "This field is required",
