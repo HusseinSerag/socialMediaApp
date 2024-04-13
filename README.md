@@ -13,7 +13,7 @@ The project is still under development.
 
 
 ## 🛠 Skills
-React, React Query, React Hook Form , React Icons  , Tailwind ,  Supabase , Recharts , Supabase Auth , Render Prop , Advanced Compound Component Pattern.
+React, React Query, React Hook Form , React Icons  , Tailwind ,  Supabase , React Calender , Supabase Auth , Render Prop , Advanced Compound Component Pattern.
 
 
 
