@@ -13,12 +13,11 @@ import { format } from "date-fns";
 
 import PostWrapper from "../posts/PostWrapper";
 import {
-  FRIENDS_RETURNED_FRIEND_SEARCH,
   PRIVATE_ACCOUNT_TYPE,
   PUBLIC_ACCOUNT_TYPE,
 } from "../../utils/Constants";
-import useIfFriends from "../friends/useIfFriends";
-import useIfFriendIsUser from "../../hooks/useIfFriendIsUser";
+
+import PrivateAccountIndicator from "../../ui/PrivateAccountIndicator";
 
 export default function UserProfile({
   isLoading,
@@ -84,8 +83,17 @@ export default function UserProfile({
             size="lg"
           />
           <Heading as="h1" size="xl" className=" font-bold">
-            {user?.username}
+            {user?.username} {isUser && "(You)"}
           </Heading>
+          {!isUser && (
+            <Heading as="h2" size="m">
+              {!usersAreFriends ? (
+                <button>Add Friend </button>
+              ) : (
+                <button>Unfriend</button>
+              )}
+            </Heading>
+          )}
           <Heading as="h2" size="s" className="font-extralight text-gray-600">
             {user?.email}
           </Heading>
@@ -153,9 +161,11 @@ export default function UserProfile({
         <Heading as="h1" className="mb-4" size="2xl">
           {isUser ? "Your" : `${user?.username}'s`} Posts
         </Heading>
-        {canSeeAccountPost
-          ? user?.id && <PostWrapper id={user?.id} />
-          : "Account is private"}
+        {canSeeAccountPost ? (
+          user?.id && <PostWrapper id={user?.id} />
+        ) : (
+          <PrivateAccountIndicator username={user?.username} />
+        )}
       </div>
     </>
   );

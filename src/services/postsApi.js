@@ -76,7 +76,6 @@ export async function getPosts({ id, homepage, user }) {
 }
 
 async function getUserPost(id) {
-  console.log(id);
   if (id) {
     const { data, error } = await supabase
       .from(`${POSTS_TABLE_NAME}`)
