@@ -163,7 +163,17 @@ export async function savePost({ postId, userId }) {
   }
   return data;
 }
+export async function unsavePost({ postId, likedUser }) {
+  const { error } = await supabase
+    .from(SAVED_POSTS_TABLE_NAME)
+    .delete()
+    .eq("postId", postId)
+    .eq("likedUser", likedUser);
 
+  if (error) {
+    throwError(error.message, error.code);
+  }
+}
 export async function getSaved({ postId }) {
   if (!postId) return [];
   const { data, error } = await supabase

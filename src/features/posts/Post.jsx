@@ -60,6 +60,7 @@ export default function Post({ post }) {
 
   const numberOfLikes = likes.length;
   const numberOfComments = comments.length;
+  const numberOfSavedPosts = isUser && savePost.length;
 
   const userLikedThisPost = likes.find((post) => post.users.id === user.id);
   const userSavedThisPost = savedPosts.find(
@@ -67,7 +68,7 @@ export default function Post({ post }) {
   );
 
   const likedUsers = likes.map((likes) => likes.users);
-  console.log(userSavedThisPost, post.id);
+
   function like() {
     if (!isLiking) {
       likePost({ postId: post.id, likedUser: user.id });
@@ -87,6 +88,8 @@ export default function Post({ post }) {
   function popUpAMessage(resource) {
     toast.error(`${resource} has 0 likes! `);
   }
+
+  console.log(numberOfSavedPosts);
   return (
     <Card>
       <div className="flex gap-3">
