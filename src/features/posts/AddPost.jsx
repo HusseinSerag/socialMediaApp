@@ -96,9 +96,9 @@ export default function AddPost() {
   return (
     <Card>
       <div className="flex gap-2">
-        <Avatar name={user.username} size="sm" avatar={user.profilePicture} />
+        <Avatar name={user?.username} size="sm" avatar={user?.profilePicture} />
         <textarea
-          placeholder={`What's on your mind ${user.username}?`}
+          placeholder={`What's on your mind ${user?.username}?`}
           maxLength={MAX_CHAR_POST}
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -159,8 +159,9 @@ export default function AddPost() {
             color=""
             className="rounded-md  bg-socialBlue px-6 py-1 text-white-A700"
             onClick={handleAddPost}
+            disabled={isPending}
           >
-            Share
+            {isPending ? <SmallLoader /> : "Share"}
           </Button>
         </div>
       </div>

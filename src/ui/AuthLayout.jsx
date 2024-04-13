@@ -8,7 +8,7 @@ export default function AuthLayout() {
   const go = useNavigateTo();
   useEffect(function () {
     if (!authenticated) {
-      go("/");
+      go("/login");
     }
   });
   return <Outlet />;

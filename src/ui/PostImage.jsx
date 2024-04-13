@@ -11,20 +11,17 @@ export default function PostImage({ postPhotos }) {
     setCurrentImg((curr) => (curr === 0 ? postPhotos.length - 1 : --curr));
   }
 
-  useEffect(function () {
-    const container = divRef.current;
+  // useEffect(function () {
+  //   const container = divRef.current;
 
-    function onFocus() {}
-    container.addEventListener("focus", onFocus);
+  //   function onFocus() {}
+  //   container.addEventListener("focus", onFocus);
 
-    return () => container.removeEventListener("focus", onFocus);
-  });
+  //   return () => container.removeEventListener("focus", onFocus);
+  // });
 
   return (
-    <div
-      className="relative flex justify-center overflow-hidden rounded-lg"
-      ref={divRef}
-    >
+    <div className="relative flex justify-center overflow-hidden rounded-lg">
       {postPhotos.length > 1 && (
         <MdOutlineNavigateBefore
           onClick={previous}

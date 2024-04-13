@@ -33,8 +33,8 @@ function App() {
       <Suspense fallback={<FullPageSpinner />}>
         <Routes>
           <Route element={<AppLayout />}>
-            <Route path="/" element={<Homepage />} />
             <Route element={<AuthLayout />}>
+              <Route path="/" element={<Homepage />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/search" element={<FriendsSearch />} />
               <Route path="you" element={<UserPage />} />
