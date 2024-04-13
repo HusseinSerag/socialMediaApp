@@ -7,6 +7,7 @@ import {
   POSTS_PHOTOS_TABLE_NAME,
   AVATAR_BUCKET_NAME,
   FRIENDS_TABLE_NAME,
+  SAVED_POSTS_TABLE_NAME,
 } from "../utils/Constants";
 import { getAssetURL, throwError } from "../utils/helpers";
 import { userFriends } from "./friendsApi";
@@ -120,7 +121,7 @@ export async function unlikePost({ postId, likedUser }) {
   }
 }
 export async function getLikes({ postId }) {
-  if (!postId) return;
+  if (!postId) return [];
   const { data, error } = await supabase
     .from(LIKES_TABLE_NAME)
     .select(`*,${USER_TABLE_NAME}(*),${POSTS_TABLE_NAME}(*)`)
@@ -148,5 +149,29 @@ export async function getComments({ postId }) {
     throwError(error.message, error.code);
   }
 
+  return data;
+}
+
+export async function savePost({ postId, userId }) {
+  const { data, error } = await supabase
+    .from(SAVED_POSTS_TABLE_NAME)
+    .insert({ postId, userId })
+    .select()
+    .single();
+  if (error) {
+    throwError(error.message, error.code);
+  }
+  return data;
+}
+
+export async function getSaved({ postId }) {
+  if (!postId) return [];
+  const { data, error } = await supabase
+    .from(SAVED_POSTS_TABLE_NAME)
+    .select(`*,${USER_TABLE_NAME}(*),${POSTS_TABLE_NAME}(*)`)
+    .eq("postId", postId);
+  if (error) {
+    throwError(error.message, error.code);
+  }
   return data;
 }

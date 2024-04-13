@@ -6,6 +6,7 @@ import { BiLike } from "react-icons/bi";
 import { FaRegBookmark } from "react-icons/fa";
 import { AiFillLike } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
+import { PiBookmarkSimpleFill } from "react-icons/pi";
 
 import Menu from "../../ui/Menu";
 import { useUser } from "../auth/useUser";
@@ -25,18 +26,26 @@ import Card from "../../ui/Card";
 import ListOfUsersInModal from "../../ui/ListOfUsersInModal";
 
 import toast from "react-hot-toast";
+import useSavePost from "./useSavePost";
+import { useGetSavedPosts } from "./useGetSavedPosts";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
 
   const { user } = useUser();
   const { isPending, mutate: deletePost } = useDeletePost();
+  const { isPending: isSaving, mutate: savePost } = useSavePost();
 
   const {
     isLoading: isLoadingLikes,
     likes,
     error: postError,
   } = useGetLikes(post.id);
+  const {
+    isLoading: isLoadingSaved,
+    posts: savedPosts,
+    error: savedError,
+  } = useGetSavedPosts(post.id);
   const {
     isLoading: isLoadingComments,
     comments,
@@ -45,13 +54,20 @@ export default function Post({ post }) {
   const { mutate: likePost, isPending: isLiking } = useLikePost();
   const { mutate: unlikePost, isPending: isUnliking } = useUnlikePost();
 
-  if (isLoadingLikes || isLoadingComments) return;
+  if (isLoadingLikes || isLoadingComments || isLoadingSaved) return;
+
   const isUser = user?.id === post.users.id;
+
   const numberOfLikes = likes.length;
   const numberOfComments = comments.length;
-  const userLikedThisPost = likes.find((post) => post.users.id === user.id);
-  const likedUsers = likes.map((likes) => likes.users);
 
+  const userLikedThisPost = likes.find((post) => post.users.id === user.id);
+  const userSavedThisPost = savedPosts.find(
+    (post) => post.users.id === user.id,
+  );
+
+  const likedUsers = likes.map((likes) => likes.users);
+  console.log(userSavedThisPost, post.id);
   function like() {
     if (!isLiking) {
       likePost({ postId: post.id, likedUser: user.id });
@@ -62,6 +78,12 @@ export default function Post({ post }) {
       unlikePost({ postId: post.id, likedUser: user.id });
     }
   }
+  function save() {
+    if (!isSaving) {
+      savePost({ postId: post.id, userId: user.id });
+    }
+  }
+  function unsave() {}
   function popUpAMessage(resource) {
     toast.error(`${resource} has 0 likes! `);
   }
@@ -136,7 +158,17 @@ export default function Post({ post }) {
                 <BiLike onClick={like} className="h-[19px] w-[19px]" />
               )}
             </span>
-            <FaRegBookmark className="h-[17px] w-[17px]" />
+            <div className="cursor-pointer">
+              {userSavedThisPost ? (
+                <div>
+                  <PiBookmarkSimpleFill className="h-[17px] w-[17px]" />
+                </div>
+              ) : (
+                <div onClick={save}>
+                  <FaRegBookmark className="h-[17px] w-[17px]" />
+                </div>
+              )}
+            </div>
           </div>
           <AddComment user={user} post={post} />
         </div>
