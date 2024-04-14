@@ -1,7 +1,6 @@
 import useIfFriendIsUser from "../../hooks/useIfFriendIsUser";
-import { useUser } from "../auth/useUser";
+
 import Post from "./Post";
-import { useGetPosts } from "./useGetPosts";
 
 export default function PostList({
   user,

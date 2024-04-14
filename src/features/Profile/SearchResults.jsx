@@ -1,6 +1,7 @@
 import { useSearchFriend } from "../../contexts/FriendsSearchContext";
 import ErrorMessage from "../../ui/ErrorMessage";
 import Loader from "../../ui/Loader";
+import Menu from "../../ui/Menu";
 import FriendItem from "./FriendItem";
 
 export default function SearchResults() {
@@ -16,9 +17,11 @@ export default function SearchResults() {
   }
   return (
     <div className="space-y-2">
-      {users.map((friend) => (
-        <FriendItem friend={friend} key={friend.id} />
-      ))}
+      <Menu>
+        {users.map((friend) => (
+          <FriendItem friend={friend} key={friend.id} />
+        ))}
+      </Menu>
     </div>
   );
 }

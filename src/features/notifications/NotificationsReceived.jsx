@@ -27,7 +27,7 @@ export default function NotificationsReceived() {
     [refetch],
   );
   useEffect(() => {
-    if (!user.id) return;
+    if (!user?.id) return;
     const subscription = supabase
       .channel("table-db-changes")
       .on(

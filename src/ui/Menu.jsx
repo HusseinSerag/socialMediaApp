@@ -19,9 +19,12 @@ export default function Menu({ children }) {
   );
 }
 
-function ToggleMenu({ name, render, children }) {
+function ToggleMenu({ name, render, children, customRender = false }) {
   const { toggle } = useContext(MenuContext);
 
+  if (customRender) {
+    return render((e) => toggle(e, name));
+  }
   return (
     <CiMenuKebab
       className="h-6 w-6 cursor-pointer"
@@ -35,7 +38,10 @@ function MenuList({ name, children }) {
   const { ref } = useClickOutsideModal(close, false);
   if (active !== name) return null;
   return (
-    <div ref={ref} className="absolute right-4 top-[30px] bg-white-A700 p-2">
+    <div
+      ref={ref}
+      className="absolute right-4 top-[30px] z-20 bg-white-A700 p-2"
+    >
       {children}
     </div>
   );

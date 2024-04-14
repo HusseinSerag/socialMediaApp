@@ -30,6 +30,16 @@ export default function Navbar() {
       <ul className="flex w-full items-center justify-between gap-4 px-4 sm:flex-col sm:items-start sm:py-10">
         {authenticated && (
           <>
+            <Link
+              className=" mt-0 flex w-auto justify-center rounded-md sm:w-full"
+              to={`you`}
+            >
+              <Avatar
+                name={user.username}
+                avatar={user.profilePicture}
+                size="sm"
+              />
+            </Link>
             <NavLink className={`sm:w-full`} to="/">
               <NavItem className="w-auto rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
                 <FaHome className="" />
@@ -54,20 +64,6 @@ export default function Navbar() {
                 <div className={className}>Notifications</div>
               </NavItem>
             </NavLink>
-
-            {/* <Link
-              className=" mt-0 w-auto rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300  sm:w-full"
-              to={`you`}
-            >
-              <NavItem>
-                <Avatar
-                  name={user.username}
-                  avatar={user.profilePicture}
-                  size="sm"
-                />
-                <div className={className}>{user.username}</div>
-              </NavItem>
-            </Link> */}
 
             <NavItem
               onClick={onClick}

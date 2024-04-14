@@ -18,20 +18,47 @@ export async function areFriends(userID, ID) {
     .from(FRIENDS_TABLE_NAME)
     .select("*")
     .or(query);
-
   if (error) {
     throwError(error.message, error.code);
   }
 
-  if (data.length === 0) return NOT_FRIENDS_RETURNED_FRIEND_SEARCH;
+  if (data.length === 0) return { status: NOT_FRIENDS_RETURNED_FRIEND_SEARCH };
   else {
     if (data[0].requestStatus === FRIENDS_RETURNED_FRIEND_SEARCH) {
-      return FRIENDS_RETURNED_FRIEND_SEARCH;
+      return { status: FRIENDS_RETURNED_FRIEND_SEARCH, requestId: data[0].id };
     } else if (data[0].requestStatus === PENDING_RETURNED_FRIEND_SEARCH) {
-      return PENDING_RETURNED_FRIEND_SEARCH;
+      return {
+        status: PENDING_RETURNED_FRIEND_SEARCH,
+        friend1: data[0].friend1,
+        friend2: data[0].friend2,
+        requestId: data[0].id,
+      };
     }
     return data;
   }
+}
+
+export async function respondToRequest({ response, requestId }) {
+  if (response === "delete") {
+    const { error } = await supabase
+      .from(FRIENDS_TABLE_NAME)
+      .delete()
+      .eq("id", requestId);
+    if (error) {
+      throwError(error.message, error.code);
+    }
+
+    console.log(requestId);
+    return;
+  }
+  const { data, error } = await supabase
+    .from(FRIENDS_TABLE_NAME)
+    .update({ requestStatus: response })
+    .eq("id", requestId);
+  if (error) {
+    throwError(error.message, error.code);
+  }
+  return data;
 }
 
 export async function userFriends({ id, status }) {
