@@ -13,7 +13,7 @@ export default function useGetNotifications() {
     isError,
     refetch,
   } = useQuery({
-    queryKey: ["notifications"],
+    queryKey: ["notifications", user?.id],
     queryFn: () => getNotification({ id: user?.id }),
   });
   return { notifications, error, isLoading, isError, refetch };

@@ -14,16 +14,21 @@ import { IoLogOutOutline } from "react-icons/io5";
 
 import { useLogout } from "../features/auth/useLogout";
 import useNavigateTo from "../hooks/useNavigateTo";
+import useGetNotifications from "../features/notifications/useGetNotifications";
 
 const className = " font-semibold text-sm ";
 export default function Navbar({ onClick: close }) {
-  const { user, isLoading, error } = useUser();
+  const { user, isLoading } = useUser();
   const { logout, isPending } = useLogout();
   const authenticated = Boolean(user?.id);
   const go = useNavigateTo();
+  const { notifications } = useGetNotifications();
 
   if (isLoading || isPending) return;
 
+  const numberOfNotifications = notifications?.filter(
+    (notify) => notify.read === false,
+  ).length;
   function onClick() {
     logout();
     go("/login");
@@ -65,7 +70,14 @@ export default function Navbar({ onClick: close }) {
             </NavLink>
             <NavLink onClick={close} className="w-full" to="/notifications">
               <NavItem className="rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
-                <FaRegBell className="" />
+                <div className="relative">
+                  {numberOfNotifications > 0 && (
+                    <div className="absolute right-[-2px] top-[-8px] flex h-4 w-4 items-center justify-center overflow-hidden rounded-full bg-red-600 p-[10px] text-sm font-semibold text-white-A700">
+                      {numberOfNotifications}
+                    </div>
+                  )}
+                  <FaRegBell className="h-6 w-6" />
+                </div>
                 <div className={className}>Notifications</div>
               </NavItem>
             </NavLink>
