@@ -13,12 +13,16 @@ import { format } from "date-fns";
 
 import PostWrapper from "../posts/PostWrapper";
 import {
+  FRIENDS_RETURNED_FRIEND_SEARCH,
+  PENDING_RETURNED_FRIEND_SEARCH,
   PRIVATE_ACCOUNT_TYPE,
   PUBLIC_ACCOUNT_TYPE,
 } from "../../utils/Constants";
 
 import PrivateAccountIndicator from "../../ui/PrivateAccountIndicator";
 import Card from "../../ui/Card";
+import Menu from "../../ui/Menu";
+import { useFriendRequest } from "./useFriendRequest";
 
 export default function UserProfile({
   isLoading,
@@ -32,8 +36,16 @@ export default function UserProfile({
   friends,
   isLoadingAreFriends,
   usersAreFriends,
+  areFriends,
+  friend,
+  loggedInUser,
 }) {
   const goBack = useNavigateTo();
+  const { addFriendRequest, respondToFriendRequest } = useFriendRequest({
+    areFriends,
+    friend,
+    user: loggedInUser,
+  });
 
   if (
     isLoading ||
@@ -63,8 +75,15 @@ export default function UserProfile({
 
   const canSeeAccountPost =
     isUser || accountType === PUBLIC_ACCOUNT_TYPE || usersAreFriends;
+
+  let whoRecievedRequest;
+  if (areFriends.status === PENDING_RETURNED_FRIEND_SEARCH)
+    whoRecievedRequest =
+      areFriends.friend1 === loggedInUser?.id ? loggedInUser : friend;
+
+  console.log(areFriends, whoRecievedRequest);
   return (
-    <>
+    <Menu>
       <Card>
         <div className="  flex flex-col  items-center">
           <div className="relative flex w-full max-w-[400px] flex-col items-center gap-4 rounded-lg bg-white-A700_cc py-12">
@@ -94,9 +113,118 @@ export default function UserProfile({
             {!isUser && (
               <Heading as="h2" size="m">
                 {!usersAreFriends ? (
-                  <button>Add Friend </button>
+                  areFriends.status === PENDING_RETURNED_FRIEND_SEARCH ? (
+                    <div className="relative flex flex-col font-semibold">
+                      {whoRecievedRequest.id === loggedInUser.id ? (
+                        <>
+                          <Menu.Toggle
+                            customRender={true}
+                            name={`cancel_request_${user.id}`}
+                            render={(click) => (
+                              <div onClick={click} className="font-semibold">
+                                Request Sent
+                              </div>
+                            )}
+                          />
+                          <Menu.MenuList
+                            className="absolute top-10"
+                            name={`cancel_request_${user.id}`}
+                          >
+                            <Menu.Action>
+                              <Button
+                                size=""
+                                color=""
+                                className=" rounded-lg bg-red-600 px-2 py-4 text-white-A700"
+                                onClick={() => respondToFriendRequest("delete")}
+                              >
+                                Cancel Request
+                              </Button>
+                            </Menu.Action>
+                          </Menu.MenuList>
+                        </>
+                      ) : (
+                        <>
+                          <Menu.Toggle
+                            customRender={true}
+                            name={`pending_request_${user.id}`}
+                            render={(click) => (
+                              <div onClick={click} className="font-semibold">
+                                Request Pending
+                              </div>
+                            )}
+                          />
+                          <Menu.MenuList name={`pending_request_${user.id}`}>
+                            <div className="flex flex-col gap-2 rounded-lg">
+                              <Menu.Action>
+                                <Button
+                                  color=""
+                                  size=""
+                                  className="  rounded-lg bg-green-600 px-4 py-2 text-white-A700 "
+                                  onClick={() =>
+                                    respondToFriendRequest(
+                                      FRIENDS_RETURNED_FRIEND_SEARCH,
+                                    )
+                                  }
+                                >
+                                  Accept
+                                </Button>
+                              </Menu.Action>
+                              <Menu.Action>
+                                <Button
+                                  onClick={() =>
+                                    respondToFriendRequest("delete")
+                                  }
+                                  color=""
+                                  size=""
+                                  className=" w-full rounded-lg bg-red-600 px-4 py-2 text-white-A700 "
+                                >
+                                  reject
+                                </Button>
+                              </Menu.Action>
+                            </div>
+                          </Menu.MenuList>
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <Button
+                      size=""
+                      onClick={() => addFriendRequest()}
+                      color=""
+                      className="rounded-lg bg-green-600 p-2 font-semibold text-white-A700"
+                    >
+                      Add Friend{" "}
+                    </Button>
+                  )
                 ) : (
-                  <button>Unfriend</button>
+                  areFriends.status === FRIENDS_RETURNED_FRIEND_SEARCH && (
+                    <div className="relative flex flex-col font-semibold">
+                      <Menu.Toggle
+                        name={`unfriend_${user.id}`}
+                        customRender={true}
+                        render={(open) => (
+                          <span className="bg-gray-100 p-2" onClick={open}>
+                            Friends
+                          </span>
+                        )}
+                      />
+                      <Menu.MenuList
+                        className="absolute top-10"
+                        name={`unfriend_${user.id}`}
+                      >
+                        <Menu.Action>
+                          <Button
+                            size=""
+                            color=""
+                            className=" rounded-lg bg-red-600 px-2 py-4 text-white-A700"
+                            onClick={() => respondToFriendRequest("delete")}
+                          >
+                            Unfriend
+                          </Button>
+                        </Menu.Action>
+                      </Menu.MenuList>
+                    </div>
+                  )
                 )}
               </Heading>
             )}
@@ -156,6 +284,7 @@ export default function UserProfile({
                 Friends
               </Heading>
               <div className="flex flex-wrap space-x-3">
+                {friends.length === 0 && "No Friends"}
                 {friends?.map((friend) => (
                   <FriendIconOnUserProfile friend={friend} key={friend.id} />
                 ))}
@@ -174,6 +303,6 @@ export default function UserProfile({
           <PrivateAccountIndicator username={user?.username} />
         )}
       </div>
-    </>
+    </Menu>
   );
 }

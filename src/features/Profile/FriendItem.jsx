@@ -3,34 +3,26 @@ import Avatar from "../../ui/Avatar";
 import Button from "../../ui/Button";
 import useIfFriends from "../friends/useIfFriends";
 import { useUser } from "../auth/useUser";
-import useSendFriendRequest from "./useSendFriendRequest";
+
 import {
   FRIENDS_RETURNED_FRIEND_SEARCH,
   NOT_FRIENDS_RETURNED_FRIEND_SEARCH,
   PENDING_RETURNED_FRIEND_SEARCH,
 } from "../../utils/Constants";
 import Menu from "../../ui/Menu";
-import { useRespondToFriendRequest } from "./useRespondToFriendRequest";
+
+import { useFriendRequest } from "./useFriendRequest";
 
 export default function FriendItem({ friend }) {
   const { user } = useUser();
 
   const { isLoading, areFriends } = useIfFriends(friend.id);
 
-  const { addFriend, isPending } = useSendFriendRequest();
-
-  const { mutate: respond, isPending: isResponding } =
-    useRespondToFriendRequest();
-
-  function addFriendRequest() {
-    if (!isPending)
-      addFriend({ id1: user.id, id2: friend.id, username: user.username });
-  }
-  function respondToFriendRequest(response) {
-    if (!isResponding) {
-      respond({ response, requestId: areFriends.requestId });
-    }
-  }
+  const { respondToFriendRequest, addFriendRequest } = useFriendRequest({
+    areFriends,
+    user,
+    friend,
+  });
   if (isLoading) return;
   if (user.id === friend.id) return;
 

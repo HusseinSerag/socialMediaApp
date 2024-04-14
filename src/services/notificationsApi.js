@@ -3,6 +3,7 @@ import { throwError } from "../utils/helpers";
 import supabase from "./supabase";
 
 export async function getNotification({ id }) {
+  if (!id) return [];
   const { data, error } = await supabase
     .from(NOTIFICATIONS_TABLE_NAME)
     .select("*")

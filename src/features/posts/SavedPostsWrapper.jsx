@@ -11,7 +11,7 @@ export default function SavedPostsWrapper() {
     posts: savedPosts,
     isFetching,
   } = useGetSavedPosts({
-    userId: user.id,
+    userId: user?.id,
   });
 
   if (isLoadingSaved || isFetching) return <FullPageSpinner />;

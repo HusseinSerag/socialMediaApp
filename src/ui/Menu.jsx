@@ -33,14 +33,18 @@ function ToggleMenu({ name, render, children, customRender = false }) {
   );
 }
 
-function MenuList({ name, children }) {
+function MenuList({ name, children, className = "" }) {
   const { active, close } = useContext(MenuContext);
   const { ref } = useClickOutsideModal(close, false);
   if (active !== name) return null;
   return (
     <div
       ref={ref}
-      className="absolute right-4 top-[30px] z-20 bg-white-A700 p-2"
+      className={
+        className
+          ? className
+          : `absolute right-4 top-[30px] z-20 bg-white-A700 p-2`
+      }
     >
       {children}
     </div>
