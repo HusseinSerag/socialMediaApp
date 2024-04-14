@@ -44,15 +44,19 @@ export default function FriendItem({ friend }) {
 
   return (
     <>
-      <div className="flex cursor-pointer items-center rounded-lg bg-white-A700 p-3 hover:bg-gray-200">
+      <div className="flex cursor-pointer items-center gap-2 rounded-lg bg-white-A700 p-3 hover:bg-gray-200">
         <Link to={`/profile/${friend.id}`} className="grow">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center space-x-2">
             <Avatar
               size="sm"
               name={friend.username}
               avatar={friend.profilePicture}
+              otherClasses={`inline`}
             />
-            <span>{friend.username}</span>
+
+            <span className="inline-block w-[150px] break-words text-sm">
+              {friend.username}
+            </span>
           </div>
         </Link>
         {status === NOT_FRIENDS_RETURNED_FRIEND_SEARCH && (
@@ -71,7 +75,7 @@ export default function FriendItem({ friend }) {
               name={`already_friends_${friend.id}_${user.id}`}
               customRender={true}
               render={(click) => (
-                <span className="font-semibold" onClick={click}>
+                <span className="text-sm font-semibold" onClick={click}>
                   Friends
                 </span>
               )}
@@ -99,7 +103,9 @@ export default function FriendItem({ friend }) {
                     customRender={true}
                     name={`request_sent_${friend.id}_${user.id}`}
                     render={(click) => (
-                      <span onClick={click}>Request sent</span>
+                      <span onClick={click} className="text-sm font-semibold">
+                        Request sent
+                      </span>
                     )}
                   />
                   <Menu.MenuList name={`request_sent_${friend.id}_${user.id}`}>

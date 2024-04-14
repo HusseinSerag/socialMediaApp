@@ -13,17 +13,20 @@ import { IoCreateOutline } from "react-icons/io5";
 import { IoLogOutOutline } from "react-icons/io5";
 
 import { useLogout } from "../features/auth/useLogout";
+import useNavigateTo from "../hooks/useNavigateTo";
 
 const className = " font-semibold text-sm ";
 export default function Navbar({ onClick: close }) {
   const { user, isLoading, error } = useUser();
   const { logout, isPending } = useLogout();
   const authenticated = Boolean(user?.id);
+  const go = useNavigateTo();
 
   if (isLoading || isPending) return;
 
   function onClick() {
     logout();
+    go("/login");
     close();
   }
   return (

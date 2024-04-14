@@ -84,7 +84,11 @@ export default function UserProfile({
               avatar={user?.profilePicture}
               size="lg"
             />
-            <Heading as="h1" size="xl" className=" font-bold">
+            <Heading
+              as="h1"
+              size="xl"
+              className="w-[250px] break-words text-center font-bold"
+            >
               {user?.username} {isUser && "(You)"}
             </Heading>
             {!isUser && (
@@ -161,7 +165,7 @@ export default function UserProfile({
         </div>
       </Card>
       <div className="sm:p-8">
-        <Heading as="h1" className="mb-4" size="2xl">
+        <Heading as="h1" className="mb-4 break-words" size="2xl">
           {isUser ? "Your" : `${user?.username}'s`} Posts
         </Heading>
         {canSeeAccountPost ? (
