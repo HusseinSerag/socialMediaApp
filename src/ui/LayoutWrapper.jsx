@@ -18,7 +18,7 @@ export default function LayoutWrapper() {
     <>
       <NotificationsReceived />
       <div className=" mx-auto justify-center gap-6 p-4 sm:flex ">
-        <div className="fixed bottom-5 left-5 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-white-A700 shadow-lg  md:hidden">
+        <div className="fixed bottom-5 left-5 z-[100] flex h-14 w-14 items-center justify-center rounded-full bg-white-A700 shadow-lg   md:hidden">
           <IoMdMenu
             className=" h-10 w-10 cursor-pointer "
             onClick={() => setIsOpen((o) => !o)}
@@ -33,7 +33,7 @@ export default function LayoutWrapper() {
             ></div>
           )}
         </div>
-        <main className="order-1 w-full max-w-[600px]  sm:order-4 ">
+        <main className="order-1 w-full max-w-[800px]  sm:order-4 ">
           <Outlet />
         </main>
       </div>

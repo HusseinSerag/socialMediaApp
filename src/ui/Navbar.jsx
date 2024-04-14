@@ -22,9 +22,7 @@ export default function Navbar({ onClick: close }) {
   const { logout, isPending } = useLogout();
   const authenticated = Boolean(user?.id);
   const go = useNavigateTo();
-  const {
-    notifications: { data },
-  } = useGetNotifications();
+  const { notifications: { data = [] } = {} } = useGetNotifications();
 
   if (isLoading || isPending) return;
 
@@ -37,8 +35,8 @@ export default function Navbar({ onClick: close }) {
     close();
   }
   return (
-    <nav className="fixed bottom-28 z-[30]  order-2  flex rounded-lg bg-white-A700 shadow-sm md:static  md:h-max ">
-      <ul className=" flex flex-col  items-center justify-between gap-4 px-4 py-4 md:relative  md:py-10 ">
+    <nav className="fixed bottom-28 z-[30]  order-2  flex rounded-lg bg-white-A700 shadow-sm md:static md:h-max md:w-[30vw] md:max-w-[400px] ">
+      <ul className=" flex w-full  flex-col items-center justify-between gap-4 px-4 py-4 md:relative  md:py-10 ">
         {authenticated && (
           <>
             <Link
