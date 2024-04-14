@@ -33,7 +33,7 @@ export default function LayoutWrapper() {
             ></div>
           )}
         </div>
-        <main className="order-1 w-full max-w-[600px] overflow-auto sm:order-4 ">
+        <main className="order-1 w-full max-w-[600px]  sm:order-4 ">
           <Outlet />
         </main>
       </div>
