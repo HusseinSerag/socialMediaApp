@@ -18,7 +18,7 @@ export default function useIfFriendIsUser() {
   );
   const { isLoadingAreFriends, areFriends } = useIfFriends(user?.id ?? "");
 
-  const usersAreFriends = areFriends === FRIENDS_RETURNED_FRIEND_SEARCH;
+  const usersAreFriends = areFriends?.status === FRIENDS_RETURNED_FRIEND_SEARCH;
   return {
     isLoading,
     error,

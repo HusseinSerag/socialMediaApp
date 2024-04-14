@@ -11,7 +11,7 @@ import { throwError } from "../utils/helpers";
 import supabase from "./supabase";
 
 export async function areFriends(userID, ID) {
-  if (!ID) return {};
+  if (!ID) return { status: "wrongValue" };
   const query = `and(friend1.eq.${userID},friend2.eq.${ID}),and(friend1.eq.${ID},friend2.eq.${userID})`;
 
   const { data, error } = await supabase
@@ -66,7 +66,7 @@ export async function userFriends({ id, status }) {
   const query = `friend1.eq.${id},friend2.eq.${id}`;
   const { data, error } = await supabase
     .from(FRIENDS_TABLE_NAME)
-    .select(`friend1,friend2`)
+    .select(`*`)
     .eq("requestStatus", status)
     .or(query);
 
@@ -74,8 +74,8 @@ export async function userFriends({ id, status }) {
     throwError(error.message, error.code);
   }
 
-  const friendsData = Promise.all(
-    data.map(async (item) => {
+  const friendsData = Promise.all([
+    ...data.map(async (item) => {
       if (item.friend1 === id) {
         let { data, error } = await supabase
           .from(USER_TABLE_NAME)
@@ -100,7 +100,7 @@ export async function userFriends({ id, status }) {
         return data;
       }
     }),
-  );
+  ]);
 
   return (await friendsData).flat();
 }

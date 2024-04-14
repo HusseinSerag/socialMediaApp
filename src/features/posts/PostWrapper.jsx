@@ -8,7 +8,11 @@ import PostsContainer from "./PostsContainer";
 import { useGetPosts } from "./useGetPosts";
 
 export default function PostWrapper({ id = "", homepage = false, user = {} }) {
-  const { posts, isLoading: isLoadingPosts } = useGetPosts({
+  const {
+    posts,
+    isLoading: isLoadingPosts,
+    isFetching,
+  } = useGetPosts({
     id,
     homepage,
     user,
