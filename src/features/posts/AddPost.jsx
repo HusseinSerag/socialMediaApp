@@ -24,6 +24,7 @@ export default function AddPost() {
     removeImage,
     sortBefore,
     photos,
+    reset,
   } = useHandlePhotos();
   const { addPost, isPending } = useAddPost();
   const { user } = useUser();
@@ -40,8 +41,7 @@ export default function AddPost() {
         {
           onSuccess: () => {
             setText("");
-            setPreview("");
-            setPhotos([]);
+            reset();
             toast.success("Post Added");
           },
         },
@@ -58,7 +58,7 @@ export default function AddPost() {
           maxLength={MAX_CHAR_POST}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className=" dark:text-white  h-14 grow  resize-none rounded-lg p-3"
+          className="dark:text-white h-18 grow resize-none  rounded-lg  p-3 text-sm placeholder:text-sm"
         />
       </div>
       {preview.length !== 0 && (
@@ -78,18 +78,6 @@ export default function AddPost() {
         </div>
       )}
       <div className="mt-2 flex items-center gap-5">
-        <div>
-          <Button className="gap-2 [&>svg]:h-5 [&>svg]:w-5" color="" size="">
-            <CiLocationOn />
-            Check in
-          </Button>
-        </div>
-        <div>
-          <Button className="gap-2 [&>svg]:h-5 [&>svg]:w-5" color="" size="">
-            <MdOutlineMood />
-            Mood
-          </Button>
-        </div>
         <div>
           <Button color="" size="">
             <label

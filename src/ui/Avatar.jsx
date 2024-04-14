@@ -1,7 +1,7 @@
 export default function Avatar({ avatar, name, size, forwardedRef }) {
   const preview = {
-    sm: "h-[40px] w-[40px]",
-    lg: "h-[180px] w-[180px]",
+    sm: "h-[40px] w-[40px] min-w-[40px] min-h-[40px]",
+    lg: "h-[180px] w-[180px] min-w-[180px] min-h-[180px]",
   };
   return (
     <img

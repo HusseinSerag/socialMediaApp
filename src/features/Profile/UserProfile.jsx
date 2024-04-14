@@ -18,6 +18,7 @@ import {
 } from "../../utils/Constants";
 
 import PrivateAccountIndicator from "../../ui/PrivateAccountIndicator";
+import Card from "../../ui/Card";
 
 export default function UserProfile({
   isLoading,
@@ -64,100 +65,102 @@ export default function UserProfile({
     isUser || accountType === PUBLIC_ACCOUNT_TYPE || usersAreFriends;
   return (
     <>
-      <div className=" flex flex-col  items-center bg-gray-200 py-12">
-        <div className="relative flex w-[70%] max-w-[400px] flex-col items-center gap-4 rounded-lg bg-white-A700_cc py-12">
-          <Button
-            color="gray_500"
-            variant="outline"
-            className="absolute left-2 top-2 rounded-lg"
-            onClick={() => goBack()}
-          >
-            Back
-          </Button>
-          {isUser && (
-            <FiEdit2 className="absolute right-2 top-2 h-5 w-5 cursor-pointer" />
-          )}
-          <Avatar
-            name={user?.username}
-            avatar={user?.profilePicture}
-            size="lg"
-          />
-          <Heading as="h1" size="xl" className=" font-bold">
-            {user?.username} {isUser && "(You)"}
-          </Heading>
-          {!isUser && (
-            <Heading as="h2" size="m">
-              {!usersAreFriends ? (
-                <button>Add Friend </button>
-              ) : (
-                <button>Unfriend</button>
-              )}
+      <Card>
+        <div className="  flex flex-col  items-center">
+          <div className="relative flex w-full max-w-[400px] flex-col items-center gap-4 rounded-lg bg-white-A700_cc py-12">
+            <Button
+              color="gray_500"
+              variant="outline"
+              className="absolute left-2 top-2 rounded-lg"
+              onClick={() => goBack()}
+            >
+              Back
+            </Button>
+            {isUser && (
+              <FiEdit2 className="absolute right-2 top-2 h-5 w-5 cursor-pointer" />
+            )}
+            <Avatar
+              name={user?.username}
+              avatar={user?.profilePicture}
+              size="lg"
+            />
+            <Heading as="h1" size="xl" className=" font-bold">
+              {user?.username} {isUser && "(You)"}
             </Heading>
-          )}
-          <Heading as="h2" size="s" className="font-extralight text-gray-600">
-            {user?.email}
-          </Heading>
+            {!isUser && (
+              <Heading as="h2" size="m">
+                {!usersAreFriends ? (
+                  <button>Add Friend </button>
+                ) : (
+                  <button>Unfriend</button>
+                )}
+              </Heading>
+            )}
+            <Heading as="h2" size="s" className="font-extralight text-gray-600">
+              {user?.email}
+            </Heading>
 
-          <div className="mt-2 flex gap-6">
-            <span className="flex gap-2">
-              <span className="font-semibold">{posts?.length}</span>
-              <span className="text-gray-500">Posts</span>
-            </span>
-            <span className="flex gap-2">
-              <span className="font-semibold">{friends?.length}</span>
-              <span className="text-gray-500">
-                Friend{friends?.length > 1 ? "s" : ""}
+            <div className="mt-2 flex gap-6">
+              <span className="flex gap-2">
+                <span className="font-semibold">{posts?.length}</span>
+                <span className="text-gray-500">Posts</span>
               </span>
-            </span>
-          </div>
-          <div className="mt-4 w-full px-4">
-            <Heading
-              as="h2"
-              size="lg"
-              className="mb-2 font-semibold uppercase tracking-wide"
-            >
-              About
-            </Heading>
-            <p className="text-[13px] text-gray-600">
-              {user?.bio
-                ? user?.bio
-                : isUser
-                  ? "Hmmmm it seems you don't have a bio yet, edit this and add your bio!"
-                  : `${user.username} doesn't seem to have a bio at the moment!`}
-            </p>
-          </div>
-          <div className="mt-4 w-full px-4">
-            <Heading
-              as="h2"
-              size="lg"
-              className="mb-2 font-semibold uppercase tracking-wide"
-            >
-              Birthday
-            </Heading>
-            <p className="text-[13px] text-gray-600">
-              {format(
-                new Date(user?.birthdate || new Date().toISOString()),
-                "dd MMM uuuu",
-              )}
-            </p>
-          </div>
-          <div className="mt-4 w-full px-4">
-            <Heading
-              as="h2"
-              size="lg"
-              className="mb-2 font-semibold uppercase tracking-wide"
-            >
-              Friends
-            </Heading>
-            <div className="flex flex-wrap space-x-3">
-              {friends?.map((friend) => (
-                <FriendIconOnUserProfile friend={friend} key={friend.id} />
-              ))}
+              <span className="flex gap-2">
+                <span className="font-semibold">{friends?.length}</span>
+                <span className="text-gray-500">
+                  Friend{friends?.length > 1 ? "s" : ""}
+                </span>
+              </span>
+            </div>
+            <div className="mt-4 w-full px-4">
+              <Heading
+                as="h2"
+                size="lg"
+                className="mb-2 font-semibold uppercase tracking-wide"
+              >
+                About
+              </Heading>
+              <p className="text-[13px] text-gray-600">
+                {user?.bio
+                  ? user?.bio
+                  : isUser
+                    ? "Hmmmm it seems you don't have a bio yet, edit this and add your bio!"
+                    : `${user.username} doesn't seem to have a bio at the moment!`}
+              </p>
+            </div>
+            <div className="mt-4 w-full px-4">
+              <Heading
+                as="h2"
+                size="lg"
+                className="mb-2 font-semibold uppercase tracking-wide"
+              >
+                Birthday
+              </Heading>
+              <p className="text-[13px] text-gray-600">
+                {format(
+                  new Date(user?.birthdate || new Date().toISOString()),
+                  "dd MMM uuuu",
+                )}
+              </p>
+            </div>
+            <div className="mt-4 w-full px-4">
+              <Heading
+                as="h2"
+                size="lg"
+                className="mb-2 font-semibold uppercase tracking-wide"
+              >
+                Friends
+              </Heading>
+              <div className="flex flex-wrap space-x-3">
+                {friends?.map((friend) => (
+                  <FriendIconOnUserProfile friend={friend} key={friend.id} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="p-8">
+      </Card>
+      <div className="sm:p-8">
         <Heading as="h1" className="mb-4" size="2xl">
           {isUser ? "Your" : `${user?.username}'s`} Posts
         </Heading>

@@ -4,6 +4,10 @@ export default function useHandlePhotos() {
   const [photos, setPhotos] = useState([]);
   const [preview, setPreview] = useState([]);
 
+  function reset() {
+    setPreview([]);
+    setPhotos([]);
+  }
   function handleFileInputChange(e) {
     const files = e.target.files;
 
@@ -23,7 +27,6 @@ export default function useHandlePhotos() {
     const newArr = preview.slice();
     const filesArr = Array.from(photos).slice();
 
-    console.log(filesArr);
     if (destination === preview.length - 1) {
       newArr.splice(destination + 1, 0, element);
       filesArr.splice(destination + 1, 0, fileEl);
@@ -61,5 +64,6 @@ export default function useHandlePhotos() {
     handleFileInputChange,
     preview,
     photos,
+    reset,
   };
 }

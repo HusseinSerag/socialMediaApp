@@ -14,8 +14,8 @@ import { IoLogOutOutline } from "react-icons/io5";
 
 import { useLogout } from "../features/auth/useLogout";
 
-const className = "hidden sm:block font-semibold text-sm ";
-export default function Navbar() {
+const className = " font-semibold text-sm ";
+export default function Navbar({ onClick: close }) {
   const { user, isLoading, error } = useUser();
   const { logout, isPending } = useLogout();
   const authenticated = Boolean(user?.id);
@@ -23,16 +23,18 @@ export default function Navbar() {
   if (isLoading || isPending) return;
 
   function onClick() {
+    close();
     logout();
   }
   return (
-    <nav className="order-2  flex h-[100px] rounded-lg  bg-white-A700 shadow-sm sm:h-max">
-      <ul className="flex w-full items-center justify-between gap-4 px-4 sm:flex-col sm:items-start sm:py-10">
+    <nav className="fixed bottom-28 z-[30]  order-2  flex rounded-lg bg-white-A700 shadow-sm md:static  md:h-max ">
+      <ul className=" flex flex-col  items-center justify-between gap-4 px-4 py-4 md:relative  md:py-10 ">
         {authenticated && (
           <>
             <Link
               className=" mt-0 flex w-auto justify-center rounded-md sm:w-full"
               to={`you`}
+              onClick={close}
             >
               <Avatar
                 name={user.username}
@@ -40,25 +42,25 @@ export default function Navbar() {
                 size="sm"
               />
             </Link>
-            <NavLink className={`sm:w-full`} to="/">
+            <NavLink onClick={close} className={`w-full`} to="/">
               <NavItem className="w-auto rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
                 <FaHome className="" />
                 <div className={className}>Home</div>
               </NavItem>
             </NavLink>
-            <NavLink className="sm:w-full" to="/search">
+            <NavLink onClick={close} className="w-full" to="/search">
               <NavItem className="w-auto rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
                 <GrSearch className="" />
                 <div className={className}>Friends</div>
               </NavItem>
             </NavLink>
-            <NavLink className="sm:w-full" to="/saved">
+            <NavLink onClick={close} className="w-full" to="/saved">
               <NavItem className="rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
                 <IoBookmarksOutline />
                 <div className={className}>Saved Posts</div>
               </NavItem>
             </NavLink>
-            <NavLink className="sm:w-full" to="/notifications">
+            <NavLink onClick={close} className="w-full" to="/notifications">
               <NavItem className="rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full">
                 <FaRegBell className="" />
                 <div className={className}>Notifications</div>
@@ -67,7 +69,7 @@ export default function Navbar() {
 
             <NavItem
               onClick={onClick}
-              className="rounded-md  bg-white-A700 p-4 shadow-md shadow-gray-300 sm:w-full"
+              className="w-full  rounded-md bg-white-A700 p-4 shadow-md shadow-gray-300"
             >
               <IoLogOutOutline />
               <div className={className}> Logout</div>

@@ -99,30 +99,60 @@ export default function Post({ post }) {
 
   return (
     <Card>
-      <div className="flex gap-3">
-        <Avatar
-          size="sm"
-          name={post.users.username}
-          avatar={post.users.profilePicture}
-        />
-        <div className="w-full">
-          <div className=" mb-3 flex  flex-col gap-1">
+      <div>
+        <div className="flex gap-3">
+          <Avatar
+            size="sm"
+            name={post.users.username}
+            avatar={post.users.profilePicture}
+          />
+          <div className="flex flex-col gap-2">
             <Link to={isUser ? "/you" : `/profile/${post.users.id}`}>
-              <span className="text-sm ">
-                <span className="font-semibold">
+              <span className="text-xs sm:text-sm ">
+                <span className=" font-semibold">
                   {isUser ? "You " : post.users.username + " "}
                 </span>
                 shared a<span className="text-socialBlue"> post</span>
               </span>
             </Link>
 
-            <span className="text-xs font-light text-gray-600">
+            <span className="text-[11px] font-light text-gray-600 sm:text-xs">
               {formatDistanceToNow(date, {
                 addSuffix: true,
                 includeSeconds: true,
               })}
             </span>
           </div>
+          <div className="ml-auto">
+            <span className="relative ml-auto">
+              {isUser && (
+                <>
+                  <Menu.Toggle name={post.id} />
+                  <Menu.MenuList name={post.id}>
+                    {isUser && (
+                      <Modal.Toggle
+                        opens={"delete" + post.id}
+                        render={(click) => (
+                          <Menu.Action onClick={click}>
+                            <span className=" flex w-max items-center gap-2 rounded-lg">
+                              <MdOutlineDelete className="h-5 w-5 font-semibold" />{" "}
+                              <span className="cursor-pointer text-sm font-semibold">
+                                {" "}
+                                Delete Post
+                              </span>
+                            </span>
+                          </Menu.Action>
+                        )}
+                      />
+                    )}
+                  </Menu.MenuList>
+                </>
+              )}
+            </span>
+          </div>
+        </div>
+        <div className="w-full">
+          <div className=" mb-3 flex  flex-col gap-1"></div>
 
           <div className="my-3">{post.postContent}</div>
           {post?.postPhotos?.length > 0 && (
@@ -192,30 +222,6 @@ export default function Post({ post }) {
             </div>
           </div>
           <AddComment user={user} post={post} />
-        </div>
-
-        <div>
-          <span className="relative ml-auto">
-            <Menu.Toggle name={post.id} />
-            <Menu.MenuList name={post.id}>
-              {isUser && (
-                <Modal.Toggle
-                  opens={"delete" + post.id}
-                  render={(click) => (
-                    <Menu.Action onClick={click}>
-                      <span className=" flex w-max items-center gap-2 rounded-lg">
-                        <MdOutlineDelete className="h-5 w-5 font-semibold" />{" "}
-                        <span className="cursor-pointer text-sm font-semibold">
-                          {" "}
-                          Delete Post
-                        </span>
-                      </span>
-                    </Menu.Action>
-                  )}
-                />
-              )}
-            </Menu.MenuList>
-          </span>
         </div>
       </div>
 

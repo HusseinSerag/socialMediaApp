@@ -36,13 +36,13 @@ export default function PostImage({ postPhotos }) {
         <Modal.Toggle
           opens={`post_id_${id}`}
           render={(click) => (
-            <>
+            <div className="h-[500px] max-h-[500px] ">
               <img
                 onClick={click}
                 src={src}
-                className="h-full max-h-[500px] min-h-[500px] w-full cursor-pointer object-cover"
+                className="hidden h-full w-full min-w-[300px] max-w-full cursor-pointer object-scale-down sm:block"
               />
-            </>
+            </div>
           )}
         />
         {postPhotos.length > 1 && (
