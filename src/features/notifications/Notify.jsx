@@ -4,6 +4,11 @@ import { IoClose } from "react-icons/io5";
 import { useUpdateNotifcations } from "./useUpdateNotification";
 import { formatDistanceToNow } from "date-fns";
 import { useDeleteNotifcations } from "./useDeleteNotification";
+import { IoCloseSharp } from "react-icons/io5";
+
+import { ImCheckmark } from "react-icons/im";
+import { IoMdClose } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 export default function Notify({ notify }) {
   const { update, isPending } = useUpdateNotifcations();
@@ -26,32 +31,48 @@ export default function Notify({ notify }) {
     }
   }
 
+  console.log(notify);
   const { created_at } = notify;
   const date = new Date(created_at);
+  let component;
   switch (notify.reason) {
     case NOTIFICATION_REASON_FRIEND_REQUEST:
-      return (
-        <Card
-          className={`cursor-pointer hover:bg-gray-200 ${notify.read ? "bg-gray-200" : "bg-white-A700"}`}
-        >
-          <div className="flex justify-between" onClick={updateNotification}>
-            <div className="flex flex-col gap-2">
-              <div>
-                You got a friend request from {notify.additionalData.username}
-              </div>
-              <div className="text-sm text-gray-800">
-                {formatDistanceToNow(date, {
-                  addSuffix: true,
-                  includeSeconds: true,
-                })}
-              </div>
-            </div>
-            <IoClose
-              onClick={deleteNotification}
-              className="h-6 w-6 cursor-pointer  hover:text-gray-800"
-            />
+      component = (
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-center gap-1">
+            <span className="flex gap-1 text-sm">
+              You got a friend request from{" "}
+              <Link to={`/profile/${notify.additionalData.sentID}`}>
+                <span className="hover:underline">
+                  {` ${notify.additionalData.username}`}
+                </span>
+              </Link>
+            </span>
           </div>
-        </Card>
+
+          <div className="text-xs text-gray-800">
+            {formatDistanceToNow(date, {
+              addSuffix: true,
+              includeSeconds: true,
+            })}
+          </div>
+        </div>
       );
   }
+  return (
+    <Card
+      className={`cursor-pointer hover:bg-gray-200 ${notify.read ? "bg-gray-200" : "bg-white-A700"}`}
+    >
+      <div
+        className="flex items-center justify-between"
+        onClick={updateNotification}
+      >
+        {component}
+        <IoClose
+          onClick={deleteNotification}
+          className="h-6 w-6 cursor-pointer  hover:text-gray-800"
+        />
+      </div>
+    </Card>
+  );
 }

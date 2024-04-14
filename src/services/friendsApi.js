@@ -119,6 +119,8 @@ export async function sendFriendRequest(id1, id2, username) {
     reason: NOTIFICATION_REASON_FRIEND_REQUEST,
     additionalData: {
       username,
+      sentID: id1,
+      acceptID: data.id,
     },
   });
   return data;

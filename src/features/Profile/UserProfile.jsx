@@ -77,11 +77,10 @@ export default function UserProfile({
     isUser || accountType === PUBLIC_ACCOUNT_TYPE || usersAreFriends;
 
   let whoRecievedRequest;
-  if (areFriends.status === PENDING_RETURNED_FRIEND_SEARCH)
+  if (areFriends?.status === PENDING_RETURNED_FRIEND_SEARCH)
     whoRecievedRequest =
       areFriends.friend1 === loggedInUser?.id ? loggedInUser : friend;
 
-  console.log(areFriends, whoRecievedRequest);
   return (
     <Menu>
       <Card>

@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import useGetUser from "../Profile/useGetUser";
 import { getNotification } from "../../services/notificationsApi";
+import { useUser } from "../auth/useUser";
 
 export default function useGetNotifications() {
-  const { user } = useGetUser();
+  const { user } = useUser();
 
   const {
     data: notifications,

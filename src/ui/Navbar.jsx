@@ -22,11 +22,13 @@ export default function Navbar({ onClick: close }) {
   const { logout, isPending } = useLogout();
   const authenticated = Boolean(user?.id);
   const go = useNavigateTo();
-  const { notifications } = useGetNotifications();
+  const {
+    notifications: { data },
+  } = useGetNotifications();
 
   if (isLoading || isPending) return;
 
-  const numberOfNotifications = notifications?.filter(
+  const numberOfNotifications = data?.filter(
     (notify) => notify.read === false,
   ).length;
   function onClick() {

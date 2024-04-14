@@ -4,9 +4,9 @@ import supabase from "./supabase";
 
 export async function getNotification({ id }) {
   if (!id) return [];
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from(NOTIFICATIONS_TABLE_NAME)
-    .select("*")
+    .select("*", { count: "exact" })
     .eq("userId", id)
     .order("created_at", { ascending: false });
 
@@ -14,7 +14,7 @@ export async function getNotification({ id }) {
     throwError(error.message, error.code);
   }
 
-  return data;
+  return { data, count };
 }
 
 export async function updateNotification({ obj, id }) {
