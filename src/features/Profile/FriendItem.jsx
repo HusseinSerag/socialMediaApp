@@ -56,14 +56,25 @@ export default function FriendItem({ friend }) {
           </div>
         </Link>
         {status === NOT_FRIENDS_RETURNED_FRIEND_SEARCH && (
-          <Button onClick={addFriendRequest}>Add Friend</Button>
+          <Button
+            size=""
+            color=""
+            className="rounded-lg bg-blue-400 p-2 text-sm font-semibold text-white-A700"
+            onClick={addFriendRequest}
+          >
+            Add Friend
+          </Button>
         )}
         {status === FRIENDS_RETURNED_FRIEND_SEARCH && (
           <div className="relative">
             <Menu.Toggle
               name={`already_friends_${friend.id}_${user.id}`}
               customRender={true}
-              render={(click) => <span onClick={click}>Friends</span>}
+              render={(click) => (
+                <span className="font-semibold" onClick={click}>
+                  Friends
+                </span>
+              )}
             />
             <Menu.MenuList name={`already_friends_${friend.id}_${user.id}`}>
               <Menu.Action>

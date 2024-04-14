@@ -23,8 +23,8 @@ export default function Navbar({ onClick: close }) {
   if (isLoading || isPending) return;
 
   function onClick() {
-    close();
     logout();
+    close();
   }
   return (
     <nav className="fixed bottom-28 z-[30]  order-2  flex rounded-lg bg-white-A700 shadow-sm md:static  md:h-max ">
