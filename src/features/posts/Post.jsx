@@ -69,8 +69,6 @@ export default function Post({ post }) {
   const numberOfComments = comments.count;
   const numberOfSavedPosts = savedPosts.length;
 
-  console.log(comments);
-
   const userLikedThisPost = likes.find((post) => post.users.id === user.id);
   const userSavedThisPost = savedPosts.find(
     (post) => post.users.id === user.id,
