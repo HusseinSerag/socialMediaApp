@@ -22,19 +22,15 @@ export default function UploadPhoto() {
   const go = useNavigateTo();
   const { isPending, uploadAvatar } = useUpdatePhoto();
   const [file, setFile] = useState(null);
-  const ref = useRef();
+  const [preview, setPreview] = useState(null);
 
-  useEffect(
-    function () {
-      if (!file) return;
-      const reader = new FileReader();
-      reader.addEventListener("load", (e) => {
-        ref.current.src = e.target.result;
-      });
-      reader.readAsDataURL(file);
-    },
-    [file],
-  );
+  function handleInputPhoto(e) {
+    const file = e.target.files[0];
+    setFile(file);
+    const photoObj = URL.createObjectURL(file);
+    setPreview(photoObj);
+  }
+
   const {
     handleSubmit,
     register,
@@ -81,7 +77,7 @@ export default function UploadPhoto() {
     );
   }
 
-  const prfPic = user.profilePicture || `/defaultPrfPic.jpg`;
+  const prfPic = preview || `/defaultPrfPic.jpg`;
 
   return (
     <>
@@ -101,12 +97,7 @@ export default function UploadPhoto() {
             <Form.Row>
               <div className="relative flex flex-col items-center justify-center gap-4">
                 <div className="relative">
-                  <Avatar
-                    avatar={prfPic}
-                    size="lg"
-                    name={`${user.username}`}
-                    forwardedRef={ref}
-                  />
+                  <Avatar avatar={prfPic} size="lg" name={`${user.username}`} />
                   <label className="text-white absolute bottom-0 right-0 text-[1.25rem] font-bold ">
                     <input
                       type="file"
@@ -116,9 +107,7 @@ export default function UploadPhoto() {
                       })}
                       accept="image/*"
                       className="absolute h-[0.1px] w-[0.1px] appearance-none"
-                      onChange={(e) => {
-                        setFile(e.target.files[0]);
-                      }}
+                      onChange={handleInputPhoto}
                     />
                     <div className=" flex h-[70px] w-[70px] items-center justify-center rounded-full border bg-white-A700">
                       <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-indigo-A200">

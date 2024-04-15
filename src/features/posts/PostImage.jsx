@@ -23,10 +23,10 @@ export default function PostImage({ postPhotos }) {
           className="absolute left-0 top-[50%]  h-12 w-12 cursor-pointer"
         />
       )}
-      <div className="h-[500px] max-h-[500px] ">
+      <div className=" max-h-[500px] bg-gray-100 ">
         <img
           src={src}
-          className=" h-full w-full min-w-[300px] max-w-full cursor-pointer object-scale-down "
+          className=" h-full w-full min-w-[300px] max-w-full cursor-pointer object-contain "
         />
       </div>
       {postPhotos.length > 1 && (
