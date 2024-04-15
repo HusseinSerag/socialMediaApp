@@ -10,6 +10,9 @@ import { useState } from "react";
 import { Input } from "../../ui/Input";
 import { useEditComment } from "./useEditComment";
 import toast from "react-hot-toast";
+import Modal from "../../ui/Modal";
+import ConfirmModal from "../../ui/ConfirmModal";
+import { useDeleteComment } from "./useDeleteComment";
 
 export default function Comment({ comment }) {
   const { user } = useUser();
@@ -19,8 +22,12 @@ export default function Comment({ comment }) {
   const [text, setText] = useState(comment.commentContent);
 
   const { mutate: editComment, isPending: isEditing } = useEditComment();
+  const { mutate: deleteComment, isPending: isDeleting } = useDeleteComment();
   function writeText(text) {
     setText(text);
+  }
+  function deleteTheComment() {
+    deleteComment({ id: comment.id });
   }
   function edit() {
     if (text === comment.commentContent) {
@@ -30,15 +37,16 @@ export default function Comment({ comment }) {
       toast.error("Cannot have an empty comment");
       return;
     }
-    editComment(
-      { commentContent: text, id: comment.id },
-      {
-        onSuccess: () => {
-          toast.success("Comment edited!");
-          closeEditMode();
+    if (!isEditing)
+      editComment(
+        { commentContent: text, id: comment.id },
+        {
+          onSuccess: () => {
+            toast.success("Comment edited!");
+            closeEditMode();
+          },
         },
-      },
-    );
+      );
   }
   function openEditMode() {
     setEditMode(true);
@@ -76,14 +84,19 @@ export default function Comment({ comment }) {
               name={`menu_toggle_${comment.id}`}
             >
               <Menu.Action>
-                {" "}
-                <Button
-                  className="flex items-center gap-2 text-sm font-semibold"
-                  size=""
-                  color=""
-                >
-                  <MdDeleteOutline className="h-4 w-4" /> Delete
-                </Button>
+                <Modal.Toggle
+                  opens={`modal_toggle_${comment.id}`}
+                  render={(click) => (
+                    <Button
+                      className="flex items-center gap-2 text-sm font-semibold"
+                      size=""
+                      color=""
+                      onClick={click}
+                    >
+                      <MdDeleteOutline className="h-4 w-4" /> Delete
+                    </Button>
+                  )}
+                />{" "}
               </Menu.Action>
               {isUser && (
                 <Menu.Action onClick={openEditMode}>
@@ -97,6 +110,17 @@ export default function Comment({ comment }) {
                 </Menu.Action>
               )}
             </Menu.MenuList>
+            <Modal.Content
+              render={(close) => (
+                <ConfirmModal
+                  onClose={close}
+                  disabled={isDeleting}
+                  onConfirm={deleteTheComment}
+                  resourceName="comment"
+                />
+              )}
+              name={`modal_toggle_${comment.id}`}
+            />
           </div>
         )}
       </div>
@@ -112,7 +136,6 @@ export default function Comment({ comment }) {
             className="grow"
             size="md"
             value={text}
-            defaultValue={comment.commentContent}
             onChange={(e) => writeText(e.target.value)}
           />
           <Button

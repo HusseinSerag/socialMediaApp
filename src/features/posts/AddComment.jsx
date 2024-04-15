@@ -68,7 +68,7 @@ export default function AddComment({ post, toggleOpenComment }) {
         className="h-12 grow resize-none overflow-hidden rounded-full border border-gray-400 px-4 py-3 "
         placeholder="leave a comment"
       />
-      <VscSend className="h-8 w-8" onClick={add} />
+      <VscSend className="h-8 w-8 cursor-pointer" onClick={add} />
     </div>
   );
 }

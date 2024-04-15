@@ -242,3 +242,14 @@ export async function editComment({ commentContent, id }) {
 
   return data;
 }
+
+export async function deleteComment({ id }) {
+  const { error } = await supabase
+    .from(COMMENTS_TABLE_NAME)
+    .delete()
+    .eq("id", id)
+    .select();
+  if (error) {
+    throwError(error.message, error.code);
+  }
+}
