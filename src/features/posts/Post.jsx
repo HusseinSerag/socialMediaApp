@@ -29,6 +29,7 @@ import toast from "react-hot-toast";
 import useSavePost from "./useSavePost";
 import { useGetSavedPosts } from "./useGetSavedPosts";
 import useUnsavePost from "./useUnsavePost";
+import { useState } from "react";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
@@ -56,6 +57,8 @@ export default function Post({ post }) {
   const { mutate: unlikePost, isPending: isUnliking } = useUnlikePost();
 
   const { mutate: unsavePost, isPending: isUnsaving } = useUnsavePost();
+
+  const [seeComment, setSeeComment] = useState(false);
 
   if (isLoadingLikes || isLoadingComments || isLoadingSaved) return;
 
@@ -160,7 +163,9 @@ export default function Post({ post }) {
           )}
           <div className="mt-4 flex space-x-8">
             <span className="flex cursor-pointer items-center gap-1">
-              {numberOfComments}
+              <span onClick={() => setSeeComment((c) => !c)}>
+                {numberOfComments}
+              </span>
               <FaRegComment className="h-[17px] w-[17px]" />
             </span>
 
@@ -248,6 +253,8 @@ export default function Post({ post }) {
           resourceName={"post"}
         />
       </div>
+
+      {seeComment && "Hello"}
     </Card>
   );
 }
