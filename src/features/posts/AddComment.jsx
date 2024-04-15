@@ -1,8 +1,43 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Avatar from "../../ui/Avatar";
+import { VscSend } from "react-icons/vsc";
+import { useAddComment } from "./useAddComment";
+import { useUser } from "../auth/useUser";
+import toast from "react-hot-toast";
 
-export default function AddComment({ post, user }) {
+export default function AddComment({ post, toggleOpenComment }) {
+  const { mutate: addComment, isPending: isAddingComment } = useAddComment();
+  const [text, setText] = useState("");
+  const { user } = useUser();
+
+  function add() {
+    if (text.length === 0) {
+      toast.error("Cannot have an empty comment!");
+      return;
+    }
+    if (!isAddingComment) {
+      addComment(
+        {
+          obj: {
+            postId: post.id,
+            commentedUser: user.id,
+            commentContent: text,
+          },
+        },
+        {
+          onSuccess: () => {
+            toast.success("Comment added!");
+            setText("");
+          },
+        },
+      );
+    }
+  }
   const commentRef = useRef(null);
+
+  function onClick() {
+    toggleOpenComment();
+  }
   useEffect(function () {
     const textarea = commentRef.current;
 
@@ -21,15 +56,19 @@ export default function AddComment({ post, user }) {
     return () => textarea.removeEventListener("input", changeTextAreaHeight);
   }, []);
   return (
-    <div className="mt-4 flex gap-3">
+    <div className="mt-4 flex items-center gap-3">
       <div>
         <Avatar avatar={user.profilePicture} name={user.username} size="sm" />
       </div>
       <textarea
+        onClick={onClick}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
         ref={commentRef}
         className="h-12 grow resize-none overflow-hidden rounded-full border border-gray-400 px-4 py-3 "
         placeholder="leave a comment"
       />
+      <VscSend className="h-8 w-8" onClick={add} />
     </div>
   );
 }

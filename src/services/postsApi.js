@@ -8,6 +8,7 @@ import {
   AVATAR_BUCKET_NAME,
   FRIENDS_TABLE_NAME,
   SAVED_POSTS_TABLE_NAME,
+  NOTIFICATIONS_TABLE_NAME,
 } from "../utils/Constants";
 import { getAssetURL, throwError } from "../utils/helpers";
 import { userFriends } from "./friendsApi";
@@ -153,10 +154,13 @@ export async function getLikes({ postId }) {
 
 export async function getComments({ postId }) {
   if (!postId) return;
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from(COMMENTS_TABLE_NAME)
-    .select(`*,${USER_TABLE_NAME}(*),${POSTS_TABLE_NAME}(*)`)
-    .eq("postId", postId);
+    .select(`*,${USER_TABLE_NAME}(*),${POSTS_TABLE_NAME}(*)`, {
+      count: "exact",
+    })
+    .eq("postId", postId)
+    .order("created_at", { ascending: false });
   if (error) {
     if (error.code === "400") {
       return [];
@@ -164,7 +168,7 @@ export async function getComments({ postId }) {
     throwError(error.message, error.code);
   }
 
-  return data;
+  return { data, count };
 }
 
 export async function savePost({ postId, userId }) {
@@ -212,4 +216,29 @@ export async function getSaved({ id, isPost }) {
   } else {
     return data;
   }
+}
+
+export async function addComment({ obj }) {
+  const { data, error } = await supabase
+    .from(COMMENTS_TABLE_NAME)
+    .insert(obj)
+    .select();
+  if (error) {
+    throwError(error.message, error.code);
+  }
+
+  return data;
+}
+
+export async function editComment({ commentContent, id }) {
+  const { data, error } = await supabase
+    .from(COMMENTS_TABLE_NAME)
+    .update({ commentContent, isEdited: true })
+    .eq("id", id)
+    .select();
+  if (error) {
+    throwError(error.message, error.code);
+  }
+
+  return data;
 }

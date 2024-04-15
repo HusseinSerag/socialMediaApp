@@ -29,7 +29,8 @@ import toast from "react-hot-toast";
 import useSavePost from "./useSavePost";
 import { useGetSavedPosts } from "./useGetSavedPosts";
 import useUnsavePost from "./useUnsavePost";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import Comments from "./Comments";
 
 export default function Post({ post }) {
   const date = new Date(post.created_at);
@@ -65,8 +66,10 @@ export default function Post({ post }) {
   const isUser = user?.id === post.users.id;
 
   const numberOfLikes = likes.length;
-  const numberOfComments = comments.length;
+  const numberOfComments = comments.count;
   const numberOfSavedPosts = savedPosts.length;
+
+  console.log(comments);
 
   const userLikedThisPost = likes.find((post) => post.users.id === user.id);
   const userSavedThisPost = savedPosts.find(
@@ -76,6 +79,9 @@ export default function Post({ post }) {
   const likedUsers = likes.map((likes) => likes.users);
   const savedUsers = savedPosts.map((saved) => saved.users);
 
+  function openComments() {
+    setSeeComment(true);
+  }
   function like() {
     if (!isLiking) {
       likePost({ postId: post.id, likedUser: user.id });
@@ -226,7 +232,7 @@ export default function Post({ post }) {
               )}
             </div>
           </div>
-          <AddComment user={user} post={post} />
+          <AddComment toggleOpenComment={openComments} post={post} />
         </div>
       </div>
 
@@ -254,7 +260,7 @@ export default function Post({ post }) {
         />
       </div>
 
-      {seeComment && "Hello"}
+      {seeComment && <Comments comments={comments?.data} />}
     </Card>
   );
 }
