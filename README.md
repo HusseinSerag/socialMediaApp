@@ -6,6 +6,10 @@ The project is still under development.
   
 
 
+## Demo
+
+Application is deployed using netlify's CI/CD : https://connectiongram.netlify.app/
+
 ## 🔗 Links
 
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/hseldinadel/)
@@ -13,7 +17,7 @@ The project is still under development.
 
 
 ## 🛠 Skills
-React, React Query, React Hook Form , React Icons  , Tailwind ,  Supabase , React Calender , Supabase Auth , Render Prop , Advanced Compound Component Pattern.
+React, React Query, React Hook Form , React Icons  , Tailwind ,  Supabase , Supabase Auth , Render Prop , Advanced Compound Component Pattern.
 
 
 
@@ -28,7 +32,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd [project-name]
 ```
 
 Install dependencies
@@ -51,17 +55,23 @@ Start the server
 
 ## Features
 As the app is still under development I will list down available features 
+
 - Sign up / login
-- Send friend requests
+- indicate whether account is public or private
+- Send / accept / reject / cancel friend requests
 - view your own profile and posts
-- Ability to post with many photos and reorganize the photos
+- Ability to post many photos and reorganize the photos
 - Like/dislike posts
+- comment on posts
+- delete / edit comment for comment owner
+- delete comment for post owner
+- bookmark / unbookmark posts
+- recieve real time in app notifications
 - search for users by username
+- view searched users profile based on friendship status
 
 To be added
-- comment on photos
-- accept friend requests
-- see notifications
-- edit your own profile
-- save posts
+- more notifications based on actions
+- edit profile details
+
 
