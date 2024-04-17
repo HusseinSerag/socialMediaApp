@@ -28,6 +28,7 @@ import { useState } from "react";
 import { Input } from "../../ui/Input";
 import useUpdatePhoto from "../auth/useUpdatePhoto";
 import toast from "react-hot-toast";
+import useBio from "../auth/useBio";
 
 export default function UserProfile({
   isLoading,
@@ -62,8 +63,32 @@ export default function UserProfile({
   const [editMode, setEditMode] = useState(false);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [bioUpdate, setBioUpdate] = useState(user?.bio);
 
   const { isPending: isUploading, uploadAvatar } = useUpdatePhoto();
+  const { isPending: isUpdatingBio, updateBio } = useBio();
+  function changeBio(e) {
+    setBioUpdate(e.target.value);
+  }
+  function updateUserBio() {
+    if (bioUpdate === user.bio) {
+      toast.error("Change the bio first please!");
+      return;
+    }
+
+    const obj = {
+      bio: bioUpdate,
+    };
+    updateBio(
+      { id: user.id, obj },
+      {
+        onSuccess: () => {
+          toast.success("Bio successfully updated!");
+          setBioUpdate(bioUpdate);
+        },
+      },
+    );
+  }
   if (Loading) return <FullPageSpinner />;
   if (error || userError)
     return (
@@ -128,6 +153,9 @@ export default function UserProfile({
   function cancelFileUpload() {
     setFile(null);
     setPreview(null);
+  }
+  function resetBioToOriginalValue() {
+    setBioUpdate(user.bio);
   }
   return (
     <Menu>
@@ -354,11 +382,41 @@ export default function UserProfile({
               </Heading>
               <span className="text-[13px] text-gray-600">
                 {" "}
-                {user?.bio
-                  ? user?.bio
-                  : isUser
-                    ? "Hmmmm it seems you don't have a bio yet, edit this and add your bio!"
-                    : `${user.username} doesn't seem to have a bio at the moment!`}
+                {editMode ? (
+                  <div className="flex gap-2">
+                    <Input
+                      size="md"
+                      shape="round"
+                      color="gray_500"
+                      variant="outline"
+                      onChange={changeBio}
+                      value={bioUpdate}
+                      className="grow"
+                    />
+                    <Button
+                      color=""
+                      size=""
+                      className="font-semibold hover:underline"
+                      onClick={updateUserBio}
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      color=""
+                      size=""
+                      className="font-semibold hover:underline"
+                      onClick={resetBioToOriginalValue}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                ) : user?.bio ? (
+                  user?.bio
+                ) : isUser ? (
+                  "Hmmmm it seems you don't have a bio yet, edit this and add your bio!"
+                ) : (
+                  `${user.username} doesn't seem to have a bio at the moment!`
+                )}
               </span>
             </div>
             <div className="mt-4 w-full px-4">

@@ -71,10 +71,10 @@ export async function getCurrentUser() {
   return { ...currentUser, email: user.email };
 }
 
-export async function setBio({ bio, id, gender, birthdate }) {
+export async function setBio({ id, obj }) {
   const { error, data } = await supabase
     .from(USER_TABLE_NAME)
-    .update({ bio, gender, birthdate })
+    .update(obj)
     .eq("id", id)
     .select();
   if (error) {

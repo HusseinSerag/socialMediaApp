@@ -78,7 +78,7 @@ Input.propTypes = {
   prefix: PropTypes.node,
   suffix: PropTypes.node,
   shape: PropTypes.oneOf(["round", "square"]),
-  size: PropTypes.oneOf(["md", "xs", "sm", "xl", "lg"]),
+  size: PropTypes.oneOf(["md", "xs", "sm", "xl", "lg", ""]),
   variant: PropTypes.oneOf(["outline", "fill"]),
   color: PropTypes.oneOf([
     "gray_500_33",

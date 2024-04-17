@@ -74,8 +74,15 @@ export default function CreateBio() {
       toast.error("Please enter which type of account you want!");
     }
 
+    const obj = {
+      bio,
+      id: user.id,
+      gender,
+      birthdate: value.toISOString(),
+      accountType,
+    };
     updateBio(
-      { bio, id: user.id, gender, birthdate: value.toISOString(), accountType },
+      { id: user.id, obj },
       {
         onSuccess: () => {
           toast.success("Bio updated successfully!");
