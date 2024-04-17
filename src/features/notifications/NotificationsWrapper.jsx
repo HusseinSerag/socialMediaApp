@@ -7,6 +7,7 @@ export default function NotificationsWrapper() {
   const { notifications, isLoading } = useGetNotifications();
   if (isLoading) return <FullPageSpinner />;
   const { data, count } = notifications;
+
   return (
     <div>
       <Heading size="xl" className="mb-4 font-semibold">

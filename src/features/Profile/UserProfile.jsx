@@ -23,6 +23,8 @@ import PrivateAccountIndicator from "../../ui/PrivateAccountIndicator";
 import Card from "../../ui/Card";
 import Menu from "../../ui/Menu";
 import { useFriendRequest } from "./useFriendRequest";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
 export default function UserProfile({
   isLoading,
@@ -47,14 +49,31 @@ export default function UserProfile({
     user: loggedInUser,
   });
 
-  if (
+  const Loading =
     isLoading ||
     isLoadingUserFriend ||
     isLoadingGetUser ||
     !user?.id ||
-    isLoadingAreFriends
-  )
-    return <FullPageSpinner />;
+    isLoadingAreFriends;
+  const [params] = useSearchParams();
+  const postRef = useRef(null);
+  const postId = (!Loading || !postRef.current) && params.get("post");
+  useEffect(
+    function () {
+      if (postId && postRef.current) {
+        console.log("scrolling");
+        console.log(postId, postRef);
+
+        if (postId === postRef.current.id)
+          window.scrollTo({
+            top: postRef.current.offsetTop,
+            behavior: "smooth",
+          });
+      }
+    },
+    [postId],
+  );
+  if (Loading) return <FullPageSpinner />;
   if (error || userError)
     return (
       <div className="flex h-full items-center justify-center">
@@ -297,7 +316,7 @@ export default function UserProfile({
           {isUser ? "Your" : `${user?.username}'s`} Posts
         </Heading>
         {canSeeAccountPost ? (
-          user?.id && <PostWrapper id={user?.id} />
+          user?.id && <PostWrapper fowardedRef={postRef} id={user?.id} />
         ) : (
           <PrivateAccountIndicator username={user?.username} />
         )}

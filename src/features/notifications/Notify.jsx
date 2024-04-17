@@ -1,5 +1,8 @@
 import Card from "../../ui/Card";
-import { NOTIFICATION_REASON_FRIEND_REQUEST } from "../../utils/Constants";
+import {
+  LIKE_POST_FRIEND_REQUEST,
+  NOTIFICATION_REASON_FRIEND_REQUEST,
+} from "../../utils/Constants";
 import { IoClose } from "react-icons/io5";
 import { useUpdateNotifcations } from "./useUpdateNotification";
 import { formatDistanceToNow } from "date-fns";
@@ -31,9 +34,16 @@ export default function Notify({ notify }) {
     }
   }
 
-  console.log(notify);
   const { created_at } = notify;
   const date = new Date(created_at);
+  const time = (
+    <div className="text-xs text-gray-800">
+      {formatDistanceToNow(date, {
+        addSuffix: true,
+        includeSeconds: true,
+      })}
+    </div>
+  );
   let component;
   switch (notify.reason) {
     case NOTIFICATION_REASON_FRIEND_REQUEST:
@@ -50,14 +60,34 @@ export default function Notify({ notify }) {
             </span>
           </div>
 
-          <div className="text-xs text-gray-800">
-            {formatDistanceToNow(date, {
-              addSuffix: true,
-              includeSeconds: true,
-            })}
-          </div>
+          {time}
         </div>
       );
+      break;
+    case LIKE_POST_FRIEND_REQUEST:
+      console.log(notify);
+      component = (
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-center gap-1">
+            <span className="flex gap-1 text-sm">
+              <Link to={`/profile/${notify.additionalData.sentID}`}>
+                <span className="hover:underline">
+                  {` ${notify.additionalData.username}`}
+                </span>
+              </Link>{" "}
+              liked your
+              <Link
+                to={`/profile/${notify.userId}?post=${notify.additionalData.postID}`}
+              >
+                <span className="text-blue-400 hover:underline">post</span>
+              </Link>
+            </span>
+          </div>
+
+          {time}
+        </div>
+      );
+      break;
   }
   return (
     <Card

@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import useIfFriendIsUser from "../../hooks/useIfFriendIsUser";
 
 import Post from "./Post";
@@ -7,8 +8,11 @@ export default function PostList({
   posts,
   noPostMessageForUser = "",
   noPostMessageForNonUser = "",
+  fowardedRef = null,
 }) {
   const { isUser } = useIfFriendIsUser();
+  const [params] = useSearchParams();
+  const postId = params.get("post");
   return (
     <div className="flex flex-col gap-4">
       {posts?.length === 0 && (
@@ -16,9 +20,15 @@ export default function PostList({
           {isUser ? noPostMessageForUser : noPostMessageForNonUser}
         </div>
       )}
-      {posts.map((post) => (
-        <Post key={post.id} post={post} />
-      ))}
+      {posts.map((post) => {
+        return (
+          <Post
+            key={post.id}
+            post={post}
+            fowardedRef={Number(postId) === post.id ? fowardedRef : null}
+          />
+        );
+      })}
     </div>
   );
 }

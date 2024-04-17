@@ -29,10 +29,10 @@ import toast from "react-hot-toast";
 import useSavePost from "./useSavePost";
 import { useGetSavedPosts } from "./useGetSavedPosts";
 import useUnsavePost from "./useUnsavePost";
-import { useRef, useState } from "react";
+import { forwardRef, useRef, useState } from "react";
 import Comments from "./Comments";
 
-export default function Post({ post }) {
+export default function Post({ post, fowardedRef = null }) {
   const date = new Date(post.created_at);
 
   const { user } = useUser();
@@ -82,7 +82,13 @@ export default function Post({ post }) {
   }
   function like() {
     if (!isLiking) {
-      likePost({ postId: post.id, likedUser: user.id });
+      likePost({
+        postId: post.id,
+        likedUser: user.id,
+        isUser,
+        postOwner: post.users.id,
+        username: user.username,
+      });
     }
   }
   function dislike() {
@@ -106,7 +112,7 @@ export default function Post({ post }) {
 
   return (
     <Card>
-      <div>
+      <div id={post.id} ref={fowardedRef}>
         <div className="flex gap-3">
           <Avatar
             size="sm"

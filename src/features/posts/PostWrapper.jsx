@@ -7,7 +7,12 @@ import PostList from "./PostList";
 import PostsContainer from "./PostsContainer";
 import { useGetPosts } from "./useGetPosts";
 
-export default function PostWrapper({ id = "", homepage = false, user = {} }) {
+export default function PostWrapper({
+  id = "",
+  homepage = false,
+  user = {},
+  fowardedRef = null,
+}) {
   const {
     posts,
     isLoading: isLoadingPosts,
@@ -21,6 +26,7 @@ export default function PostWrapper({ id = "", homepage = false, user = {} }) {
   if (isLoadingPosts) return <FullPageSpinner />;
   return (
     <PostsContainer
+      fowardedRef={fowardedRef}
       noPostMessageForUser={"It seems that there are no posts here!"}
       noPostMessageForNonUser={"No posts"}
       posts={posts}

@@ -7,6 +7,7 @@ import {
   POSTS_PHOTOS_TABLE_NAME,
   SAVED_POSTS_TABLE_NAME,
   NOTIFICATIONS_TABLE_NAME,
+  LIKE_POST_FRIEND_REQUEST,
 } from "../utils/Constants";
 import { getAssetURL, throwError } from "../utils/helpers";
 import { userFriends } from "./friendsApi";
@@ -112,7 +113,13 @@ export async function deletePost({ id }) {
   }
 }
 
-export async function likePost({ postId, likedUser }) {
+export async function likePost({
+  postId,
+  likedUser,
+  isUser,
+  postOwner,
+  username,
+}) {
   const { data, error } = await supabase
     .from(LIKES_TABLE_NAME)
     .insert([{ postId, likedUser }])
@@ -122,17 +129,20 @@ export async function likePost({ postId, likedUser }) {
   if (error) {
     throwError(error.message, error.code);
   }
-  console.log(data);
-  // await supabase.from(NOTIFICATIONS_TABLE_NAME).insert({
-  //   userId: id2,
-  //   read: false,
-  //   reason: NOTIFICATION_REASON_FRIEND_REQUEST,
-  //   additionalData: {
-  //     username,
-  //     sentID: id1,
-  //     acceptID: data.id,
-  //   },
-  // });
+
+  if (!isUser) {
+    await supabase.from(NOTIFICATIONS_TABLE_NAME).insert({
+      userId: postOwner,
+      read: false,
+      reason: LIKE_POST_FRIEND_REQUEST,
+      additionalData: {
+        username,
+        sentID: likedUser,
+        postID: postId,
+      },
+    });
+  }
+
   return data;
 }
 export async function unlikePost({ postId, likedUser }) {
