@@ -17,6 +17,7 @@ import UserPage from "./pages/UserPage";
 import AuthLayout from "./ui/AuthLayout";
 import SavedPostsPage from "./pages/SavedPostsPage";
 import Notifications from "./pages/Notifications";
+import LoadUserLayer from "./ui/LoadUserLayer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,14 +35,16 @@ function App() {
       {/* <DarkMode /> */}
       <Suspense fallback={<FullPageSpinner />}>
         <Routes>
-          <Route element={<AuthLayout />}>
-            <Route element={<AppLayout />}>
-              <Route path="/" element={<Homepage />} />
-              <Route path="/profile/:id" element={<Profile />} />
-              <Route path="/search" element={<FriendsSearch />} />
-              <Route path="you" element={<UserPage />} />
-              <Route path="/saved" element={<SavedPostsPage />} />
-              <Route path="/notifications" element={<Notifications />} />
+          <Route element={<LoadUserLayer />}>
+            <Route element={<AuthLayout />}>
+              <Route element={<AppLayout />}>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/profile/:id" element={<Profile />} />
+                <Route path="/search" element={<FriendsSearch />} />
+                <Route path="you" element={<UserPage />} />
+                <Route path="/saved" element={<SavedPostsPage />} />
+                <Route path="/notifications" element={<Notifications />} />
+              </Route>
             </Route>
           </Route>
 

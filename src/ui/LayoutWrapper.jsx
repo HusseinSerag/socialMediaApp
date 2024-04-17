@@ -1,16 +1,14 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
-import { useUser } from "../features/auth/useUser";
-import FullPageSpinner from "./FullPageSpinner";
+
 import NotificationsReceived from "../features/notifications/NotificationsReceived";
 
 import { IoMdMenu } from "react-icons/io";
 import { useState } from "react";
 
 export default function LayoutWrapper() {
-  const { isLoading } = useUser();
   const [isOpen, setIsOpen] = useState(false);
-  if (isLoading) return <FullPageSpinner />;
+
   function close() {
     setIsOpen(false);
   }
