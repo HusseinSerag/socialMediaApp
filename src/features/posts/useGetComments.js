@@ -13,7 +13,7 @@ import {
 
 export function useGetComments(id) {
   const queryClient = useQueryClient();
-  const [pageParam, setPageParam] = useState(0);
+
   const {
     data,
     isFetching,
@@ -22,12 +22,11 @@ export function useGetComments(id) {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["postComment", id, pageParam],
+    queryKey: ["postComment", id],
 
     queryFn: ({ pageParam }) => getComments({ postId: id, pageParam }),
-    initialPageParam: pageParam,
+    initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      console.log(lastPage);
       const newParam =
         lastPage.data.length < lastPage.count
           ? lastPageParam + NUMBER_OF_INCREMENTS_COMMENTS
@@ -38,7 +37,12 @@ export function useGetComments(id) {
   });
 
   function clearCommentsOnClose() {
-    setPageParam(0);
+    queryClient.setQueryData(["postComment", id], (data) => {
+      return {
+        pages: data.pages.slice(0, 1),
+        pageParams: data.pageParams.slice(0, 1),
+      };
+    });
   }
   const comments = data?.pages[data.pages.length - 1];
   return {
