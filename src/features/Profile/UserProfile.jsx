@@ -29,6 +29,7 @@ import { Input } from "../../ui/Input";
 import useUpdatePhoto from "../auth/useUpdatePhoto";
 import toast from "react-hot-toast";
 import useBio from "../auth/useBio";
+import Loader from "../../ui/Loader";
 
 export default function UserProfile({
   isLoading,
@@ -193,7 +194,7 @@ export default function UserProfile({
                 avatar={editMode && preview ? preview : user?.profilePicture}
                 size="lg"
               />
-              {isUser && editMode && (
+              {isUser && editMode && !isUploading && (
                 <label className="text-white absolute bottom-0 right-0 text-[1.25rem] font-bold ">
                   <input
                     type="file"
@@ -201,12 +202,17 @@ export default function UserProfile({
                     className="absolute hidden h-[0.1px] w-[0.1px] appearance-none"
                     onChange={handleInputPhoto}
                   />
-                  <div className=" flex h-[70px] w-[70px] items-center justify-center rounded-full border bg-white-A700">
+                  <div className=" z-10 flex h-[70px] w-[70px] items-center justify-center rounded-full border bg-white-A700">
                     <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-indigo-A200">
                       <span className="text-white-A700">&#43;</span>
                     </div>
                   </div>
                 </label>
+              )}
+              {isUploading && (
+                <div className="-z-1 absolute inset-0 flex items-center justify-center rounded-full bg-gray-200 opacity-70">
+                  <Loader />
+                </div>
               )}
             </div>
             {editMode && file && (
