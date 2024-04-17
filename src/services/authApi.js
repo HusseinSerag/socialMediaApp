@@ -84,7 +84,23 @@ export async function setBio({ bio, id, gender, birthdate }) {
   return data;
 }
 
-export async function uploadPhoto({ file, id }) {
+export async function uploadPhoto({
+  file,
+  id,
+  photoAlreadyExists = false,
+  photoURLIfExists = "",
+}) {
+  if (photoAlreadyExists) {
+    const photoName = photoURLIfExists.split(`/${AVATAR_BUCKET_NAME}/`)[1];
+
+    const { error } = await supabase.storage
+      .from(AVATAR_BUCKET_NAME)
+      .remove([photoName]);
+    if (error) {
+      throwError(error.message, error.code);
+    }
+  }
+
   const fileName = `${Math.random()}${file.name.replace("/", "")}`;
   const { data: filePath, error: uploadError } = await supabase.storage
     .from(AVATAR_BUCKET_NAME)

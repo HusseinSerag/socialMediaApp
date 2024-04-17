@@ -184,8 +184,6 @@ export default function Post({ post }) {
           </div>
         </div>
         <div className="w-full">
-          <div className=" mb-3 flex  flex-col gap-1"></div>
-
           <div className="my-3">{post.postContent}</div>
           {post?.postPhotos?.length > 0 && (
             <PostImage postPhotos={post.postPhotos} />

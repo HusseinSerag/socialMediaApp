@@ -23,8 +23,11 @@ import PrivateAccountIndicator from "../../ui/PrivateAccountIndicator";
 import Card from "../../ui/Card";
 import Menu from "../../ui/Menu";
 import { useFriendRequest } from "./useFriendRequest";
-import { useSearchParams } from "react-router-dom";
-import { useEffect, useRef } from "react";
+
+import { useState } from "react";
+import { Input } from "../../ui/Input";
+import useUpdatePhoto from "../auth/useUpdatePhoto";
+import toast from "react-hot-toast";
 
 export default function UserProfile({
   isLoading,
@@ -56,11 +59,16 @@ export default function UserProfile({
     !user?.id ||
     isLoadingAreFriends;
 
+  const [editMode, setEditMode] = useState(false);
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+
+  const { isPending: isUploading, uploadAvatar } = useUpdatePhoto();
   if (Loading) return <FullPageSpinner />;
   if (error || userError)
     return (
       <div className="flex h-full items-center justify-center">
-        <ErrorMessage message={error.message}>
+        <ErrorMessage message={error?.message || userError?.message}>
           <Button onClick={() => refetchUser()} className="rounded-lg p-5">
             retry
           </Button>
@@ -68,6 +76,34 @@ export default function UserProfile({
       </div>
     );
 
+  const hasProfilePicture = user.profilePicture !== null;
+  function update() {
+    if (file)
+      uploadAvatar(
+        {
+          id: user.id,
+          photoAlreadyExists: hasProfilePicture,
+          file,
+          photoURLIfExists: hasProfilePicture && user.profilePicture,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Profile picture successfully updated!");
+            setFile(false);
+            setPreview(false);
+          },
+        },
+      );
+    else toast.error("Please upload a picture first!");
+  }
+  function handleInputPhoto(e) {
+    const file = e.target.files[0];
+    if (file) {
+      setFile(file);
+      const photoObj = URL.createObjectURL(file);
+      setPreview(photoObj);
+    }
+  }
   const posts = user?.posts;
 
   const accountType =
@@ -83,11 +119,21 @@ export default function UserProfile({
     whoRecievedRequest =
       areFriends.friend1 === loggedInUser?.id ? loggedInUser : friend;
 
+  function openEditMode() {
+    setEditMode(true);
+  }
+  function closeEditMode() {
+    setEditMode(false);
+  }
+  function cancelFileUpload() {
+    setFile(null);
+    setPreview(null);
+  }
   return (
     <Menu>
       <Card>
         <div className="  flex flex-col  items-center">
-          <div className="relative flex w-full max-w-[400px] flex-col items-center gap-4 rounded-lg bg-white-A700_cc py-12">
+          <div className="relative flex w-full  flex-col items-center gap-4 rounded-lg bg-white-A700_cc py-12">
             <Button
               color="gray_500"
               variant="outline"
@@ -96,14 +142,67 @@ export default function UserProfile({
             >
               Back
             </Button>
-            {isUser && (
-              <FiEdit2 className="absolute right-2 top-2 h-5 w-5 cursor-pointer" />
+            {isUser && !editMode && (
+              <FiEdit2
+                onClick={openEditMode}
+                className="absolute right-2 top-2 h-5 w-5 cursor-pointer "
+              />
             )}
-            <Avatar
-              name={user?.username}
-              avatar={user?.profilePicture}
-              size="lg"
-            />
+            {isUser && editMode && (
+              <Button
+                onClick={closeEditMode}
+                size=""
+                color=""
+                className="absolute right-2 top-2 text-sm font-semibold hover:underline "
+              >
+                Done
+              </Button>
+            )}
+
+            <div className="relative">
+              <Avatar
+                name={user?.username}
+                avatar={editMode && preview ? preview : user?.profilePicture}
+                size="lg"
+              />
+              {isUser && editMode && (
+                <label className="text-white absolute bottom-0 right-0 text-[1.25rem] font-bold ">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="absolute hidden h-[0.1px] w-[0.1px] appearance-none"
+                    onChange={handleInputPhoto}
+                  />
+                  <div className=" flex h-[70px] w-[70px] items-center justify-center rounded-full border bg-white-A700">
+                    <div className="flex h-[30px] w-[30px] items-center justify-center rounded-full bg-indigo-A200">
+                      <span className="text-white-A700">&#43;</span>
+                    </div>
+                  </div>
+                </label>
+              )}
+            </div>
+            {editMode && file && (
+              <div className="flex gap-4">
+                <Button
+                  size=""
+                  color=""
+                  className="font-semibold hover:underline"
+                  onClick={cancelFileUpload}
+                >
+                  Cancel
+                </Button>{" "}
+                <Button
+                  size=""
+                  color=""
+                  className="font-semibold hover:underline"
+                  onClick={update}
+                  disabled={isUploading}
+                >
+                  Upload
+                </Button>{" "}
+              </div>
+            )}
+
             <Heading
               as="h1"
               size="xl"
@@ -253,13 +352,14 @@ export default function UserProfile({
               >
                 About
               </Heading>
-              <p className="text-[13px] text-gray-600">
+              <span className="text-[13px] text-gray-600">
+                {" "}
                 {user?.bio
                   ? user?.bio
                   : isUser
                     ? "Hmmmm it seems you don't have a bio yet, edit this and add your bio!"
                     : `${user.username} doesn't seem to have a bio at the moment!`}
-              </p>
+              </span>
             </div>
             <div className="mt-4 w-full px-4">
               <Heading
