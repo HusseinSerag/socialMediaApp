@@ -106,7 +106,7 @@ export default function UploadPhoto() {
                           "Please change the profile picture first before uploading!",
                       })}
                       accept="image/*"
-                      className="absolute h-[0.1px] w-[0.1px] appearance-none"
+                      className="absolute hidden h-[0.1px] w-[0.1px] appearance-none"
                       onChange={handleInputPhoto}
                     />
                     <div className=" flex h-[70px] w-[70px] items-center justify-center rounded-full border bg-white-A700">

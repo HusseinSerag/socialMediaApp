@@ -82,12 +82,12 @@ export default function AddPost() {
           <Button color="" size="">
             <label
               htmlFor="file"
-              className="relative flex cursor-pointer gap-1 [&>svg]:h-5 [&>svg]:w-5"
+              className="relative flex  cursor-pointer gap-1 [&>svg]:h-5 [&>svg]:w-5"
             >
               <MdPhotoCamera />
               <input
                 type="file"
-                className="absolute h-[1px] w-[1px] appearance-none"
+                className="absolute hidden h-[1px] w-[1px] appearance-none"
                 id="file"
                 multiple
                 accept="image/*"
