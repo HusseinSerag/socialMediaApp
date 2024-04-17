@@ -2,7 +2,7 @@
 # Connectiongram
 
 Connectiongram is a social media app used to connect developers all around the world.
-The project is still under development.
+
   
 
 
@@ -66,12 +66,16 @@ As the app is still under development I will list down available features
 - delete / edit comment for comment owner
 - delete comment for post owner
 - bookmark / unbookmark posts
-- recieve real time in app notifications
+- recieve real time in app notifications about likes/ comments / friend requests
 - search for users by username
 - view searched users profile based on friendship status
+- edit profile picture and bio
 
-To be added
-- more notifications based on actions
-- edit profile details
+More features than can be added
+- A standalone chat app 
+- see all pending friend request in a certain page
+- dark mode 
+and much more!
+
 
 
