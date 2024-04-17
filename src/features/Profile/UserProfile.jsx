@@ -61,9 +61,6 @@ export default function UserProfile({
   useEffect(
     function () {
       if (postId && postRef.current) {
-        console.log("scrolling");
-        console.log(postId, postRef);
-
         if (postId === postRef.current.id)
           window.scrollTo({
             top: postRef.current.offsetTop,
