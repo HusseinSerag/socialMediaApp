@@ -1,11 +1,12 @@
 import Card from "../../ui/Card";
 import {
+  COMMENT_POST_REASON,
   LIKE_POST_FRIEND_REQUEST,
   NOTIFICATION_REASON_FRIEND_REQUEST,
 } from "../../utils/Constants";
 import { IoClose } from "react-icons/io5";
 import { useUpdateNotifcations } from "./useUpdateNotification";
-import { formatDistanceToNow } from "date-fns";
+import { add, formatDistanceToNow } from "date-fns";
 import { useDeleteNotifcations } from "./useDeleteNotification";
 import { IoCloseSharp } from "react-icons/io5";
 
@@ -65,7 +66,6 @@ export default function Notify({ notify }) {
       );
       break;
     case LIKE_POST_FRIEND_REQUEST:
-      console.log(notify);
       component = (
         <div className="flex flex-col gap-1">
           <div className="flex items-center justify-center gap-1">
@@ -81,6 +81,51 @@ export default function Notify({ notify }) {
               >
                 <span className="text-blue-400 hover:underline">post</span>
               </Link>
+            </span>
+          </div>
+
+          {time}
+        </div>
+      );
+      break;
+    case COMMENT_POST_REASON:
+      component = (
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center justify-center gap-1">
+            <span className="text-sm">
+              <Link
+                to={`/profile/${notify.additionalData.sentID}`}
+                className="inline"
+              >
+                <span className="hover:underline">
+                  {` ${notify.additionalData.username}`}
+                </span>
+              </Link>{" "}
+              has commented on your{" "}
+              <Link
+                to={`/profile/${notify.userId}?post=${notify.additionalData.postID}`}
+                className="inline"
+              >
+                <span className="text-blue-400 hover:underline">post:</span>
+              </Link>
+              <span className="font-semibold">
+                {" "}
+                {notify.additionalData.commentContent.length < 10 ? (
+                  notify.additionalData.commentContent
+                ) : (
+                  <span>
+                    {notify.additionalData.commentContent.slice(0, 8)}
+
+                    <Link
+                      className="inline italic underline "
+                      to={`/profile/${notify.userId}?post=${notify.additionalData.postID}`}
+                    >
+                      {" "}
+                      see more...
+                    </Link>
+                  </span>
+                )}
+              </span>
             </span>
           </div>
 

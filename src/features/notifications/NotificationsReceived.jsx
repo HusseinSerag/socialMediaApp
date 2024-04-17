@@ -2,6 +2,7 @@ import { useCallback, useEffect } from "react";
 import useGetNotifications from "./useGetNotifications";
 import supabase from "../../services/supabase";
 import {
+  COMMENT_POST_REASON,
   LIKE_POST_FRIEND_REQUEST,
   NOTIFICATION_REASON_FRIEND_REQUEST,
   NOTIFICATIONS_TABLE_NAME,
@@ -23,6 +24,10 @@ export default function NotificationsReceived() {
           break;
         case LIKE_POST_FRIEND_REQUEST:
           toast(`${additionalData.username} liked your post!`);
+          break;
+        case COMMENT_POST_REASON:
+          toast(`${additionalData.username} has commented on your post`);
+          break;
       }
 
       refetch();

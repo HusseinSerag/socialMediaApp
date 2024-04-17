@@ -8,6 +8,7 @@ import {
   SAVED_POSTS_TABLE_NAME,
   NOTIFICATIONS_TABLE_NAME,
   LIKE_POST_FRIEND_REQUEST,
+  COMMENT_POST_REASON,
 } from "../utils/Constants";
 import { getAssetURL, throwError } from "../utils/helpers";
 import { userFriends } from "./friendsApi";
@@ -240,7 +241,7 @@ export async function getSaved({ id, isPost }) {
   }
 }
 
-export async function addComment({ obj }) {
+export async function addComment({ obj, isUser, username, postOwner }) {
   const { data, error } = await supabase
     .from(COMMENTS_TABLE_NAME)
     .insert(obj)
@@ -248,7 +249,19 @@ export async function addComment({ obj }) {
   if (error) {
     throwError(error.message, error.code);
   }
-
+  if (!isUser) {
+    await supabase.from(NOTIFICATIONS_TABLE_NAME).insert({
+      userId: postOwner,
+      read: false,
+      reason: COMMENT_POST_REASON,
+      additionalData: {
+        username,
+        commentContent: obj.commentContent,
+        sentID: obj.commentedUser,
+        postID: obj.postId,
+      },
+    });
+  }
   return data;
 }
 

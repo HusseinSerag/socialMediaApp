@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Avatar from "../../ui/Avatar";
 import { formatDistanceToNow } from "date-fns";
 import { FaRegComment } from "react-icons/fa";
@@ -29,10 +29,10 @@ import toast from "react-hot-toast";
 import useSavePost from "./useSavePost";
 import { useGetSavedPosts } from "./useGetSavedPosts";
 import useUnsavePost from "./useUnsavePost";
-import { forwardRef, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Comments from "./Comments";
 
-export default function Post({ post, fowardedRef = null }) {
+export default function Post({ post }) {
   const date = new Date(post.created_at);
 
   const { user } = useUser();
@@ -57,7 +57,26 @@ export default function Post({ post, fowardedRef = null }) {
 
   const [seeComment, setSeeComment] = useState(false);
 
-  if (isLoadingLikes || isLoadingSaved) return;
+  const ref = useRef(null);
+  const [params] = useSearchParams();
+  const postId = params.get("post");
+  const loadingState = isLoadingLikes || isLoadingSaved;
+
+  const refExists = !loadingState;
+  useEffect(
+    function () {
+      if (refExists && ref.current) {
+        if (Number(postId) === post.id) {
+          window.scrollTo({
+            top: ref.current.offsetTop,
+            behavior: "smooth",
+          });
+        }
+      }
+    },
+    [post.id, postId, refExists],
+  );
+  if (loadingState) return;
 
   const isUser = user?.id === post.users.id;
 
@@ -112,7 +131,7 @@ export default function Post({ post, fowardedRef = null }) {
 
   return (
     <Card>
-      <div id={post.id} ref={fowardedRef}>
+      <div id={post.id} ref={ref}>
         <div className="flex gap-3">
           <Avatar
             size="sm"

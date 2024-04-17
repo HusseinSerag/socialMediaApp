@@ -6,7 +6,6 @@ export default function PostsContainer({
   posts,
   noPostMessageForUser,
   noPostMessageForNonUser,
-  fowardedRef = null,
 }) {
   return (
     <Modal>
@@ -15,7 +14,6 @@ export default function PostsContainer({
           noPostMessageForUser={noPostMessageForUser}
           noPostMessageForNonUser={noPostMessageForNonUser}
           posts={posts}
-          fowardedRef={fowardedRef}
         />
       </Menu>
     </Modal>

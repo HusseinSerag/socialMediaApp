@@ -55,21 +55,7 @@ export default function UserProfile({
     isLoadingGetUser ||
     !user?.id ||
     isLoadingAreFriends;
-  const [params] = useSearchParams();
-  const postRef = useRef(null);
-  const postId = (!Loading || !postRef.current) && params.get("post");
-  useEffect(
-    function () {
-      if (postId && postRef.current) {
-        if (postId === postRef.current.id)
-          window.scrollTo({
-            top: postRef.current.offsetTop,
-            behavior: "smooth",
-          });
-      }
-    },
-    [postId],
-  );
+
   if (Loading) return <FullPageSpinner />;
   if (error || userError)
     return (
@@ -313,7 +299,7 @@ export default function UserProfile({
           {isUser ? "Your" : `${user?.username}'s`} Posts
         </Heading>
         {canSeeAccountPost ? (
-          user?.id && <PostWrapper fowardedRef={postRef} id={user?.id} />
+          user?.id && <PostWrapper id={user?.id} />
         ) : (
           <PrivateAccountIndicator username={user?.username} />
         )}

@@ -9,7 +9,7 @@ export default function AddComment({ post, toggleOpenComment }) {
   const { mutate: addComment, isPending: isAddingComment } = useAddComment();
   const [text, setText] = useState("");
   const { user } = useUser();
-
+  const isUser = user?.id === post.users.id;
   function add() {
     if (text.length === 0) {
       toast.error("Cannot have an empty comment!");
@@ -23,6 +23,9 @@ export default function AddComment({ post, toggleOpenComment }) {
             commentedUser: user.id,
             commentContent: text,
           },
+          isUser,
+          username: user.username,
+          postOwner: post.users.id,
         },
         {
           onSuccess: () => {

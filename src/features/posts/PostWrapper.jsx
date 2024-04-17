@@ -1,18 +1,8 @@
 import FullPageSpinner from "../../ui/FullPageSpinner";
-import Menu from "../../ui/Menu";
-import Modal from "../../ui/Modal";
-import { useUser } from "../auth/useUser";
-import AddPost from "./AddPost";
-import PostList from "./PostList";
 import PostsContainer from "./PostsContainer";
 import { useGetPosts } from "./useGetPosts";
 
-export default function PostWrapper({
-  id = "",
-  homepage = false,
-  user = {},
-  fowardedRef = null,
-}) {
+export default function PostWrapper({ id = "", homepage = false, user = {} }) {
   const {
     posts,
     isLoading: isLoadingPosts,
@@ -26,7 +16,6 @@ export default function PostWrapper({
   if (isLoadingPosts) return <FullPageSpinner />;
   return (
     <PostsContainer
-      fowardedRef={fowardedRef}
       noPostMessageForUser={"It seems that there are no posts here!"}
       noPostMessageForNonUser={"No posts"}
       posts={posts}
