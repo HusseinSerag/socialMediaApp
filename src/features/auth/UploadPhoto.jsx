@@ -47,10 +47,7 @@ export default function UploadPhoto() {
   }
   if (isLoading) return <FullPageSpinner />;
 
-  function onSubmit(data) {
-    const { avatar } = data;
-    const file = avatar[0];
-
+  function onSubmit() {
     uploadAvatar(
       { file, id: user.id },
       {
