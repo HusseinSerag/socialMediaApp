@@ -5,8 +5,6 @@ import {
   COMMENTS_TABLE_NAME,
   POSTS_PHOTOS_BUCKET_NAME,
   POSTS_PHOTOS_TABLE_NAME,
-  AVATAR_BUCKET_NAME,
-  FRIENDS_TABLE_NAME,
   SAVED_POSTS_TABLE_NAME,
   NOTIFICATIONS_TABLE_NAME,
 } from "../utils/Constants";
@@ -118,11 +116,23 @@ export async function likePost({ postId, likedUser }) {
   const { data, error } = await supabase
     .from(LIKES_TABLE_NAME)
     .insert([{ postId, likedUser }])
-    .select();
+    .select()
+    .single();
 
   if (error) {
     throwError(error.message, error.code);
   }
+  console.log(data);
+  // await supabase.from(NOTIFICATIONS_TABLE_NAME).insert({
+  //   userId: id2,
+  //   read: false,
+  //   reason: NOTIFICATION_REASON_FRIEND_REQUEST,
+  //   additionalData: {
+  //     username,
+  //     sentID: id1,
+  //     acceptID: data.id,
+  //   },
+  // });
   return data;
 }
 export async function unlikePost({ postId, likedUser }) {
@@ -152,7 +162,7 @@ export async function getLikes({ postId }) {
   return data;
 }
 
-export async function getComments({ postId }) {
+export async function getComments({ postId, pageParam }) {
   if (!postId) return;
   const { data, error, count } = await supabase
     .from(COMMENTS_TABLE_NAME)
@@ -160,6 +170,7 @@ export async function getComments({ postId }) {
       count: "exact",
     })
     .eq("postId", postId)
+    .range(0, pageParam + 2)
     .order("created_at", { ascending: false });
   if (error) {
     if (error.code === "400") {
@@ -198,7 +209,8 @@ export async function getSaved({ id, isPost }) {
   const { data, error } = await supabase
     .from(SAVED_POSTS_TABLE_NAME)
     .select(`*,${USER_TABLE_NAME}(*),${POSTS_TABLE_NAME}(*)`)
-    .eq(`${isPost ? "postId" : "userId"}`, id);
+    .eq(`${isPost ? "postId" : "userId"}`, id)
+    .order("created_at", { ascending: false });
   if (error) {
     throwError(error.message, error.code);
   }

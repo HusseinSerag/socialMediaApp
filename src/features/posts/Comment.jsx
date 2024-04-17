@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import Modal from "../../ui/Modal";
 import ConfirmModal from "../../ui/ConfirmModal";
 import { useDeleteComment } from "./useDeleteComment";
+import { Link } from "react-router-dom";
 
 export default function Comment({ comment }) {
   const { user } = useUser();
@@ -55,13 +56,16 @@ export default function Comment({ comment }) {
     setEditMode(false);
     setText(comment.commentContent);
   }
+
   return (
     <div className="mt-3" key={comment.id}>
       <div className="flex gap-2">
         <Avatar avatar={comment.users.profilePicture} size="sm" />
         <div className="flex flex-col">
           <div className="text-xs font-semibold sm:text-sm">
-            {isUser ? "You" : comment.users.username}
+            <Link to={`/profile/${comment.users.id}`}>
+              {isUser ? "You" : comment.users.username}
+            </Link>
           </div>
 
           <div className="text-[11px] font-light text-gray-600 sm:text-xs">

@@ -49,11 +49,7 @@ export default function Post({ post }) {
     posts: savedPosts,
     error: savedError,
   } = useGetSavedPosts({ postId: post.id });
-  const {
-    isLoading: isLoadingComments,
-    comments,
-    error: commentError,
-  } = useGetComments(post.id);
+  const { comments, clearCommentsOnClose } = useGetComments(post.id);
   const { mutate: likePost, isPending: isLiking } = useLikePost();
   const { mutate: unlikePost, isPending: isUnliking } = useUnlikePost();
 
@@ -61,12 +57,12 @@ export default function Post({ post }) {
 
   const [seeComment, setSeeComment] = useState(false);
 
-  if (isLoadingLikes || isLoadingComments || isLoadingSaved) return;
+  if (isLoadingLikes || isLoadingSaved) return;
 
   const isUser = user?.id === post.users.id;
 
   const numberOfLikes = likes.length;
-  const numberOfComments = comments.count;
+  const numberOfComments = comments?.count;
   const numberOfSavedPosts = savedPosts.length;
 
   const userLikedThisPost = likes.find((post) => post.users.id === user.id);
@@ -79,6 +75,10 @@ export default function Post({ post }) {
 
   function openComments() {
     setSeeComment(true);
+  }
+  function closeComment() {
+    setSeeComment(false);
+    clearCommentsOnClose();
   }
   function like() {
     if (!isLiking) {
@@ -167,7 +167,15 @@ export default function Post({ post }) {
           )}
           <div className="mt-4 flex space-x-8">
             <span className="flex cursor-pointer items-center gap-1">
-              <span onClick={() => setSeeComment((c) => !c)}>
+              <span
+                onClick={() => {
+                  if (seeComment) {
+                    closeComment();
+                  } else {
+                    openComments();
+                  }
+                }}
+              >
                 {numberOfComments}
               </span>
               <FaRegComment className="h-[17px] w-[17px]" />
@@ -258,7 +266,7 @@ export default function Post({ post }) {
         />
       </div>
 
-      {seeComment && <Comments comments={comments?.data} />}
+      {seeComment && <Comments post={post} />}
     </Card>
   );
 }

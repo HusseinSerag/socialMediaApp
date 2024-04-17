@@ -34,8 +34,8 @@ function App() {
       {/* <DarkMode /> */}
       <Suspense fallback={<FullPageSpinner />}>
         <Routes>
-          <Route element={<AppLayout />}>
-            <Route element={<AuthLayout />}>
+          <Route element={<AuthLayout />}>
+            <Route element={<AppLayout />}>
               <Route path="/" element={<Homepage />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/search" element={<FriendsSearch />} />

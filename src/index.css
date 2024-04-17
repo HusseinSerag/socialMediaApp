@@ -70,7 +70,8 @@ input:-webkit-autofill:active {
   animation: rotate 1s linear infinite;
 }
 
-.loader {
+.loader,
+.darkLoader {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -84,6 +85,15 @@ input:-webkit-autofill:active {
   inset: 0px;
   border-radius: 50%;
   border: 5px solid var(--loader-color);
+  animation: prixClipFix 2s linear infinite;
+}
+.darkLoader::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0px;
+  border-radius: 50%;
+  border: 5px solid black;
   animation: prixClipFix 2s linear infinite;
 }
 .bigLoader::before {

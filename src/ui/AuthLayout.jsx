@@ -11,5 +11,5 @@ export default function AuthLayout() {
       go("/login");
     }
   });
-  return <Outlet />;
+  return authenticated ? <Outlet /> : null;
 }
