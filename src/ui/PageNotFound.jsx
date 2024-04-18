@@ -7,8 +7,9 @@ export default function PageNotFound({ message }) {
     <div className="flex h-screen  items-center justify-center ">
       <div className=" relative flex h-[50%] items-center justify-center px-5 text-xl font-semibold">
         <Button
-          type="secondary"
-          additionalClass="absolute left-5 top-0"
+          size=""
+          color=""
+          className="absolute left-5 top-0 text-sm hover:underline"
           onClick={() => go()}
         >
           <IoArrowBackOutline /> Go Back

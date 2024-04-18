@@ -102,7 +102,7 @@ export default function UserProfile({
       </div>
     );
 
-  const hasProfilePicture = user.profilePicture !== null;
+  const hasProfilePicture = user?.profilePicture !== null;
   function update() {
     if (file)
       uploadAvatar(
@@ -133,7 +133,7 @@ export default function UserProfile({
   const posts = user?.posts;
 
   const accountType =
-    user.accountType === PUBLIC_ACCOUNT_TYPE
+    user?.accountType === PUBLIC_ACCOUNT_TYPE
       ? PUBLIC_ACCOUNT_TYPE
       : PRIVATE_ACCOUNT_TYPE;
 
@@ -143,7 +143,7 @@ export default function UserProfile({
   let whoRecievedRequest;
   if (areFriends?.status === PENDING_RETURNED_FRIEND_SEARCH)
     whoRecievedRequest =
-      areFriends.friend1 === loggedInUser?.id ? loggedInUser : friend;
+      areFriends?.friend1 === loggedInUser?.id ? loggedInUser : friend;
 
   function openEditMode() {
     setEditMode(true);
@@ -404,6 +404,7 @@ export default function UserProfile({
                       size=""
                       className="font-semibold hover:underline"
                       onClick={updateUserBio}
+                      disabled={isUpdatingBio}
                     >
                       Update
                     </Button>
