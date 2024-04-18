@@ -34,6 +34,7 @@ export default function Navbar({ onClick: close }) {
     go("/login");
     close();
   }
+
   return (
     <nav className="fixed bottom-28 z-[30]  order-2  flex rounded-lg bg-white-A700 shadow-sm md:static md:h-max md:w-[30vw] md:max-w-[400px] ">
       <ul className=" flex w-full  flex-col items-center justify-between gap-4 px-4 py-4 md:relative  md:py-10 ">
